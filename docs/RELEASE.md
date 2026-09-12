@@ -1,4 +1,4 @@
-# Naar-Noor Release Summary
+# Dawar Kitchen Release Summary
 
 **Status:** ✅ **PRODUCTION READY**
 
@@ -9,7 +9,7 @@
 | Component | Version | Location | Status |
 |-----------|---------|----------|--------|
 | Root Version | 1.1.1 | `VERSION` | ✅ |
-| Frontend | 1.1.0 | `naar-noor/package.json` | ✅ |
+| Frontend | 1.1.0 | `dawar-kitchen/package.json` | ✅ |
 | Backend | 1.1.0 | `api-server/src/NaarNoor.API/NaarNoor.API.csproj` | ✅ |
 | Docker | 1.1.0 | `api-server/Dockerfile` (labels) | ✅ |
 | Release Metadata | 1.1.1 | `.release-metadata.json` | ✅ |

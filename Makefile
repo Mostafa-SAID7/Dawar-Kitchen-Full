@@ -52,7 +52,7 @@ setup:
 install:
 	@echo "$(GREEN)Installing dependencies...$(NC)"
 	cd api-server && dotnet restore
-	cd naar-noor && npm ci
+	cd dawar-kitchen && npm ci
 	@echo "$(GREEN)Dependencies installed$(NC)"
 
 dev:
@@ -66,7 +66,7 @@ dev-backend:
 
 dev-frontend:
 	@echo "$(GREEN)Starting frontend (port 5000)...$(NC)"
-	cd naar-noor && npm run dev
+	cd dawar-kitchen && npm run dev
 
 check: check-backend check-frontend
 	@echo "$(GREEN)All CI checks passed!$(NC)"
@@ -78,11 +78,11 @@ check-backend:
 
 check-frontend:
 	@echo "$(GREEN)Type-checking frontend (app)...$(NC)"
-	cd naar-noor && node_modules/.bin/tsc --project tsconfig.app.json --noEmit
+	cd dawar-kitchen && node_modules/.bin/tsc --project tsconfig.app.json --noEmit
 	@echo "$(GREEN)Type-checking frontend (specs)...$(NC)"
-	cd naar-noor && node_modules/.bin/tsc --project tsconfig.spec.json --noEmit
+	cd dawar-kitchen && node_modules/.bin/tsc --project tsconfig.spec.json --noEmit
 	@echo "$(GREEN)Running frontend unit tests...$(NC)"
-	cd naar-noor && npm run test:ci
+	cd dawar-kitchen && npm run test:ci
 	@echo "$(GREEN)Frontend checks OK$(NC)"
 
 test: test-backend test-frontend
@@ -94,11 +94,11 @@ test-backend:
 
 test-frontend:
 	@echo "$(GREEN)Running frontend tests...$(NC)"
-	cd naar-noor && npm run test:ci
+	cd dawar-kitchen && npm run test:ci
 
 lint:
 	@echo "$(GREEN)Running linters...$(NC)"
-	cd naar-noor && npm run lint
+	cd dawar-kitchen && npm run lint
 
 build: build-backend build-frontend
 	@echo "$(GREEN)Build complete!$(NC)"
@@ -109,7 +109,7 @@ build-backend:
 
 build-frontend:
 	@echo "$(GREEN)Building frontend...$(NC)"
-	cd naar-noor && npm run build
+	cd dawar-kitchen && npm run build
 
 docker-up:
 	@echo "$(GREEN)Starting Docker services...$(NC)"
@@ -123,13 +123,13 @@ docker-down:
 clean:
 	@echo "$(YELLOW)Cleaning build artifacts...$(NC)"
 	cd api-server && dotnet clean && rm -rf publish bin obj
-	cd naar-noor && rm -rf dist node_modules/.cache
+	cd dawar-kitchen && rm -rf dist node_modules/.cache
 	@echo "$(GREEN)Clean complete!$(NC)"
 
 audit:
 	@echo "$(GREEN)Running security audits...$(NC)"
 	@echo "  NPM Audit:"
-	cd naar-noor && npm audit --production || true
+	cd dawar-kitchen && npm audit --production || true
 	@echo "  NuGet Audit:"
 	cd api-server && dotnet list package --vulnerable || true
 	@echo "$(GREEN)Audit complete!$(NC)"

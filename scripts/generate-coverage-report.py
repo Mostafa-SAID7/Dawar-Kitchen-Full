@@ -42,7 +42,7 @@ def generate_report(backend_report=None, frontend_report=None, output_file='cove
 - Tests: 188/189 passing (99.5%)
 
 ## Summary
-All Review functionality has been completely removed from the Naar-Noor application.
+All Review functionality has been completely removed from the Dawar Kitchen application.
 Coverage thresholds have been adjusted to realistic levels reflecting the current codebase.
 The application is ready for production deployment.
 """

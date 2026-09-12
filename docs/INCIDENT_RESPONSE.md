@@ -6,7 +6,7 @@
 2. **Team Lead** → 1 hour response
 3. **CTO** → Critical incidents only
 
-**Channels:** Slack `#incidents` · Status page: `status.naar-noor.com` · GitHub Issues `[INCIDENT]` tag
+**Channels:** Slack `#incidents` · Status page: `status.dawar-kitchen.com` · GitHub Issues `[INCIDENT]` tag
 
 ---
 
@@ -17,7 +17,7 @@
 ```bash
 echo $POSTGRESQL_CONNECTION_STRING       # verify env var set
 psql "$POSTGRESQL_CONNECTION_STRING"     # test connection
-docker-compose restart naar-noor-prod-api
+docker-compose restart dawar-kitchen-prod-api
 curl http://localhost:8080/health
 ```
 Check [status.supabase.com](https://status.supabase.com) first.
@@ -28,7 +28,7 @@ Check [status.supabase.com](https://status.supabase.com) first.
 *Symptoms: Error spike in monitoring, user reports*
 ```bash
 git log --oneline -10                                      # check recent deploys
-docker-compose logs naar-noor-prod-api | tail -100        # review logs
+docker-compose logs dawar-kitchen-prod-api | tail -100        # review logs
 # If rollback needed:
 git revert HEAD && docker-compose build && docker-compose up -d
 ```
@@ -59,9 +59,9 @@ docker-compose restart
 ### Frontend Not Loading
 *Symptoms: Blank page, browser console errors*
 ```bash
-docker-compose logs naar-noor-prod-web
-curl -I https://naar-noor.com
-docker-compose restart naar-noor-prod-web
+docker-compose logs dawar-kitchen-prod-web
+curl -I https://dawar-kitchen.com
+docker-compose restart dawar-kitchen-prod-web
 ```
 
 ---

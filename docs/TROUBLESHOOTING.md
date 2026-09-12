@@ -94,7 +94,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5000", "https://naar-noor.vercel.app")
+        policy.WithOrigins("http://localhost:5000", "https://dawar-kitchen.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -519,7 +519,7 @@ vercel --force
 docker logs <container_id>
 
 # Systemd
-sudo journalctl -u naar-noor-api -n 100
+sudo journalctl -u dawar-kitchen-api -n 100
 ```
 
 **2. Verify Environment Variables:**
@@ -547,12 +547,12 @@ sqlcmd -S server -U user -P password -d database
 
 **1. Verify Certificate:**
 ```bash
-openssl s_client -connect naar-noor.com:443
+openssl s_client -connect dawar-kitchen.com:443
 ```
 
 **2. Check Certificate Expiration:**
 ```bash
-echo | openssl s_client -servername naar-noor.com -connect naar-noor.com:443 2>/dev/null | openssl x509 -noout -dates
+echo | openssl s_client -servername dawar-kitchen.com -connect dawar-kitchen.com:443 2>/dev/null | openssl x509 -noout -dates
 ```
 
 **3. Renew Let's Encrypt Certificate:**
@@ -564,8 +564,8 @@ sudo certbot renew
 ```csharp
 options.ListenAnyIP(8443, listenOptions =>
 {
-    listenOptions.UseHttps("/etc/letsencrypt/live/naar-noor.com/fullchain.pem",
-                            "/etc/letsencrypt/live/naar-noor.com/privkey.pem");
+    listenOptions.UseHttps("/etc/letsencrypt/live/dawar-kitchen.com/fullchain.pem",
+                            "/etc/letsencrypt/live/dawar-kitchen.com/privkey.pem");
 });
 ```
 
@@ -696,7 +696,7 @@ ps aux | grep dotnet
 **1. Analyze Bundle Size:**
 ```bash
 ng build --stats-json
-npx webpack-bundle-analyzer dist/naar-noor/browser/stats.json
+npx webpack-bundle-analyzer dist/dawar-kitchen/browser/stats.json
 ```
 
 **2. Implement Lazy Loading:**
@@ -767,4 +767,4 @@ Include the following information:
 
 ---
 
-**Still Need Help?** Open an issue on [GitHub](https://github.com/Mostafa-SAID7/Naar-Noor/issues) with detailed information.
+**Still Need Help?** Open an issue on [GitHub](https://github.com/Mostafa-SAID7/Dawar-Kitchen/issues) with detailed information.

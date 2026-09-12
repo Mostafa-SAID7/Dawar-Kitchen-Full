@@ -3,9 +3,9 @@
 ## Root
 
 ```
-Naar-Noor-Full/
+Dawar-Kitchen/
 ├── api-server/                    # ASP.NET Core 8 backend
-├── naar-noor/                     # Angular 18 frontend
+├── dawar-kitchen/                     # Angular 18 frontend
 ├── docs/                          # Documentation
 ├── scripts/                       # CI/CD helper scripts (Python)
 ├── .github/
@@ -100,10 +100,10 @@ api-server/
 
 ---
 
-## Frontend (`naar-noor/`)
+## Frontend (`dawar-kitchen/`)
 
 ```
-naar-noor/src/
+dawar-kitchen/src/
 ├── app/
 │   ├── components/          # animated-background, auth-modal, cart-drawer,
 │   │   │                    # custom-calendar, custom-dropdown, footer,
@@ -160,7 +160,7 @@ naar-noor/src/
 
 ---
 
-## Cypress E2E (`naar-noor/cypress/`)
+## Cypress E2E (`dawar-kitchen/cypress/`)
 
 ```
 cypress/

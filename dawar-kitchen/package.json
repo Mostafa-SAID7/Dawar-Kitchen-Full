@@ -1,13 +1,13 @@
 {
-  "name": "@workspace/naar-noor",
+  "name": "@workspace/dawar-kitchen",
   "version": "1.1.3",
   "private": true,
-  "description": "Naar-Noor - Restaurant Management Platform | Modern full-stack solution for reservations, menus, and reviews",
+  "description": "Dawar Kitchen - Restaurant Management Platform | Modern full-stack solution for reservations, menus, and reviews",
   "license": "MIT",
-  "homepage": "https://github.com/Mostafa-SAID7/Naar-Noor",
+  "homepage": "https://github.com/Mostafa-SAID7/Dawar-Kitchen",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mostafa-SAID7/Naar-Noor.git"
+    "url": "https://github.com/Mostafa-SAID7/Dawar-Kitchen.git"
   },
   "keywords": [
     "restaurant",

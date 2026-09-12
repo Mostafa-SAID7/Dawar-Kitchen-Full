@@ -3,10 +3,10 @@
 ## Quick Start
 
 ```bash
-cd naar-noor
+cd dawar-kitchen
 npm install
 npm run dev        # Dev server → http://localhost:4200
-npm run build      # Production → dist/naar-noor/browser/
+npm run build      # Production → dist/dawar-kitchen/
 npm run test:ci    # Unit tests (single run)
 npx cypress open   # E2E tests (interactive)
 ```
@@ -16,7 +16,7 @@ npx cypress open   # E2E tests (interactive)
 ## Project Structure
 
 ```
-naar-noor/src/app/
+dawar-kitchen/src/app/
 ├── components/          # Shared UI components (header, footer, cart, etc.)
 ├── pages/               # Page-level components (home, menu, about, checkout,
 │   │                    # reservations, contact, login, register, privacy,

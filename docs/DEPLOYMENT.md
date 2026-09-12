@@ -1,4 +1,4 @@
-# Naar-Noor Deployment Guide
+# Dawar Kitchen Deployment Guide
 
 ## Project Architecture
 

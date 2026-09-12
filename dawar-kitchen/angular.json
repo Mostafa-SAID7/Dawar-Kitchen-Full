@@ -2,7 +2,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "naar-noor": {
+    "dawar-kitchen": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": {
-              "base": "dist/naar-noor"
+              "base": "dist/dawar-kitchen"
             },
             "index": "src/index.html",
             "polyfills": ["zone.js"],

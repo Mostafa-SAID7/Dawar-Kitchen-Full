@@ -10,7 +10,7 @@
 [![Security](https://img.shields.io/badge/security-hardened%20%7C%200%20CVE-brightgreen)](docs/SECURITY.md)
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-94%2F100-orange)](docs/DEPLOYMENT.md)
 
-[Live Demo](https://naar-noor.vercel.app) · [API Docs](docs/API.md) · [Quick Start](#-quick-start) · [Documentation](docs/README.md)
+[Live Demo](https://dawar-kitchen.vercel.app) · [API Docs](docs/API.md) · [Quick Start](#-quick-start) · [Documentation](docs/README.md)
 
 </div>
 
@@ -37,8 +37,8 @@
 
 ```bash
 # Clone
-git clone https://github.com/Mostafa-SAID7/Naar-Noor-Full.git
-cd Naar-Noor-Full
+git clone https://github.com/Mostafa-SAID7/Dawar-Kitchen.git
+cd Dawar-Kitchen
 
 # Copy environment config
 cp .env.example .env
@@ -63,7 +63,7 @@ dotnet run --project src/NaarNoor.API/NaarNoor.API.csproj
 
 **Frontend:**
 ```bash
-cd naar-noor
+cd dawar-kitchen
 npm install
 npm run dev          # http://localhost:4200
 ```
@@ -73,7 +73,7 @@ npm run dev          # http://localhost:4200
 ## 📁 Project Structure
 
 ```
-Naar-Noor-Full/
+Dawar-Kitchen/
 ├── api-server/          # ASP.NET Core 8 backend (Clean Architecture)
 │   ├── src/
 │   │   ├── NaarNoor.API/            # Controllers, Middleware, DTOs
@@ -81,7 +81,7 @@ Naar-Noor-Full/
 │   │   ├── NaarNoor.Domain/         # Entities, Value Objects, Enums
 │   │   └── NaarNoor.Infrastructure/ # EF Core, Repositories, Services
 │   └── tests/                       # Unit + Integration + Property tests
-├── naar-noor/           # Angular 18 frontend
+├── dawar-kitchen/           # Angular 18 frontend
 │   └── src/app/
 │       ├── components/  # Reusable UI (header, cart, auth-modal…)
 │       ├── pages/       # Routed pages (home, menu, checkout…)
@@ -119,7 +119,7 @@ Nine independent, clearly-named GitHub Actions workflows:
 
 ```bash
 # Frontend unit tests
-cd naar-noor
+cd dawar-kitchen
 npm test              # watch mode
 npm run test:ci       # single run with coverage
 
@@ -128,7 +128,7 @@ cd api-server
 dotnet test
 
 # E2E tests (Cypress)
-cd naar-noor
+cd dawar-kitchen
 npx cypress open      # interactive
 npx cypress run       # headless CI mode
 ```
@@ -172,6 +172,6 @@ Released under the [MIT License](LICENSE). Copyright © 2026 Naar & Noor — Mos
 
 <div align="center">
 
-Made with ❤️ · [GitHub](https://github.com/Mostafa-SAID7/Naar-Noor-Full) · [Live Demo](https://naar-noor.vercel.app) · [Report an Issue](https://github.com/Mostafa-SAID7/Naar-Noor-Full/issues)
+Made with ❤️ · [GitHub](https://github.com/Mostafa-SAID7/Dawar-Kitchen) · [Live Demo](https://dawar-kitchen.vercel.app) · [Report an Issue](https://github.com/Mostafa-SAID7/Dawar-Kitchen/issues)
 
 </div>

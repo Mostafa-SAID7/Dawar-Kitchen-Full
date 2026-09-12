@@ -1,7 +1,7 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/naar-noor/browser",
+  "outputDirectory": "dist/dawar-kitchen",
   "installCommand": "npm ci --include=dev",
   "env": {
     "ANGULAR_CLI_ANALYTICS": "false"
@@ -21,7 +21,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://code.iconify.design; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://naar-noor.runasp.net https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com https://*.supabase.co wss://*.supabase.co https://*.stripe.com; frame-src https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com; object-src 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' https://code.iconify.design; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://dawar-kitchen.runasp.net https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com https://*.supabase.co wss://*.supabase.co https://*.stripe.com; frame-src https://js.stripe.com https://hooks.stripe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com; object-src 'none'; upgrade-insecure-requests"
         },
         {
           "key": "X-Frame-Options",

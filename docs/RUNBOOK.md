@@ -29,16 +29,16 @@ export ASPNETCORE_ENVIRONMENT=Production
 
 ```bash
 docker-compose build
-docker tag naar-noor:backend  registry.example.com/naar-noor:backend-v1.0
-docker tag naar-noor:frontend registry.example.com/naar-noor:frontend-v1.0
-docker push registry.example.com/naar-noor:backend-v1.0
-docker push registry.example.com/naar-noor:frontend-v1.0
+docker tag dawar-kitchen:backend  registry.example.com/dawar-kitchen:backend-v1.0
+docker tag dawar-kitchen:frontend registry.example.com/dawar-kitchen:frontend-v1.0
+docker push registry.example.com/dawar-kitchen:backend-v1.0
+docker push registry.example.com/dawar-kitchen:frontend-v1.0
 ```
 
 ## Step 3 — Run Database Migrations
 
 ```bash
-docker-compose exec naar-noor-prod-api dotnet ef database update
+docker-compose exec dawar-kitchen-prod-api dotnet ef database update
 ```
 
 ## Step 4 — Start Services
@@ -54,7 +54,7 @@ docker ps   # verify all containers running
 curl http://localhost/health
 curl http://localhost:8080/health
 curl http://localhost:8080/api/menu-items
-docker logs naar-noor-prod-api | tail -50
+docker logs dawar-kitchen-prod-api | tail -50
 ```
 
 ---
@@ -63,8 +63,8 @@ docker logs naar-noor-prod-api | tail -50
 
 ```bash
 docker-compose down
-docker tag registry.example.com/naar-noor:backend-v0.9  naar-noor:backend
-docker tag registry.example.com/naar-noor:frontend-v0.9 naar-noor:frontend
+docker tag registry.example.com/dawar-kitchen:backend-v0.9  dawar-kitchen:backend
+docker tag registry.example.com/dawar-kitchen:frontend-v0.9 dawar-kitchen:frontend
 docker-compose up -d
 curl http://localhost/health
 ```
@@ -84,7 +84,7 @@ curl http://localhost/health
 
 ## Post-Deployment Checklist
 
-- [ ] Frontend loads at naar-noor.com
+- [ ] Frontend loads at dawar-kitchen.com
 - [ ] API responds at /api/health
 - [ ] DB migrations applied
 - [ ] Login and JWT tokens work

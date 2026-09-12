@@ -7,13 +7,13 @@
 cd api-server && dotnet test
 
 # Frontend (unit)
-cd naar-noor && npm run test:ci
+cd dawar-kitchen && npm run test:ci
 
 # Frontend (E2E)
-cd naar-noor && npx cypress run
+cd dawar-kitchen && npx cypress run
 
 # E2E with browser UI
-cd naar-noor && npx cypress open
+cd dawar-kitchen && npx cypress open
 ```
 
 ---

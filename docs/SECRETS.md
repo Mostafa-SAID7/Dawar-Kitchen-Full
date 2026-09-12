@@ -48,7 +48,7 @@ echo -n "your-anon-key"    | docker secret create supabase_anon_key -
 Then reference in `docker-compose.yml`:
 ```yaml
 services:
-  naar-noor-prod-api:
+  dawar-kitchen-prod-api:
     environment:
       SUPABASE_DB_PASSWORD_FILE: /run/secrets/supabase_db_password
 ```
@@ -73,5 +73,5 @@ docker-compose config | grep -i secret    # review compose output
 
 1. Generate new value (e.g., `openssl rand -base64 32` for JWT)
 2. Update in your secrets store / environment
-3. Restart affected services: `docker-compose restart naar-noor-prod-api`
+3. Restart affected services: `docker-compose restart dawar-kitchen-prod-api`
 4. Verify health: `curl http://localhost:8080/health`
