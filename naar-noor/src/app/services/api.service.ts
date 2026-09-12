@@ -36,15 +36,15 @@ export class ApiService {
 
   // Mock Data Fallbacks
   private readonly mockMenu: MenuItem[] = [
-    { id: '1', name: 'Biryani', description: 'Aromatic basmati rice cooked with chicken and spices', price: 18.50, category: 'Mains', isVegetarian: false, isVegan: false, isGlutenFree: true, isAvailable: true, imageUrl: null, sortOrder: 1 },
-    { id: '2', name: 'Tandoori', description: 'Chicken marinated in yogurt and spices, grilled in tandoor', price: 16.00, category: 'Mains', isVegetarian: false, isVegan: false, isGlutenFree: true, isAvailable: true, imageUrl: null, sortOrder: 2 },
-    { id: '3', name: 'Samosa', description: 'Crispy pastry filled with spiced potatoes and peas', price: 6.50, category: 'Starters', isVegetarian: true, isVegan: true, isGlutenFree: false, isAvailable: true, imageUrl: null, sortOrder: 3 },
-    { id: '4', name: 'Gulab Jamun', description: 'Sweet milk dumplings in warm syrup', price: 7.00, category: 'Desserts', isVegetarian: true, isVegan: false, isGlutenFree: false, isAvailable: true, imageUrl: null, sortOrder: 4 },
-    { id: '5', name: 'Mango Lassi', description: 'Refreshing yogurt drink with mango pulp', price: 4.50, category: 'Drinks', isVegetarian: true, isVegan: false, isGlutenFree: true, isAvailable: true, imageUrl: null, sortOrder: 5 }
+    { id: '1', name: 'Koshari', description: "Egypt's national dish — lentils, rice, pasta, chickpeas, crispy onions & tomato sauce", price: 14.00, category: 'Mains', isVegetarian: true, isVegan: true, isGlutenFree: false, isAvailable: true, imageUrl: null, sortOrder: 1 },
+    { id: '2', name: 'Charcoal Kofta', description: 'Spiced minced lamb and beef kebabs grilled over natural charcoal with tahini', price: 28.00, category: 'Grill & Kofta', isVegetarian: false, isVegan: false, isGlutenFree: true, isAvailable: true, imageUrl: null, sortOrder: 2 },
+    { id: '3', name: 'Ta\'meya & Egyptian Mezze', description: 'Crispy fava bean falafel, ful medames, tahini, and warm baladi bread', price: 16.00, category: 'Egyptian Starters', isVegetarian: true, isVegan: true, isGlutenFree: false, isAvailable: true, imageUrl: null, sortOrder: 3 },
+    { id: '4', name: 'Om Ali', description: 'Classic Egyptian warm bread pudding with sweet milk, raisins, and toasted nuts', price: 12.00, category: 'Beverages & Desserts', isVegetarian: true, isVegan: false, isGlutenFree: false, isAvailable: true, imageUrl: null, sortOrder: 4 },
+    { id: '5', name: 'Hibiscus Karkadeh Tea', description: 'Refreshing Egyptian iced hibiscus tea infused with mint', price: 5.50, category: 'Beverages & Desserts', isVegetarian: true, isVegan: true, isGlutenFree: true, isAvailable: true, imageUrl: null, sortOrder: 5 }
   ];
 
   private readonly mockChefs: Chef[] = [
-    { id: 'c1', name: 'Chef Ahmed', title: 'Executive Chef', bio: 'Over 15 years of experience in fine dining.', imageUrl: null, specialty: 'Mughlai Cuisine', sortOrder: 1 }
+    { id: 'c1', name: 'Chef Tarek Al-Masri', title: 'Executive Chef', bio: 'Over 20 years of experience in Cairo & Alexandria culinary heritage.', imageUrl: null, specialty: 'Charcoal Grill & Egyptian Mains', sortOrder: 1 }
   ];
 
   getPublicImageUrl(bucket: string, path: string | null): string | null {
@@ -66,8 +66,8 @@ export class ApiService {
         ...item,
         imageUrl: this.getPublicImageUrl('menu-item-images', item.imageUrl)
       }))),
-      // Free-tier host may be waking from sleep: retry once after 2 s before falling back.
-      retry({ count: 1, delay: 2000 }),
+      // Free-tier host may be waking from sleep (cold start): retry twice with 2 s delay.
+      retry({ count: 2, delay: 2000 }),
       catchError(() => {
         let items = [...this.mockMenu];
         if (category) {
@@ -84,8 +84,8 @@ export class ApiService {
         ...chef,
         imageUrl: this.getPublicImageUrl('chef-images', chef.imageUrl)
       }))),
-      // Free-tier host may be waking from sleep: retry once after 2 s before falling back.
-      retry({ count: 1, delay: 2000 }),
+      // Free-tier host may be waking from sleep (cold start): retry twice with 2 s delay.
+      retry({ count: 2, delay: 2000 }),
       catchError(() => of(this.mockChefs))
     );
   }
