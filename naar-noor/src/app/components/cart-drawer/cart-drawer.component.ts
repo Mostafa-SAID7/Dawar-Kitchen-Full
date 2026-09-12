@@ -107,6 +107,7 @@ import { DrawerStep } from '../../models';
           <!-- Items list -->
           <div *ngIf="!cart.isEmpty()" @stepIn class="flex-1 overflow-y-auto px-6 py-4 space-y-3">
             <div *ngFor="let item of cart.items(); trackBy: trackByCartItem"
+                 data-cy="cart-item"
                  class="flex items-start gap-4 p-4 bg-[#111] rounded-xl border border-white/5">
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-white leading-tight">{{ item.name }}</p>
