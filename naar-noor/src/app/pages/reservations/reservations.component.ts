@@ -232,7 +232,7 @@ export class ReservationsPageComponent implements OnInit {
     {
       icon: 'solar:chef-hat-bold',
       title: 'Choose Your Chef',
-      description: 'Select from our team of award-winning Himalayan chefs, each with a unique culinary style.'
+      description: 'Select from our team of award-winning Egyptian chefs, each with a unique culinary style.'
     },
     {
       icon: 'solar:calendar-bold',
@@ -249,8 +249,8 @@ export class ReservationsPageComponent implements OnInit {
   ngOnInit(): void {
     this.seo.set({
       title:        'Reservations | Naar & Noor',
-      description:  'Reserve a table at Naar & Noor. Choose your chef, pick a date, and secure your Himalayan dining experience. Tables available for lunch and dinner, seven days a week.',
-      keywords:     'book a table Naar Noor, Himalayan restaurant reservation, Guernsey restaurant booking, reserve table Himalayan, dinner reservation Guernsey',
+      description:  'Reserve a table at Naar & Noor. Choose your chef, pick a date, and secure your Egyptian dining experience. Tables available for lunch and dinner, seven days a week.',
+      keywords:     'book a table Naar Noor, Egyptian restaurant reservation, Guernsey restaurant booking, reserve table Egyptian, dinner reservation Guernsey',
       canonicalUrl: 'https://www.naarnooor.com/reservations',
       ogUrl:        'https://www.naarnooor.com/reservations',
     });

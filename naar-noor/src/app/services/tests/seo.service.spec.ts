@@ -20,7 +20,7 @@ describe('SeoService — Meta-tag and Title Management (Property 14)', () => {
 
   const BASE_TITLE = 'Naar & Noor';
   const DEFAULT_DESCRIPTION =
-    'Authentic Himalayan cuisine with flame-grilled specialties. Reserve your table or order online.';
+    'Authentic Egyptian cuisine with charcoal-grilled specialties. Reserve your table or order online.';
   const DEFAULT_IMAGE = 'https://www.naarnooor.com/assets/hero/hero.webp';
 
   beforeEach(() => {
@@ -59,7 +59,7 @@ describe('SeoService — Meta-tag and Title Management (Property 14)', () => {
   // ---------------------------------------------------------------------------
 
   it('should set meta description from config', () => {
-    const description = 'Explore our authentic Himalayan menu.';
+    const description = 'Explore our authentic Egyptian menu.';
     service.set({ title: 'Menu', description });
 
     const tag = metaService.getTag('name="description"');

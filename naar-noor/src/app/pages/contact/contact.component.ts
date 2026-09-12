@@ -170,7 +170,7 @@ export class ContactPageComponent implements OnInit {
     this.seo.set({
       title:        'Contact Us',
       description:  'Get in touch with Naar & Noor. Find our address in St Peter Port, Guernsey, opening hours, phone number, and send us a message for private events or special arrangements.',
-      keywords:     'contact Naar Noor, Naar Noor address, Himalayan restaurant Guernsey, St Peter Port restaurant, restaurant phone, opening hours Guernsey restaurant',
+      keywords:     'contact Naar Noor, Naar Noor address, Egyptian restaurant Guernsey, St Peter Port restaurant, restaurant phone, opening hours Guernsey restaurant',
       canonicalUrl: 'https://www.naarnooor.com/contact',
       ogUrl:        'https://www.naarnooor.com/contact',
     });

@@ -94,7 +94,7 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
                   <h4 class="text-sm font-medium transition-colors" [ngClass]="isStepActive(3) ? 'text-white' : 'text-neutral-500'">
                     Preparing Food
                   </h4>
-                  <p class="text-xs text-neutral-500 mt-0.5">Your meal is fresh cooked by our Himalayan chefs.</p>
+                  <p class="text-xs text-neutral-500 mt-0.5">Your meal is fresh cooked by our Egyptian chefs.</p>
                 </div>
               </div>
 

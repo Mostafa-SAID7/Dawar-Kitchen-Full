@@ -15,7 +15,7 @@ import { ToastService } from '../../services/toast.service';
       <div class="w-full max-w-md p-8 rounded-2xl bg-[#0d0d0d] border border-white/5 shadow-2xl">
         <div class="text-center mb-8">
           <h2 class="font-['Forum'] text-3xl text-white tracking-tight">Create Account</h2>
-          <p class="text-xs text-neutral-400 mt-2">Join Naar & Noor to order Himalayan specialties and reserve tables</p>
+          <p class="text-xs text-neutral-400 mt-2">Join Naar & Noor to order Egyptian specialties and reserve tables</p>
         </div>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">

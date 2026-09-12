@@ -409,7 +409,7 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
   readonly nextSteps = [
     { title: 'We review your order',  desc: 'Our kitchen checks items and confirms availability.' },
     { title: 'You get a call',        desc: "We'll ring the number you provided to confirm and arrange payment." },
-    { title: 'Your food is prepared', desc: 'Freshly made with Himalayan care, ready for you.' }
+    { title: 'Your food is prepared', desc: 'Freshly made with authentic Egyptian care, ready for you.' }
   ];
 
   trackByCartItem(_index: number, item: { menuItemId: string }): string { return item.menuItemId; }

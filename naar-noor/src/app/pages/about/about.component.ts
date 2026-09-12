@@ -19,7 +19,7 @@ import { RevealDirective } from '../../directives/scroll-reveal.directive';
         <h1 class="font-['Forum'] text-4xl sm:text-5xl text-white tracking-tight">About Naar &amp; Noor</h1>
         <p class="text-neutral-400 text-sm sm:text-base leading-relaxed font-light max-w-xl mx-auto">
           Naar &amp; Noor represents the collision of fire and light — a premium dining experience rooted in
-          centuries-old Himalayan culinary traditions, reimagined for the modern palate.
+          centuries-old Egyptian culinary traditions, reimagined for the modern palate.
         </p>
       </div>
     </div>
@@ -54,7 +54,7 @@ import { RevealDirective } from '../../directives/scroll-reveal.directive';
       <div class="max-w-xl mx-auto space-y-5">
         <h2 class="font-['Forum'] text-3xl text-white">Ready to Experience It?</h2>
         <p class="text-sm text-neutral-400 font-light leading-relaxed">
-          Book a table and let our chefs take you on a journey through the flavors of the Himalayas.
+          Book a table and let our chefs take you on a journey through the authentic flavors of Egypt.
         </p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
           <a routerLink="/reservations"
@@ -77,7 +77,7 @@ export class AboutPageComponent implements OnInit {
     {
       icon: 'solar:fire-bold',
       title: 'Ancient Techniques',
-      description: 'Every dish is prepared using methods handed down through generations of Himalayan cooks — slow cooking, open flame, and time-honored spice blending.'
+      description: 'Every dish is prepared using methods handed down through generations of Egyptian cooks — slow charcoal roasting, open flame, and time-honored spice blending.'
     },
     {
       icon: 'solar:leaf-bold',
@@ -94,8 +94,8 @@ export class AboutPageComponent implements OnInit {
   ngOnInit(): void {
     this.seo.set({
       title:        'About | Naar & Noor',
-      description:  'Learn about Naar & Noor — a premium Himalayan dining experience rooted in centuries-old culinary traditions. Meet our chefs and discover the fire, spice, and passion behind every dish.',
-      keywords:     'about Naar Noor, Himalayan restaurant story, Himalayan chefs, Nepali cuisine Guernsey, restaurant philosophy, flame grilled Himalayan food',
+      description:  'Learn about Naar & Noor — a premium Egyptian dining experience rooted in centuries-old culinary traditions. Meet our chefs and discover the fire, spice, and passion behind every dish.',
+      keywords:     'about Naar Noor, Egyptian restaurant story, Egyptian chefs, Cairo cuisine Guernsey, restaurant philosophy, flame grilled Egyptian food',
       canonicalUrl: 'https://www.naarnooor.com/about',
       ogUrl:        'https://www.naarnooor.com/about',
     });

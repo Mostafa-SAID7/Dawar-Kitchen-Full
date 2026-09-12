@@ -9,7 +9,7 @@ export const CATEGORIES_DATA = [
   },
   {
     title: 'Traditional Mains',
-    image: 'assets/categories/Himalayan-Mains.jpg'
+    image: 'assets/categories/Egyptian-Mains.jpg'
   },
   {
     title: 'Beverages & Desserts',

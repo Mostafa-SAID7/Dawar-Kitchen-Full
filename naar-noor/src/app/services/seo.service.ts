@@ -6,9 +6,9 @@ export type { SeoConfig };
 
 const BASE      = 'Naar & Noor';
 const SITE_URL  = 'https://www.naarnooor.com';
-const DEF_DESC  = 'Authentic Himalayan cuisine with flame-grilled specialties. Reserve your table or order online.';
+const DEF_DESC  = 'Authentic Egyptian cuisine with charcoal-grilled specialties. Reserve your table or order online.';
 const DEF_IMG   = `${SITE_URL}/assets/hero/hero.webp`;
-const DEF_KW    = 'Himalayan restaurant, Naar Noor, flame grilled, momos, Himalayan cuisine, Nepali food, mountain food, dine in, takeaway, delivery, Guernsey restaurant';
+const DEF_KW    = 'Egyptian restaurant, Naar Noor, charcoal grilled, Koshari, Kofta, Molokhia, Egyptian cuisine, Cairo food, dine in, takeaway, delivery, Guernsey restaurant';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
@@ -58,9 +58,9 @@ export class SeoService {
 
   setHome(): void {
     this.set({
-      title:       'Naar & Noor — Authentic Himalayan Restaurant',
-      description: 'Experience Naar & Noor — authentic Himalayan recipes, flame-grilled specialties, and modern dining in Guernsey. Reserve your table, explore our menu, or order online.',
-      keywords:    'Himalayan restaurant Guernsey, Naar Noor, flame grilled food, momos, Himalayan cuisine, Nepali restaurant, mountain food, dine in Guernsey, takeaway Guernsey',
+      title:       'Naar & Noor — Authentic Egyptian Restaurant',
+      description: 'Experience Naar & Noor — authentic Egyptian recipes, charcoal-grilled specialties, and modern dining in Guernsey. Reserve your table, explore our menu, or order online.',
+      keywords:    'Egyptian restaurant Guernsey, Naar Noor, charcoal grilled food, Koshari, Kofta, Egyptian cuisine, Cairo restaurant, dine in Guernsey, takeaway Guernsey',
       canonicalUrl: `${SITE_URL}/`,
       ogUrl:        `${SITE_URL}/`,
       ogType:       'restaurant',
@@ -70,7 +70,7 @@ export class SeoService {
   setCheckout(): void {
     this.set({
       title:    'Checkout',
-      description: 'Complete your Naar & Noor order. Choose collection or delivery and confirm your authentic Himalayan food order.',
+      description: 'Complete your Naar & Noor order. Choose collection or delivery and confirm your authentic Egyptian food order.',
       noIndex:  true,
     });
   }
