@@ -27,7 +27,6 @@ export class CartService {
       }
       return [...list, { ...item, quantity: 1 }];
     });
-    this.isOpen.set(true);
   }
 
   increment(id: string): void {
