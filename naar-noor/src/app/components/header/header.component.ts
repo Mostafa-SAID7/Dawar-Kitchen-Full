@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { LanguageService } from '../../services/language.service';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 
 @Component({
@@ -22,7 +23,10 @@ export class HeaderComponent {
   readonly cart  = inject(CartService);
   readonly auth  = inject(AuthService);
   readonly theme = inject(ThemeService);
+  readonly language = inject(LanguageService);
   private readonly router = inject(Router);
+
+  currentLang$ = this.language.getCurrentLanguage();
 
   get userInitial(): string {
     const email = this.auth.userEmail();

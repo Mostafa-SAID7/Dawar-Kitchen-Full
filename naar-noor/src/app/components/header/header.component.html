@@ -49,6 +49,15 @@
         </span>
       </button>
 
+      <!-- Language Toggle -->
+      <button (click)="language.toggleLanguage()"
+              aria-label="Toggle language"
+              class="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl
+                     border border-white/10 text-neutral-400 hover:text-white
+                     hover:border-white/25 transition-all duration-200 uppercase text-xs font-bold font-sans">
+        {{ (currentLang$ | async) === 'en' ? 'AR' : 'EN' }}
+      </button>
+
       <!-- Theme Toggle -->
       <button (click)="theme.toggle()"
               [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
@@ -141,6 +150,14 @@
 
       <!-- Auth divider -->
       <div class="border-t border-white/8 pt-3 mt-2 space-y-1">
+        <!-- Language toggle for mobile -->
+        <button (click)="language.toggleLanguage(); toggleMobileMenu()"
+                class="flex items-center gap-2.5 w-full text-sm text-neutral-300
+                       hover:text-white hover:bg-white/5 transition-colors
+                       py-2.5 px-3 rounded-lg">
+          <iconify-icon icon="solar:global-linear" width="18"></iconify-icon>
+          {{ (currentLang$ | async) === 'en' ? 'العربية' : 'English' }}
+        </button>
         <!-- Not logged in -->
         <button *ngIf="!auth.isLoggedIn()"
                 (click)="openAuthModal()"
