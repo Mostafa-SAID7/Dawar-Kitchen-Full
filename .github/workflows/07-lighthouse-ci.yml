@@ -58,17 +58,7 @@ jobs:
               seo: Math.round(result.seo * 100),
             };
             
-            const comment = `## 🔦 Lighthouse Report
-            
-| Metric | Score |
-|--------|-------|
-| Performance | ${scores.performance} |
-| Accessibility | ${scores.accessibility} |
-| Best Practices | ${scores['best-practices']} |
-| SEO | ${scores.seo} |
-
-[View full report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            `;
+            const comment = '## 🔦 Lighthouse Report\n\n| Metric | Score |\n|--------|-------|\n| Performance | ' + scores.performance + ' |\n| Accessibility | ' + scores.accessibility + ' |\n| Best Practices | ' + scores['best-practices'] + ' |\n| SEO | ' + scores.seo + ' |\n\n[View full report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
             
             github.rest.issues.createComment({
               issue_number: context.issue.number,
