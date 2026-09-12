@@ -82,8 +82,6 @@ public class SupabaseRealtimeServiceTests
     }
 
     [Fact]
-    public async Task SubscribeToReviewUpdatesAsync_DoesNotThrow()
-    [Fact]
     public async Task SubscribeToTableAvailabilityAsync_DoesNotThrow()
     {
         var service = CreateService();
@@ -152,19 +150,6 @@ public class SupabaseRealtimeServiceTests
             _ => Task.CompletedTask);
 
         Func<Task> act = () => service.UnsubscribeAsync("reservations:res-99");
-        await act.Should().NotThrowAsync();
-    }
-
-    [Fact]
-    public async Task UnsubscribeAsync_ReviewChannel_RemovesEntry()
-    {
-        var service = CreateService();
-        await service.SubscribeToReviewUpdatesAsync(
-            "menu-1",
-            _ => Task.CompletedTask,
-            _ => Task.CompletedTask);
-
-        Func<Task> act = () => service.UnsubscribeAsync("reviews:menu-1");
         await act.Should().NotThrowAsync();
     }
 

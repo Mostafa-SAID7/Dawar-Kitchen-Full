@@ -187,8 +187,6 @@ public class EntityConfigurationTests
     }
 
     [Fact]
-    public void Model_Review_HasExpectedProperties()
-    [Fact]
     public void Model_ContactInquiry_HasExpectedProperties()
     {
         using var ctx = CreateContext();

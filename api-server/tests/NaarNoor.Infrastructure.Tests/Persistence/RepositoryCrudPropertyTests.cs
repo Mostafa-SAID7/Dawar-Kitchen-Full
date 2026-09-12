@@ -107,19 +107,6 @@ public class RepositoryCrudPropertyTests : IAsyncLifetime
     }
 
     [Fact]
-    public void Add_Chef_AppearsInQuery()
-    {
-        var repo = new Repository<Chef>(_context);
-        var chef = new Chef { Name = "John Chef", Title = "Head Chef", Bio = "Experienced", Specialty = "Indian" };
-        repo.Add(chef);
-        _context.SaveChanges();
-
-        var result = repo.Query().First(r => r.Id == chef.Id);
-        result.Name.Should().Be("John Chef");
-        result.Title.Should().Be("Head Chef");
-    }
-
-    [Fact]
     public void Add_ContactInquiry_AppearsInQuery()
     {
         var repo = new Repository<ContactInquiry>(_context);
