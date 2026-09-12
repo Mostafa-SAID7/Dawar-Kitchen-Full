@@ -51,27 +51,27 @@ describe('Browse Menu', () => {
     });
   });
 
-  it('shows Lamb Rogan Josh when Mains is selected', () => {
+  it('shows Koshari when Mains is selected', () => {
     cy.get('[data-cy="category-filter"]').select('Mains');
-    cy.get('[data-cy="menu-item"]').contains('Lamb Rogan Josh').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Koshari').should('exist');
   });
 
   it('filters to Starters', () => {
     cy.get('[data-cy="category-filter"]').select('Starters');
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 1);
-    cy.get('[data-cy="menu-item"]').contains('Chicken Momos').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Ta\'meya').should('exist');
   });
 
   it('filters to Drinks', () => {
     cy.get('[data-cy="category-filter"]').select('Drinks');
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 1);
-    cy.get('[data-cy="menu-item"]').contains('Mango Lassi').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Hibiscus Tea').should('exist');
   });
 
   it('filters to Desserts', () => {
     cy.get('[data-cy="category-filter"]').select('Desserts');
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 1);
-    cy.get('[data-cy="menu-item"]').contains('Gulab Jamun').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Om Ali').should('exist');
   });
 
   it('shows all items when "All" is selected', () => {
@@ -83,15 +83,15 @@ describe('Browse Menu', () => {
   // ── Text search ────────────────────────────────────────────────────────────
 
   it('filters by item name (case-insensitive)', () => {
-    cy.get('input[type="search"]').type('dal');
+    cy.get('input[type="search"]').type('kosh');
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 1);
-    cy.get('[data-cy="menu-item"]').contains('Dal Bhat').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Koshari').should('exist');
   });
 
   it('filters by partial name', () => {
-    cy.get('input[type="search"]').type('momo');
+    cy.get('input[type="search"]').type('meya');
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 1);
-    cy.get('[data-cy="menu-item"]').contains('Chicken Momos').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Ta\'meya').should('exist');
   });
 
   it('shows the empty state when search has no matches', () => {
@@ -101,7 +101,7 @@ describe('Browse Menu', () => {
   });
 
   it('restores all items when search is cleared', () => {
-    cy.get('input[type="search"]').type('momos');
+    cy.get('input[type="search"]').type('meya');
     cy.get('[data-cy="menu-item"]').should('have.length', 1);
     cy.get('input[type="search"]').clear();
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 5);
@@ -112,7 +112,7 @@ describe('Browse Menu', () => {
   it('shows only vegan items when the Vegan checkbox is checked', () => {
     cy.get('input[name="vegan"]').check();
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 1);
-    cy.get('[data-cy="menu-item"]').contains('Dal Bhat').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Koshari').should('exist');
   });
 
   it('shows only gluten-free items when that filter is checked', () => {
@@ -141,14 +141,14 @@ describe('Browse Menu', () => {
 
   it('applies search within a filtered category', () => {
     cy.get('[data-cy="category-filter"]').select('Mains');
-    cy.get('input[type="search"]').type('sekuwa');
+    cy.get('input[type="search"]').type('kosh');
     cy.get('[data-cy="menu-item"]').should('have.length.at.least', 1);
-    cy.get('[data-cy="menu-item"]').contains('Sekuwa').should('exist');
+    cy.get('[data-cy="menu-item"]').contains('Koshari').should('exist');
   });
 
   it('shows empty state when search conflicts with category', () => {
     cy.get('[data-cy="category-filter"]').select('Desserts');
-    cy.get('input[type="search"]').type('momos');
+    cy.get('input[type="search"]').type('meya');
     cy.get('[data-cy="menu-item"]').should('not.exist');
     cy.contains('No items found').should('be.visible');
   });

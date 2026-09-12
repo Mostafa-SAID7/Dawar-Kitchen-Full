@@ -47,8 +47,8 @@ declare global {
        * DATABASE_URL is not configured or when running in stub mode.
        *
        * Example:
-       *   cy.assertMenuItemSeeded('Lamb Rogan Josh');
-       *   cy.assertMenuItemSeeded('Dal Bhat');
+       *   cy.assertMenuItemSeeded('Hawawshi');
+       *   cy.assertMenuItemSeeded('Koshari');
        */
       assertMenuItemSeeded(name: string): Chainable<void>;
     }

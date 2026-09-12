@@ -83,8 +83,8 @@ describe('Reservation Page — authenticated booking flow', () => {
   });
 
   it('shows chef names from the API', () => {
-    cy.get('[data-cy="chef-card"]').contains('Arjun Thapa').should('exist');
-    cy.get('[data-cy="chef-card"]').contains('Priya Rai').should('exist');
+    cy.get('[data-cy="chef-card"]').contains('Tarek Mahmoud').should('exist');
+    cy.get('[data-cy="chef-card"]').contains('Nour El-Din').should('exist');
   });
 
   it('shows chef details panel after selecting a chef', () => {
@@ -94,7 +94,7 @@ describe('Reservation Page — authenticated booking flow', () => {
 
   it('shows the chef name inside the details panel', () => {
     cy.get('[data-cy="chef-card"]').first().click();
-    cy.get('[data-cy="chef-details"]').contains('Arjun Thapa').should('be.visible');
+    cy.get('[data-cy="chef-details"]').contains('Tarek Mahmoud').should('be.visible');
   });
 
   it('highlights the selected chef card', () => {
@@ -105,7 +105,7 @@ describe('Reservation Page — authenticated booking flow', () => {
   it('switches the highlighted chef when a different card is clicked', () => {
     cy.get('[data-cy="chef-card"]').eq(0).click();
     cy.get('[data-cy="chef-card"]').eq(1).click();
-    cy.get('[data-cy="chef-details"]').contains('Priya Rai').should('be.visible');
+    cy.get('[data-cy="chef-details"]').contains('Nour El-Din').should('be.visible');
   });
 
   it('shows a date validation error when a past date is entered', () => {

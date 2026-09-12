@@ -9,12 +9,12 @@ import { MenuPage } from '../support/page-objects/MenuPage';
  * DB_AVAILABLE = false → fixture stub via interceptMenu()
  *
  * Fixture items (menu.json) — counts used in assertions below:
- *   Lamb Rogan Josh   Mains    £16.95   (not veg)
- *   Chicken Momos     Starters £8.50    (not veg)
- *   Dal Bhat          Mains    £12.50   (veg + vegan + GF)
- *   Mango Lassi       Drinks   £4.50    (veg + GF)
- *   Gulab Jamun       Desserts £5.95    (veg)
- *   Sekuwa            Mains    £14.50   (GF only)
+ *   Hawawshi              Mains    £14.95   (not veg)
+ *   Ta'meya               Starters £8.50    (veg + vegan + GF)
+ *   Koshari               Mains    £12.50   (veg + vegan)
+ *   Hibiscus Tea          Drinks   £4.50    (veg + vegan + GF)
+ *   Om Ali                Desserts £5.95    (veg)
+ *   Shish Tawook          Mains    £14.50   (GF only)
  *
  * When DB_AVAILABLE=true the live database may hold more items, so
  * assertions use .at.least N rather than exact counts where noted.
@@ -40,8 +40,8 @@ describe('Menu Search & Filter E2E Tests', () => {
     });
 
     it('should display known item names', () => {
-      cy.contains('Lamb Rogan Josh').should('exist');
-      cy.contains('Dal Bhat').should('exist');
+      cy.contains('Hawawshi').should('exist');
+      cy.contains('Koshari').should('exist');
     });
   });
 
@@ -80,18 +80,18 @@ describe('Menu Search & Filter E2E Tests', () => {
 
   describe('Search Functionality', () => {
     it('should find item by full name', () => {
-      MenuPage.search('Lamb Rogan Josh');
-      MenuPage.verifyItemVisible('Lamb Rogan Josh');
+      MenuPage.search('Hawawshi');
+      MenuPage.verifyItemVisible('Hawawshi');
     });
 
     it('should find item by partial name', () => {
-      MenuPage.search('Momo');
-      MenuPage.verifyItemVisible('Chicken Momos');
+      MenuPage.search('meya');
+      MenuPage.verifyItemVisible('Ta\'meya');
     });
 
     it('should be case-insensitive', () => {
-      MenuPage.search('LAMB');
-      MenuPage.verifyItemVisible('Lamb Rogan Josh');
+      MenuPage.search('HAWAW');
+      MenuPage.verifyItemVisible('Hawawshi');
     });
 
     it('should return no results for unknown query', () => {
@@ -100,7 +100,7 @@ describe('Menu Search & Filter E2E Tests', () => {
     });
 
     it('should show all items after clearing search', () => {
-      MenuPage.search('Lamb');
+      MenuPage.search('Hawaw');
       cy.get('input[type="search"]').clear();
       MenuPage.verifyMenuItemsDisplayed(5);
     });
@@ -109,13 +109,13 @@ describe('Menu Search & Filter E2E Tests', () => {
   describe('Combined Search & Filter', () => {
     it('should find item when search matches filtered category', () => {
       MenuPage.filterByCategory('Mains');
-      MenuPage.search('Lamb');
-      MenuPage.verifyItemVisible('Lamb Rogan Josh');
+      MenuPage.search('Hawaw');
+      MenuPage.verifyItemVisible('Hawawshi');
     });
 
     it('should return no results when search conflicts with category filter', () => {
       MenuPage.filterByCategory('Desserts');
-      MenuPage.search('Lamb');
+      MenuPage.search('Hawaw');
       MenuPage.verifyNoResultsFound();
     });
   });
@@ -143,15 +143,15 @@ describe('Menu Search & Filter E2E Tests', () => {
       MenuPage.verifyMenuItemsDisplayed(3);
     });
 
-    it('should filter to vegan items — Dal Bhat must be present', () => {
+    it('should filter to vegan items — Koshari must be present', () => {
       cy.get('input[name="vegan"]').check();
       MenuPage.verifyMenuItemsDisplayed(1);
-      cy.contains('Dal Bhat').should('exist');
+      cy.contains('Koshari').should('exist');
     });
 
-    it('should filter to gluten-free items (≥4)', () => {
+    it('should filter to gluten-free items (≥3)', () => {
       cy.get('input[name="glutenFree"]').check();
-      MenuPage.verifyMenuItemsDisplayed(4);
+      MenuPage.verifyMenuItemsDisplayed(3);
     });
 
     it('should combine veg + GF filters (≥2 items)', () => {
