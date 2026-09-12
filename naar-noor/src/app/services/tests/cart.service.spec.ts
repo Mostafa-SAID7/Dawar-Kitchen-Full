@@ -16,6 +16,9 @@ describe('CartService - State Management and Error Handling (Property 13)', () =
   let service: CartService;
 
   beforeEach(() => {
+    // Clear localStorage BEFORE creating the service to ensure fresh state
+    localStorage.clear();
+    
     TestBed.configureTestingModule({
       providers: [CartService],
     });
