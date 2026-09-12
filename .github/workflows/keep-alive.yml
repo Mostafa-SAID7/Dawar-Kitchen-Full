@@ -1,0 +1,34 @@
+name: keep-alive
+
+on:
+  schedule:
+    # Ping every 10 minutes to prevent the free-tier host from sleeping.
+    # SmarterASP.NET free tier idles after ~20 min of no traffic.
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  ping:
+    name: Ping API health endpoint
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Wake API
+        run: |
+          echo "Pinging https://naar-noor.runasp.net/health …"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 30 \
+            --retry 2 \
+            --retry-delay 5 \
+            https://naar-noor.runasp.net/health || echo "000")
+
+          echo "HTTP status: $STATUS"
+
+          if [ "$STATUS" = "000" ]; then
+            echo "::warning::API unreachable (connection reset / timeout). Free tier may be waking."
+          elif [ "$STATUS" = "200" ] || [ "$STATUS" = "204" ]; then
+            echo "API is healthy."
+          else
+            echo "::warning::API returned unexpected status $STATUS."
+          fi

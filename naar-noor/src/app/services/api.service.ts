@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, retry } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import {
   MenuItem,
@@ -66,6 +66,8 @@ export class ApiService {
         ...item,
         imageUrl: this.getPublicImageUrl('menu-item-images', item.imageUrl)
       }))),
+      // Free-tier host may be waking from sleep: retry once after 2 s before falling back.
+      retry({ count: 1, delay: 2000 }),
       catchError(() => {
         let items = [...this.mockMenu];
         if (category) {
@@ -82,6 +84,8 @@ export class ApiService {
         ...chef,
         imageUrl: this.getPublicImageUrl('chef-images', chef.imageUrl)
       }))),
+      // Free-tier host may be waking from sleep: retry once after 2 s before falling back.
+      retry({ count: 1, delay: 2000 }),
       catchError(() => of(this.mockChefs))
     );
   }
