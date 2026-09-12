@@ -3,6 +3,9 @@ import { HeaderComponent } from '../header/header.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { LanguageService } from '../../services/language.service';
+import { of } from 'rxjs';
+import { expect } from '@jest/globals';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -10,8 +13,16 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     localStorage.clear();
+    const mockLanguageService = {
+      getCurrentLanguage: () => of('en'),
+      toggleLanguage: jest.fn()
+    };
+
     await TestBed.configureTestingModule({
       imports: [HeaderComponent, HttpClientTestingModule, RouterTestingModule],
+      providers: [
+        { provide: LanguageService, useValue: mockLanguageService }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
