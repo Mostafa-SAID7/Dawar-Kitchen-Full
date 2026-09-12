@@ -7,7 +7,7 @@ const STORAGE_KEY = 'nn_cart';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  readonly items = signal<CartItem[]>(this.loadFromStorage());
+  readonly items = signal<CartItem[]>([]);
   readonly isOpen = signal(false);
 
   readonly count = computed(() => this.items().reduce((sum, i) => sum + i.quantity, 0));
@@ -15,6 +15,12 @@ export class CartService {
   readonly isEmpty = computed(() => this.items().length === 0);
 
   constructor() {
+    // Load cart from localStorage on initialization
+    const savedCart = this.loadFromStorage();
+    if (savedCart.length > 0) {
+      this.items.set(savedCart);
+    }
+
     // Auto-persist cart to localStorage whenever items change
     effect(() => {
       const itemsList = this.items();
