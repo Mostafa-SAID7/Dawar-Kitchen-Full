@@ -1,0 +1,216 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'naar-noor/package.json'
+      - 'api-server/**'
+      - '.github/workflows/08-release.yml'
+      - 'VERSION'
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Configure git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get previous version
+        id: previous_version
+        run: |
+          if [ -f VERSION ]; then
+            echo "version=$(cat VERSION | tr -d '\n')" >> $GITHUB_OUTPUT
+          else
+            echo "version=0.0.0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Calculate next version
+        id: next_version
+        run: |
+          PREV_VERSION="${{ steps.previous_version.outputs.version }}"
+          
+          # Parse version
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$PREV_VERSION"
+          MAJOR=${MAJOR:-0}
+          MINOR=${MINOR:-0}
+          PATCH=${PATCH:-0}
+          
+          # Get recent commits
+          COMMITS=$(git log --oneline $PREV_VERSION..HEAD 2>/dev/null | head -20)
+          
+          # Determine version bump based on commit messages
+          if echo "$COMMITS" | grep -q "^.*!:"; then
+            # Breaking change (MAJOR)
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif echo "$COMMITS" | grep -q "^.*feat:"; then
+            # New feature (MINOR)
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          elif echo "$COMMITS" | grep -q "^.*fix:"; then
+            # Bug fix (PATCH)
+            PATCH=$((PATCH + 1))
+          else
+            # No changes
+            PATCH=$((PATCH + 1))
+          fi
+          
+          NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          echo "major=$MAJOR" >> $GITHUB_OUTPUT
+          echo "minor=$MINOR" >> $GITHUB_OUTPUT
+          echo "patch=$PATCH" >> $GITHUB_OUTPUT
+
+      - name: Check if version changed
+        id: check_version
+        run: |
+          PREV_VERSION="${{ steps.previous_version.outputs.version }}"
+          NEXT_VERSION="${{ steps.next_version.outputs.version }}"
+          
+          if [ "$PREV_VERSION" != "$NEXT_VERSION" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update VERSION file
+        if: steps.check_version.outputs.changed == 'true'
+        run: |
+          echo "${{ steps.next_version.outputs.version }}" > VERSION
+
+      - name: Update package.json version
+        if: steps.check_version.outputs.changed == 'true'
+        run: |
+          npm version ${{ steps.next_version.outputs.version }} --no-git-tag-version --workspace-root --force 2>/dev/null || true
+          cd naar-noor && npm version ${{ steps.next_version.outputs.version }} --no-git-tag-version --force
+
+      - name: Update release metadata
+        if: steps.check_version.outputs.changed == 'true'
+        run: |
+          npm install -g jq 2>/dev/null || apt-get update && apt-get install -y jq
+          
+          RELEASE_DATE=$(date -u +'%Y-%m-%d')
+          NEXT_VERSION="${{ steps.next_version.outputs.version }}"
+          MAJOR="${{ steps.next_version.outputs.major }}"
+          MINOR="${{ steps.next_version.outputs.minor }}"
+          PATCH="${{ steps.next_version.outputs.patch }}"
+          
+          # Update .release-metadata.json
+          jq --arg ver "$NEXT_VERSION" --arg date "$RELEASE_DATE" --arg major "$MAJOR" --arg minor "$MINOR" --arg patch "$PATCH" \
+            '.version = $ver | .releaseDate = $date | .semanticVersion.major = ($major | tonumber) | .semanticVersion.minor = ($minor | tonumber) | .semanticVersion.patch = ($patch | tonumber)' \
+            .release-metadata.json > .release-metadata.json.tmp && mv .release-metadata.json.tmp .release-metadata.json
+
+      - name: Generate changelog
+        if: steps.check_version.outputs.changed == 'true'
+        id: changelog
+        run: |
+          PREV_VERSION="${{ steps.previous_version.outputs.version }}"
+          NEXT_VERSION="${{ steps.next_version.outputs.version }}"
+          
+          # Generate changelog entries
+          CHANGELOG=$(git log --oneline $PREV_VERSION..HEAD 2>/dev/null | sed 's/^/  - /')
+          
+          # Create changelog entry
+          {
+            echo "## [$NEXT_VERSION] - $(date -u +'%Y-%m-%d')"
+            echo ""
+            if git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep -q "feat:"; then
+              echo "### Features"
+              git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep "feat:" | sed 's/^/  - /'
+              echo ""
+            fi
+            if git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep -q "fix:"; then
+              echo "### Bug Fixes"
+              git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep "fix:" | sed 's/^/  - /'
+              echo ""
+            fi
+            echo "### Other Changes"
+            git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep -v -E "^.*(feat:|fix:|test:|docs:|chore:|ci:)" | sed 's/^/  - /'
+          } > CHANGELOG.tmp
+          
+          # Prepend to existing CHANGELOG.md if it exists
+          if [ -f CHANGELOG.md ]; then
+            cat CHANGELOG.md >> CHANGELOG.tmp
+          fi
+          mv CHANGELOG.tmp CHANGELOG.md
+          
+          # Save for later use
+          echo "path=CHANGELOG.md" >> $GITHUB_OUTPUT
+
+      - name: Commit version changes
+        if: steps.check_version.outputs.changed == 'true'
+        run: |
+          git add VERSION naar-noor/package.json .release-metadata.json CHANGELOG.md
+          git commit -m "chore: bump version to ${{ steps.next_version.outputs.version }}" || true
+
+      - name: Create Git tag
+        if: steps.check_version.outputs.changed == 'true'
+        run: |
+          git tag -a v${{ steps.next_version.outputs.version }} -m "Release v${{ steps.next_version.outputs.version }}" || true
+
+      - name: Push changes and tags
+        if: steps.check_version.outputs.changed == 'true'
+        run: |
+          git push origin main --force-with-lease || true
+          git push origin v${{ steps.next_version.outputs.version }} || true
+
+      - name: Create GitHub Release
+        if: steps.check_version.outputs.changed == 'true'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.next_version.outputs.version }}
+          release_name: Release v${{ steps.next_version.outputs.version }}
+          body: |
+            ## Release v${{ steps.next_version.outputs.version }}
+            
+            **Release Date**: $(date -u +'%Y-%m-%d')
+            
+            ### Changelog
+            ```
+            $(cat CHANGELOG.md | head -50)
+            ```
+            
+            ### Components Deployed
+            - Frontend: @workspace/naar-noor v${{ steps.next_version.outputs.version }}
+            - Backend: NaarNoor.API v${{ steps.next_version.outputs.version }}
+            
+            See full changelog in [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+          draft: false
+          prerelease: false
+
+      - name: Notify release completion
+        if: steps.check_version.outputs.changed == 'true'
+        run: |
+          echo "✅ Release v${{ steps.next_version.outputs.version }} created successfully!"
+          echo "📝 Version: ${{ steps.next_version.outputs.version }}"
+          echo "📅 Date: $(date -u +'%Y-%m-%d')"
+
+      - name: Skip release (version unchanged)
+        if: steps.check_version.outputs.changed == 'false'
+        run: |
+          echo "ℹ️  No version change detected. Skipping release."
