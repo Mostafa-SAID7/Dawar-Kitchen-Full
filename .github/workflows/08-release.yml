@@ -110,16 +110,15 @@ jobs:
       - name: Update release metadata
         if: steps.check_version.outputs.changed == 'true'
         run: |
-          npm install -g jq 2>/dev/null || apt-get update && apt-get install -y jq
-          
+          # Use jq from npm installation (already installed)
           RELEASE_DATE=$(date -u +'%Y-%m-%d')
           NEXT_VERSION="${{ steps.next_version.outputs.version }}"
           MAJOR="${{ steps.next_version.outputs.major }}"
           MINOR="${{ steps.next_version.outputs.minor }}"
           PATCH="${{ steps.next_version.outputs.patch }}"
           
-          # Update .release-metadata.json
-          jq --arg ver "$NEXT_VERSION" --arg date "$RELEASE_DATE" --arg major "$MAJOR" --arg minor "$MINOR" --arg patch "$PATCH" \
+          # Update .release-metadata.json using npx jq
+          npx jq --arg ver "$NEXT_VERSION" --arg date "$RELEASE_DATE" --arg major "$MAJOR" --arg minor "$MINOR" --arg patch "$PATCH" \
             '.version = $ver | .releaseDate = $date | .semanticVersion.major = ($major | tonumber) | .semanticVersion.minor = ($minor | tonumber) | .semanticVersion.patch = ($patch | tonumber)' \
             .release-metadata.json > .release-metadata.json.tmp && mv .release-metadata.json.tmp .release-metadata.json
 
