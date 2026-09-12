@@ -7,9 +7,9 @@ export const BLOG_POSTS_DATA = [
   },
   {
     date: 'Oct 05, 2026',
-    title: '5 Must-Try Dishes at Naar & Noor',
-    excerpt: 'A curated guide to navigating our menu, from classic Koshari to our signature flame-grilled platters.',
-    image: 'assets/blog/5 Must-Try Dishes at Naar & Noor.jpg'
+    title: '5 Must-Try Dishes at Dawar Kitchen',
+    excerpt: 'A curated guide to navigating our menu, from authentic Koshari to our signature Syrian Kabsa.',
+    image: 'assets/blog/5 Must-Try Dishes at Dawar Kitchen.jpg'
   },
   {
     date: 'Sep 28, 2026',

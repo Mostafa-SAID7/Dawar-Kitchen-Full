@@ -1,7 +1,7 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/naar-noor/browser",
+  "outputDirectory": "dist/dawar-kitchen/browser",
   "installCommand": "npm ci --include=dev",
   "env": {
     "ANGULAR_CLI_ANALYTICS": "false"

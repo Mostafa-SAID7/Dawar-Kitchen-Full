@@ -6,63 +6,62 @@
       <!-- Brand — full width on mobile, 1 col on lg -->
       <div class="col-span-2 lg:col-span-1">
         <div class="flex items-center gap-3 mb-4">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-[#C65A1E] to-[#8B4513] flex items-center justify-center shrink-0">
-            <span class="font-['Forum'] text-xl sm:text-2xl font-bold text-white">2N</span>
-          </div>
-          <span class="font-['Forum'] text-xl sm:text-2xl text-white tracking-tight">Naar &amp; Noor</span>
+          <img src="assets/Dawar-logo.png" alt="Dawar Kitchen Logo"
+               class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-contain shrink-0">
+          <span class="font-['Forum'] text-xl sm:text-2xl text-white tracking-tight">Dawar Kitchen</span>
         </div>
         <p class="text-sm text-neutral-500 font-light leading-relaxed max-w-xs">
-          Authentic Egyptian hospitality. Fire-grilled delicacies, ancient spices, and rich Cairo heritage.
+          {{ 'footer.brandDescription' | translate }}
         </p>
       </div>
 
       <!-- Quick Links -->
       <div data-cy="footer-quick-links">
-        <h4 class="text-white text-sm font-medium mb-5 sm:mb-6">Quick Links</h4>
+        <h4 class="text-white text-sm font-medium mb-5 sm:mb-6">{{ 'footer.company' | translate }}</h4>
         <ul class="space-y-3 text-sm text-neutral-500 font-light">
-          <li><a routerLink="/" class="hover:text-white transition-colors">Home</a></li>
-          <li><a routerLink="/menu" class="hover:text-white transition-colors">Menu</a></li>
-          <li><a routerLink="/reservations" class="hover:text-[#C65A1E] transition-colors">Reservations</a></li>
-          <li><a routerLink="/about" class="hover:text-white transition-colors">About Us</a></li>
-          <li><a routerLink="/contact" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a routerLink="/" class="hover:text-white transition-colors">{{ 'nav.home' | translate }}</a></li>
+          <li><a routerLink="/menu" class="hover:text-white transition-colors">{{ 'nav.menu' | translate }}</a></li>
+          <li><a routerLink="/reservations" class="hover:text-[#C65A1E] transition-colors">{{ 'nav.reservations' | translate }}</a></li>
+          <li><a routerLink="/about" class="hover:text-white transition-colors">{{ 'footer.about' | translate }}</a></li>
+          <li><a routerLink="/contact" class="hover:text-white transition-colors">{{ 'nav.contact' | translate }}</a></li>
         </ul>
       </div>
 
       <!-- Contact -->
       <div data-cy="footer-contact">
-        <h4 class="text-white text-sm font-medium mb-5 sm:mb-6">Contact</h4>
+        <h4 class="text-white text-sm font-medium mb-5 sm:mb-6">{{ 'contact.title' | translate }}</h4>
         <ul class="space-y-3 text-sm text-neutral-500 font-light">
-          <li>+44 (0) 1481 123456</li>
-          <li>hello&#64;naarnoor.com</li>
-          <li>Town Centre, Egypt</li>
+          <li>{{ 'footer.phone' | translate }}</li>
+          <li>{{ 'footer.email' | translate }}</li>
+          <li>{{ 'footer.address' | translate }}</li>
         </ul>
       </div>
 
       <!-- Social -->
       <div data-cy="footer-social">
-        <h4 class="text-white text-sm font-medium mb-5 sm:mb-6">Follow Us</h4>
+        <h4 class="text-white text-sm font-medium mb-5 sm:mb-6">{{ 'footer.followUs' | translate }}</h4>
         <div class="flex items-center gap-3">
-          <a href="#" aria-label="Instagram"
+          <a href="https://www.instagram.com/dawar.kitchen" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
              class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#111] border border-white/5 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/20 transition-all">
-            <iconify-icon icon="solar:camera-linear" width="18"></iconify-icon>
+            <iconify-icon icon="mdi:instagram" width="18"></iconify-icon>
           </a>
-          <a href="#" aria-label="Email"
+          <a href="https://www.facebook.com/dawarkitchen" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
              class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#111] border border-white/5 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/20 transition-all">
-            <iconify-icon icon="solar:letter-linear" width="18"></iconify-icon>
+            <iconify-icon icon="mdi:facebook" width="18"></iconify-icon>
           </a>
-          <a href="#" aria-label="Website"
+          <a href="mailto:info@dawarkitchen.com" aria-label="Email"
              class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#111] border border-white/5 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/20 transition-all">
-            <iconify-icon icon="solar:globus-linear" width="18"></iconify-icon>
+            <iconify-icon icon="mdi:email" width="18"></iconify-icon>
           </a>
         </div>
       </div>
     </div>
 
     <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-      <p data-cy="footer-copyright" class="text-xs text-neutral-600 font-light">© {{ currentYear }} Naar & Noor. All rights reserved.</p>
+      <p data-cy="footer-copyright" class="text-xs text-neutral-600 font-light">{{ 'footer.copyright' | translate: {year: currentYear} }}</p>
       <div class="flex gap-4 text-xs text-neutral-600 font-light">
-        <a routerLink="/privacy" class="hover:text-neutral-300">Privacy Policy</a>
-        <a routerLink="/terms" class="hover:text-neutral-300">Terms of Service</a>
+        <a routerLink="/privacy" class="hover:text-neutral-300">{{ 'footer.privacy' | translate }}</a>
+        <a routerLink="/terms" class="hover:text-neutral-300">{{ 'footer.terms' | translate }}</a>
       </div>
     </div>
   </div>

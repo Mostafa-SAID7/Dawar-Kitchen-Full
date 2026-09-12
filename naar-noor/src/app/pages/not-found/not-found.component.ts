@@ -38,8 +38,8 @@ export class NotFoundComponent implements OnInit, OnDestroy {
   private timer?: ReturnType<typeof setInterval>;
 
   ngOnInit(): void {
-    this.title.setTitle('404 — Page Not Found | Naar & Noor');
-    this.meta.updateTag({ name: 'description', content: 'The page you are looking for could not be found. Return to Naar & Noor.' });
+    this.title.setTitle('404 — Page Not Found | Dawar Kitchen');
+    this.meta.updateTag({ name: 'description', content: 'The page you are looking for could not be found. Return to Dawar Kitchen.' });
     this.timer = setInterval(() => {
       this.countdown--;
       this.cdr.markForCheck();

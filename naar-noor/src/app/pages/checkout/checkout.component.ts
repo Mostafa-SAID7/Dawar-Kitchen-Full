@@ -2,28 +2,39 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CartService } from '../../services/cart.service';
 import { ApiService } from '../../services/api.service';
 import { ToastService } from '../../services/toast.service';
 import { SeoService } from '../../services/seo.service';
+import { CustomDropdownComponent } from '../../components/custom-dropdown/custom-dropdown.component';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, CustomDropdownComponent, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './checkout.component.html'
 })
 export class CheckoutComponent implements OnInit {
-  private readonly fb     = inject(FormBuilder);
-  readonly cart           = inject(CartService);
-  private readonly api    = inject(ApiService);
-  private readonly router = inject(Router);
-  private readonly toast  = inject(ToastService);
-  private readonly seo    = inject(SeoService);
+  private readonly fb        = inject(FormBuilder);
+  readonly cart              = inject(CartService);
+  private readonly api       = inject(ApiService);
+  private readonly router    = inject(Router);
+  private readonly toast     = inject(ToastService);
+  private readonly seo       = inject(SeoService);
+  private readonly translate = inject(TranslateService);
 
   form!: FormGroup;
   submitting = false;
+
+  get orderTypeOptions(): string[] {
+    return [
+      this.translate.instant('reservations.pickup'),
+      this.translate.instant('reservations.delivery'),
+      this.translate.instant('reservations.dineIn')
+    ];
+  }
 
   ngOnInit(): void {
     this.seo.setCheckout();
@@ -133,5 +144,30 @@ export class CheckoutComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/menu']);
+  }
+
+  onOrderTypeSelected(orderType: string): void {
+    // Map translated display names back to internal values
+    const reverseMap: { [key: string]: string } = {};
+    reverseMap[this.translate.instant('reservations.pickup')] = 'pickup';
+    reverseMap[this.translate.instant('reservations.delivery')] = 'delivery';
+    reverseMap[this.translate.instant('reservations.dineIn')] = 'dine-in';
+    
+    const value = reverseMap[orderType] || 'pickup';
+    this.form.get('type')?.setValue(value);
+  }
+
+  onTableSelected(table: string): void {
+    this.form.get('tableReservationName')?.setValue(table);
+  }
+
+  get orderTypeDisplay(): string {
+    const displayMap: { [key: string]: string } = {
+      'pickup': this.translate.instant('reservations.pickup'),
+      'delivery': this.translate.instant('reservations.delivery'),
+      'dine-in': this.translate.instant('reservations.dineIn')
+    };
+    const value = this.form?.get('type')?.value || 'pickup';
+    return displayMap[value] || this.translate.instant('reservations.pickup');
   }
 }

@@ -4,11 +4,11 @@ import { SeoConfig } from '../models';
 
 export type { SeoConfig };
 
-const BASE      = 'Naar & Noor';
-const SITE_URL  = 'https://www.naarnooor.com';
-const DEF_DESC  = 'Authentic Egyptian cuisine with charcoal-grilled specialties. Reserve your table or order online.';
+const BASE      = 'Dawar Kitchen';
+const SITE_URL  = 'https://www.dawarkitchen.com';
+const DEF_DESC  = 'Authentic Egyptian & Syrian cuisine from Dawar Kitchen. Social enterprise delivering home-style meals across Cairo.';
 const DEF_IMG   = `${SITE_URL}/assets/hero/hero.webp`;
-const DEF_KW    = 'Egyptian restaurant, Naar Noor, charcoal grilled, Koshari, Kofta, Molokhia, Egyptian cuisine, Cairo food, dine in, takeaway, delivery, Guernsey restaurant';
+const DEF_KW    = 'Dawar Kitchen, Egyptian Syrian cuisine, Cairo delivery, social enterprise, home-style meals, authentic food, Cairo restaurant, Ezbet Khairallah';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
@@ -58,9 +58,9 @@ export class SeoService {
 
   setHome(): void {
     this.set({
-      title:       'Naar & Noor — Authentic Egyptian Restaurant',
-      description: 'Experience Naar & Noor — authentic Egyptian recipes, charcoal-grilled specialties, and modern dining in Guernsey. Reserve your table, explore our menu, or order online.',
-      keywords:    'Egyptian restaurant Guernsey, Naar Noor, charcoal grilled food, Koshari, Kofta, Egyptian cuisine, Cairo restaurant, dine in Guernsey, takeaway Guernsey',
+      title:       'Dawar Kitchen — Authentic Egyptian & Syrian Cuisine',
+      description: 'Dawar Kitchen: Social enterprise delivering authentic Egyptian & Syrian home-style meals across Cairo. Celebrating food heritage and fair work.',
+      keywords:    'Dawar Kitchen, Egyptian Syrian cuisine, Cairo delivery, social enterprise, authentic meals, Ezbet Khairallah, Egyptian food, Damascus cuisine',
       canonicalUrl: `${SITE_URL}/`,
       ogUrl:        `${SITE_URL}/`,
       ogType:       'restaurant',
@@ -70,7 +70,7 @@ export class SeoService {
   setCheckout(): void {
     this.set({
       title:    'Checkout',
-      description: 'Complete your Naar & Noor order. Choose collection or delivery and confirm your authentic Egyptian food order.',
+      description: 'Complete your Dawar Kitchen order. Choose delivery across Cairo and confirm your authentic Egyptian & Syrian meal order.',
       noIndex:  true,
     });
   }
@@ -78,7 +78,7 @@ export class SeoService {
   setOrderConfirmed(): void {
     this.set({
       title:    'Order Confirmed',
-      description: 'Your Naar & Noor order has been received. We will confirm shortly by phone.',
+      description: 'Your Dawar Kitchen order has been received. We will confirm shortly by phone. Thank you for supporting our social enterprise!',
       noIndex:  true,
     });
   }

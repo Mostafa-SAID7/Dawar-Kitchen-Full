@@ -1,7 +1,7 @@
 {
-  "name": "Naar & Noor — Authentic Egyptian Restaurant",
-  "short_name": "Naar & Noor",
-  "description": "Experience authentic Egyptian recipes, charcoal-grilled specialties, and modern dining in Guernsey. Reserve your table or order online.",
+  "name": "Dawar Kitchen — Authentic Egyptian & Syrian Cuisine",
+  "short_name": "Dawar Kitchen",
+  "description": "Authentic Egyptian & Syrian cuisine delivered across Cairo. Supporting Syrian and Egyptian women through fair employment.",
   "theme_color": "#C65A1E",
   "background_color": "#0a0a0a",
   "display": "standalone",
@@ -10,18 +10,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "assets/icons/favicon.svg",
+      "src": "assets/Dawar-logo.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
     }
   ],
-  "categories": ["food", "restaurant", "dining"],
+  "categories": ["food", "restaurant", "delivery"],
   "lang": "en-GB",
   "dir": "ltr"
 }

@@ -16,9 +16,9 @@ export class AboutComponent {
 
   trackByIndex(_index: number): number { return _index; }
   features = [
-    { icon: 'solar:flame-linear', title: 'Flame-Grilled', description: 'Specialties cooked over open flames for deep flavor.' },
-    { icon: 'solar:leaf-linear', title: 'Fresh Ingredients', description: 'Locally sourced produce mixed with Egyptian spices & herbs.' },
-    { icon: 'solar:star-linear', title: 'Authentic Flavors', description: 'Recipes passed down through generations.' },
-    { icon: 'solar:cup-hot-linear', title: 'Premium Ambience', description: 'A dark, warm setting perfect for any occasion.' }
+    { icon: 'solar:flame-linear', title: 'Traditional Recipes', description: 'Authentic Syrian and Egyptian recipes celebrating food heritage.' },
+    { icon: 'solar:leaf-linear', title: 'Fresh Ingredients', description: 'Finest local produce sourced and prepared fresh daily.' },
+    { icon: 'solar:star-linear', title: 'Authentic Flavors', description: 'Generations of culinary wisdom in every dish.' },
+    { icon: 'solar:cup-hot-linear', title: 'Fair Employment', description: 'Dignified work empowering Syrian and Egyptian women.' }
   ];
 }

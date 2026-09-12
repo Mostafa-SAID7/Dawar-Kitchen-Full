@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { ApiService } from '../../services/api.service';
 import { RevealDirective } from '../../directives/scroll-reveal.directive';
 import { Chef, ChefView } from '../../models';
@@ -13,7 +14,7 @@ const CHEF_IMAGES = [
 @Component({
   selector: 'app-chefs',
   standalone: true,
-  imports: [CommonModule, RevealDirective],
+  imports: [CommonModule, TranslateModule, RevealDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './chefs.component.html',
   styleUrls: ['./chefs.component.css'],

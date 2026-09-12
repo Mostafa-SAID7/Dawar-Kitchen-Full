@@ -2,8 +2,8 @@
   <div class="max-w-5xl mx-auto">
 
     <div reveal [revealDelay]="0" class="text-center mb-10 md:mb-12">
-      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">Find Us</span>
-      <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">Visit Us</h2>
+      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'locations.tagline' | translate }}</span>
+      <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">{{ 'locations.heading' | translate }}</h2>
     </div>
 
     <div reveal [revealDelay]="100" revealFrom="bottom"
@@ -27,12 +27,10 @@
         <div class="space-y-6">
           <div>
             <h4 class="text-[10px] text-neutral-500 uppercase tracking-wider font-medium mb-2 flex items-center gap-1.5">
-              <iconify-icon icon="solar:map-point-linear" width="14"></iconify-icon> Address
+              <iconify-icon icon="solar:map-point-linear" width="14"></iconify-icon> {{ 'locations.address' | translate }}
             </h4>
             <p class="text-sm text-neutral-300 font-light leading-relaxed">
-              Town Centre,<br/>
-              St Peter Port,<br/>
-              Guernsey, GY1 2PN
+              {{ 'locations.addressValue' | translate }}
             </p>
           </div>
 
@@ -40,20 +38,20 @@
 
           <div>
             <h4 class="text-[10px] text-neutral-500 uppercase tracking-wider font-medium mb-2 flex items-center gap-1.5">
-              <iconify-icon icon="solar:clock-circle-linear" width="14"></iconify-icon> Opening Hours
+              <iconify-icon icon="solar:clock-circle-linear" width="14"></iconify-icon> {{ 'locations.hours' | translate }}
             </h4>
             <div class="grid grid-cols-2 gap-x-6 gap-y-1.5 text-xs text-neutral-300 font-light">
-              <span class="text-neutral-500">Lunch</span> <span>12:00 PM – 2:00 PM</span>
-              <span class="text-neutral-500">Dinner</span> <span>6:00 PM – 9:00 PM</span>
+              <span class="text-neutral-500">{{ 'locations.lunch' | translate }}</span> <span>{{ 'locations.lunchTime' | translate }}</span>
+              <span class="text-neutral-500">{{ 'locations.dinner' | translate }}</span> <span>{{ 'locations.dinnerTime' | translate }}</span>
             </div>
-            <p class="text-[10px] text-[#C65A1E] mt-3 font-medium uppercase tracking-widest">Closed on Mondays</p>
+            <p class="text-[10px] text-[#C65A1E] mt-3 font-medium uppercase tracking-widest">{{ 'locations.closedMondays' | translate }}</p>
           </div>
 
           <div class="h-px w-full bg-white/5"></div>
 
           <div class="flex items-center gap-3">
             <iconify-icon icon="solar:phone-linear" width="16" class="text-[#C65A1E]"></iconify-icon>
-            <span class="text-sm text-neutral-300 font-light">+44 (0) 1481 123456</span>
+            <span class="text-sm text-neutral-300 font-light">{{ 'locations.phone' | translate }}</span>
           </div>
         </div>
       </div>

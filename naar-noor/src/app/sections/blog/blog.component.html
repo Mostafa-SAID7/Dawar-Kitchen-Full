@@ -3,11 +3,11 @@
 
     <div reveal [revealDelay]="0" class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 md:mb-16 gap-4">
       <div>
-        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">Journal</span>
-        <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">Stories From The Fire</h2>
+        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'blog.tagline' | translate }}</span>
+        <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">{{ 'blog.heading' | translate }}</h2>
       </div>
       <a href="#" class="text-sm text-neutral-400 hover:text-[#C65A1E] transition-colors flex items-center gap-2 shrink-0">
-        View All Posts
+        {{ 'blog.viewAll' | translate }}
         <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon>
       </a>
     </div>
@@ -33,7 +33,7 @@
           </h3>
           <p class="text-sm text-neutral-400 font-light mb-5 sm:mb-6 line-clamp-2 leading-relaxed">{{ post.excerpt }}</p>
           <span class="text-xs font-medium text-neutral-400 group-hover:text-[#C65A1E] transition-colors flex items-center gap-1.5 uppercase tracking-wider">
-            Read More
+            {{ 'blog.readMore' | translate }}
             <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>
           </span>
         </div>

@@ -4,11 +4,11 @@
     <!-- Header -->
     <div reveal [revealDelay]="0" class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
       <div>
-        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">The Masters</span>
-        <h2 class="font-['Forum'] text-4xl md:text-5xl text-white tracking-tight">Meet Our Chefs</h2>
+        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'chefs.tagline' | translate }}</span>
+        <h2 class="font-['Forum'] text-4xl md:text-5xl text-white tracking-tight">{{ 'chefs.heading' | translate }}</h2>
       </div>
       <p class="text-sm text-neutral-400 max-w-sm font-light leading-relaxed">
-        Decades of experience from the historic kitchens of Cairo and Alexandria, brought to life on every plate.
+        {{ 'chefs.description' | translate }}
       </p>
     </div>
 
@@ -27,7 +27,7 @@
 
     <!-- Error -->
     <div *ngIf="error" class="text-center py-16 text-neutral-500 text-sm">
-      Unable to load chef profiles right now.
+      {{ 'chefs.error' | translate }}
     </div>
 
     <!-- Chefs grid -->

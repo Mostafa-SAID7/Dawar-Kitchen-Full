@@ -4,13 +4,13 @@
     <!-- Back -->
     <button (click)="goBack()" class="mb-8 flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition-colors">
       <iconify-icon icon="solar:arrow-left-linear" width="16"></iconify-icon>
-      Back to Menu
+      {{ 'checkout.backToMenu' | translate }}
     </button>
 
     <!-- Title -->
     <div class="mb-10">
-      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-2 block">Your Order</span>
-      <h1 class="font-['Forum'] text-3xl sm:text-4xl text-white tracking-tight">Checkout</h1>
+      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-2 block">{{ 'checkout.yourOrder' | translate }}</span>
+      <h1 class="font-['Forum'] text-3xl sm:text-4xl text-white tracking-tight">{{ 'cart.checkout' | translate }}</h1>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14" [formGroup]="form">
@@ -19,8 +19,8 @@
       <div class="order-2 lg:order-1">
         <div class="bg-[#111] rounded-2xl border border-white/5 overflow-hidden">
           <div class="px-6 py-4 border-b border-white/5">
-            <h2 class="font-['Forum'] text-xl text-white">Your Items</h2>
-            <p class="text-xs text-neutral-500 mt-0.5">{{ cart.count() }} {{ cart.count() === 1 ? 'item' : 'items' }}</p>
+            <h2 class="font-['Forum'] text-xl text-white">{{ 'checkout.yourItems' | translate }}</h2>
+            <p class="text-xs text-neutral-500 mt-0.5">{{ cart.count() }} {{ cart.count() === 1 ? ('checkout.item' | translate) : ('checkout.items' | translate) }}</p>
           </div>
 
           <div class="divide-y divide-white/5">
@@ -40,7 +40,7 @@
                 </div>
                 <span data-cy="item-price" class="text-sm text-white font-medium w-16 text-right">£{{ (item.price * item.quantity).toFixed(2) }}</span>
                 <button (click)="cart.remove(item.menuItemId)" class="text-xs text-red-400 hover:text-red-300 transition-colors">
-                  Remove
+                  {{ 'cart.removeItem' | translate }}
                 </button>
               </div>
             </div>
@@ -49,15 +49,15 @@
           <!-- Totals -->
           <div class="px-6 py-5 border-t border-white/5 space-y-2">
             <div class="flex items-center justify-between text-sm">
-              <span class="text-neutral-400">Subtotal</span>
+              <span class="text-neutral-400">{{ 'cart.subtotal' | translate }}</span>
               <span class="text-white">{{ cart.formattedTotal() }}</span>
             </div>
             <div *ngIf="isDelivery" class="flex items-center justify-between text-sm">
-              <span class="text-neutral-400">Delivery fee</span>
-              <span class="text-neutral-500 text-xs">To be confirmed</span>
+              <span class="text-neutral-400">{{ 'checkout.deliveryFee' | translate }}</span>
+              <span class="text-neutral-500 text-xs">{{ 'checkout.toBeConfirmed' | translate }}</span>
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-white/5">
-              <span class="text-sm font-medium text-white">Total</span>
+              <span class="text-sm font-medium text-white">{{ 'cart.total' | translate }}</span>
               <span data-cy="order-total" class="text-lg font-medium text-white font-['Forum']">{{ cart.formattedTotal() }}</span>
             </div>
           </div>
@@ -69,21 +69,19 @@
 
         <!-- Order Type Select (required by E2E) -->
         <div class="space-y-2">
-          <label class="text-xs text-neutral-500 tracking-[0.15em] uppercase block">Order Type</label>
-          <select
-            name="orderType"
-            formControlName="type"
-            class="nn-input"
-          >
-            <option value="pickup">Takeaway (Pickup)</option>
-            <option value="delivery">Delivery</option>
-            <option value="dine-in">Dine-in</option>
-          </select>
+          <label class="text-xs text-neutral-500 tracking-[0.15em] uppercase block">{{ 'reservations.orderType' | translate }}</label>
+          <app-custom-dropdown
+            [options]="orderTypeOptions"
+            [selectedValue]="orderTypeDisplay"
+            [placeholder]="'reservations.selectOrderType' | translate"
+            [icon]="'solar:document-linear'"
+            (valueSelected)="onOrderTypeSelected($event)">
+          </app-custom-dropdown>
         </div>
 
         <!-- Contact details -->
         <div class="space-y-4">
-          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Contact details</p>
+          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'checkout.contactDetails' | translate }}</p>
 
           <!-- Name -->
           <div>
@@ -91,12 +89,12 @@
               name="customerName"
               formControlName="customerName"
               type="text"
-              placeholder="Full name"
+              [placeholder]="'reservations.name' | translate"
               class="nn-input"
               [ngClass]="err('customerName') ? 'nn-field--error' : ''"
             />
             <p *ngIf="err('customerName')" class="mt-1.5 text-xs text-red-400">
-              <span *ngIf="f['customerName'].errors?.['required']">Customer name is required</span>
+              <span *ngIf="f['customerName'].errors?.['required']">{{ 'checkout.customerNameRequired' | translate }}</span>
             </p>
           </div>
 
@@ -106,13 +104,13 @@
               name="email"
               formControlName="email"
               type="email"
-              placeholder="Email address"
+              [placeholder]="'reservations.email' | translate"
               class="nn-input"
               [ngClass]="err('email') ? 'nn-field--error' : ''"
             />
             <p *ngIf="err('email')" class="mt-1.5 text-xs text-red-400">
-              <span *ngIf="f['email'].errors?.['required']">Email is required</span>
-              <span *ngIf="f['email'].errors?.['email']">Invalid email format</span>
+              <span *ngIf="f['email'].errors?.['required']">{{ 'checkout.emailRequired' | translate }}</span>
+              <span *ngIf="f['email'].errors?.['email']">{{ 'checkout.emailInvalid' | translate }}</span>
             </p>
           </div>
 
@@ -122,36 +120,36 @@
               name="phone"
               formControlName="phoneNumber"
               type="tel"
-              placeholder="Phone number"
+              [placeholder]="'reservations.phone' | translate"
               class="nn-input"
               [ngClass]="err('phoneNumber') ? 'nn-field--error' : ''"
             />
             <p *ngIf="err('phoneNumber')" class="mt-1.5 text-xs text-red-400">
-              <span *ngIf="f['phoneNumber'].errors?.['required']">Phone number is required</span>
+              <span *ngIf="f['phoneNumber'].errors?.['required']">{{ 'checkout.phoneRequired' | translate }}</span>
             </p>
           </div>
         </div>
 
         <!-- Delivery address -->
         <div *ngIf="isDelivery" class="space-y-2" data-cy="delivery-address-section">
-          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Delivery address</p>
+          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'checkout.deliveryAddress' | translate }}</p>
           <textarea
             data-cy="delivery-address"
             name="address"
             formControlName="deliveryAddress"
             rows="3"
-            placeholder="Enter your full delivery address including postcode"
+            [placeholder]="'checkout.deliveryAddressPlaceholder' | translate"
             class="nn-input resize-none"
             [ngClass]="err('deliveryAddress') ? 'nn-field--error' : ''"
           ></textarea>
           <p *ngIf="err('deliveryAddress')" class="text-xs text-red-400">
-            <span *ngIf="f['deliveryAddress'].errors?.['required']">Delivery address is required</span>
+            <span *ngIf="f['deliveryAddress'].errors?.['required']">{{ 'checkout.deliveryAddressRequired' | translate }}</span>
           </p>
         </div>
 
         <!-- Pickup Time (required by E2E) -->
         <div *ngIf="isPickup" class="space-y-2">
-          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Pickup Time</p>
+          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'checkout.pickupTime' | translate }}</p>
           <input
             data-cy="pickup-time"
             type="time"
@@ -161,28 +159,27 @@
 
         <!-- Dine-in Table Selection (required by E2E) -->
         <div *ngIf="isDineIn" class="space-y-2">
-          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Table Selection</p>
-          <select
+          <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'reservations.tableSelection' | translate }}</p>
+          <app-custom-dropdown
             data-cy="table-selection"
-            formControlName="tableReservationName"
-            class="nn-input"
-          >
-            <option value="">Select a table reservation</option>
-            <option value="Table 1">Table 1 (Window)</option>
-            <option value="Table 2">Table 2 (Cosy)</option>
-          </select>
+            [options]="['Table 1 (Window)', 'Table 2 (Cosy)']"
+            [selectedValue]="(form.get('tableReservationName')?.value) || ''"
+            [placeholder]="'reservations.selectTable' | translate"
+            [icon]="'solar:sofa-linear'"
+            (valueSelected)="onTableSelected($event)">
+          </app-custom-dropdown>
           <p *ngIf="err('tableReservationName')" class="text-xs text-red-400">
-            <span>Please select a table reservation</span>
+            <span>{{ 'checkout.tableRequired' | translate }}</span>
           </p>
         </div>
 
         <!-- Special requests -->
         <div class="space-y-2">
           <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">
-            Special requests <span class="normal-case text-neutral-700">(optional)</span>
+            {{ 'reservations.specialRequests' | translate }} <span class="normal-case text-neutral-700">{{ 'checkout.optional' | translate }}</span>
           </p>
           <textarea formControlName="notes" rows="2"
-                    placeholder="Allergies, dietary requirements, etc."
+                    [placeholder]="'reservations.specialRequests' | translate"
                     class="nn-input resize-none"></textarea>
         </div>
 
@@ -194,7 +191,7 @@
                   : 'bg-white text-[#0a0a0a] hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_28px_rgba(198,90,30,0.4)]'">
           <iconify-icon *ngIf="submitting" icon="solar:spinner-line-duotone" width="18" class="animate-spin"></iconify-icon>
           <iconify-icon *ngIf="!submitting" icon="solar:lock-bold" width="16"></iconify-icon>
-          <span>{{ submitting ? 'Redirecting to payment…' : 'Pay with Stripe' }}</span>
+          <span>{{ submitting ? ('checkout.redirectingToPayment' | translate) : ('checkout.payWithStripe' | translate) }}</span>
         </button>
 
       </div>

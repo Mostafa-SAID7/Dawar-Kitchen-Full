@@ -5,28 +5,26 @@
     <!-- ── Logo ─────────────────────────────────────────── -->
     <a routerLink="/" data-cy="logo"
        class="flex items-center gap-2.5 group shrink-0">
-      <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-[#C65A1E] to-[#8B4513]
-                  flex items-center justify-center">
-        <span class="font-['Forum'] text-lg sm:text-xl font-bold text-white">2N</span>
-      </div>
+      <img src="assets/Dawar-logo.png" alt="Dawar Kitchen Logo" 
+           class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain">
       <span class="font-['Forum'] text-lg sm:text-xl text-white tracking-tight
                    group-hover:text-[#C65A1E] transition-colors duration-300 hidden sm:block">
-        Naar &amp; Noor
+        Dawar Kitchen
       </span>
     </a>
 
     <!-- ── Desktop Nav ───────────────────────────────────── -->
     <nav data-cy="nav-menu" class="hidden md:flex items-center gap-6 lg:gap-8">
       <a routerLink="/"            routerLinkActive="text-white" [routerLinkActiveOptions]="{exact:true}"
-         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Home</a>
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.home' | translate }}</a>
       <a routerLink="/menu"        routerLinkActive="text-white"
-         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Menu</a>
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.menu' | translate }}</a>
       <a routerLink="/reservations" routerLinkActive="text-white"
-         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Reservations</a>
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.reservations' | translate }}</a>
       <a routerLink="/about"       routerLinkActive="text-white"
-         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">About</a>
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.about' | translate }}</a>
       <a routerLink="/contact"     routerLinkActive="text-white"
-         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Contact</a>
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.contact' | translate }}</a>
     </nav>
 
     <!-- ── Right Actions ─────────────────────────────────── -->
@@ -99,7 +97,7 @@
                     bg-[#111] border border-white/10 shadow-[0_16px_48px_rgba(0,0,0,0.5)]
                     overflow-hidden animate-fade-in z-10">
           <div class="px-4 py-3 border-b border-white/5">
-            <p class="text-[10px] text-neutral-600 uppercase tracking-wider">Signed in as</p>
+            <p class="text-[10px] text-neutral-600 uppercase tracking-wider">{{ 'auth.signedinAs' | translate }}</p>
             <p class="text-sm text-white truncate mt-0.5">{{ auth.userEmail() }}</p>
           </div>
           <a routerLink="/reservations"
@@ -107,13 +105,13 @@
              class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-neutral-300
                     hover:text-white hover:bg-white/5 transition-colors">
             <iconify-icon icon="solar:calendar-linear" width="16"></iconify-icon>
-            My Reservations
+            {{ 'nav.reservations' | translate }}
           </a>
           <button (click)="logout()"
                   class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-neutral-300
                          hover:text-white hover:bg-white/5 transition-colors border-t border-white/5">
             <iconify-icon icon="solar:logout-linear" width="16"></iconify-icon>
-            Sign Out
+            {{ 'auth.logout' | translate }}
           </button>
         </div>
       </div>
@@ -135,19 +133,19 @@
     <nav class="flex flex-col px-5 py-5 space-y-1">
       <a routerLink="/"             (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
-                transition-colors py-2.5 px-3 rounded-lg">Home</a>
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.home' | translate }}</a>
       <a routerLink="/menu"         (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
-                transition-colors py-2.5 px-3 rounded-lg">Menu</a>
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.menu' | translate }}</a>
       <a routerLink="/reservations" (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
-                transition-colors py-2.5 px-3 rounded-lg">Reservations</a>
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.reservations' | translate }}</a>
       <a routerLink="/about"        (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
-                transition-colors py-2.5 px-3 rounded-lg">About</a>
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.about' | translate }}</a>
       <a routerLink="/contact"      (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
-                transition-colors py-2.5 px-3 rounded-lg">Contact</a>
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.contact' | translate }}</a>
 
       <!-- Auth divider -->
       <div class="border-t border-white/8 pt-3 mt-2 space-y-1">
@@ -166,7 +164,7 @@
                        hover:text-white hover:bg-white/5 transition-colors
                        py-2.5 px-3 rounded-lg">
           <iconify-icon icon="solar:user-circle-linear" width="18"></iconify-icon>
-          Sign In / Register
+          {{ 'auth.loginRegister' | translate }}
         </button>
 
         <!-- Logged in -->
@@ -183,7 +181,7 @@
                          hover:text-white hover:bg-white/5 transition-colors
                          py-2.5 px-3 rounded-lg">
             <iconify-icon icon="solar:logout-linear" width="18"></iconify-icon>
-            Sign Out
+            {{ 'auth.logout' | translate }}
           </button>
         </ng-container>
       </div>

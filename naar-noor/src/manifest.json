@@ -1,7 +1,7 @@
 {
-  "name": "Naar & Noor — Authentic Egyptian Restaurant",
-  "short_name": "Naar & Noor",
-  "description": "Experience authentic Egyptian recipes, charcoal-grilled specialties, and modern dining. Reserve your table or order online.",
+  "name": "Dawar Kitchen — Authentic Egyptian & Syrian Cuisine",
+  "short_name": "Dawar Kitchen",
+  "description": "Authentic Egyptian & Syrian cuisine delivered across Cairo. Supporting Syrian and Egyptian women through fair employment.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
@@ -12,15 +12,10 @@
   "categories": ["food", "lifestyle", "shopping"],
   "icons": [
     {
-      "src": "assets/icons/favicon.svg",
+      "src": "assets/Dawar-logo.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
     }
   ],
   "shortcuts": [
@@ -31,16 +26,16 @@
       "url": "/menu"
     },
     {
-      "name": "Make a Reservation",
-      "short_name": "Book",
-      "description": "Reserve a table",
-      "url": "/reservations"
-    },
-    {
       "name": "Place an Order",
       "short_name": "Order",
-      "description": "Order for delivery or pickup",
+      "description": "Order for delivery across Cairo",
       "url": "/menu"
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch with Dawar Kitchen",
+      "url": "/contact"
     }
   ]
 }

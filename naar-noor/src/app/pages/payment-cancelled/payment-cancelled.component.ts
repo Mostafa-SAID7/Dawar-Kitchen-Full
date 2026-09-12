@@ -1,13 +1,14 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { SeoService } from '../../services/seo.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-payment-cancelled',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
     trigger('fadeUp', [
@@ -27,13 +28,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
         </div>
 
         <div @fadeUp>
-          <span class="text-amber-500 text-xs font-medium tracking-[0.2em] uppercase mb-3 block">Payment Cancelled</span>
+          <span class="text-amber-500 text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'payment.cancelled' | translate }}</span>
           <h1 class="font-['Forum'] text-3xl sm:text-4xl text-white tracking-tight mb-4">
-            No Charge Made
+            {{ 'payment.noChargeMade' | translate }}
           </h1>
           <p class="text-neutral-400 text-sm leading-relaxed mb-8">
-            Your payment was cancelled and you have not been charged. 
-            You can go back and try again whenever you're ready.
+            {{ 'payment.cancelledMessage' | translate }}
           </p>
 
           <!-- Actions -->
@@ -41,12 +41,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
             <button
               (click)="tryAgain()"
               class="px-6 py-3 bg-[#C65A1E] hover:bg-[#b54e17] text-white text-sm font-medium rounded-xl transition-colors">
-              Try Again
+              {{ 'payment.tryAgain' | translate }}
             </button>
             <a
               routerLink="/"
               class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-medium rounded-xl transition-colors text-center">
-              Return Home
+              {{ 'payment.returnHome' | translate }}
             </a>
           </div>
         </div>

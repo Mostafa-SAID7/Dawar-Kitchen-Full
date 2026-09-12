@@ -1,13 +1,14 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { SeoService } from '../../services/seo.service';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-payment-success',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
     trigger('fadeUp', [
@@ -36,18 +37,18 @@ import { trigger, transition, style, animate, keyframes } from '@angular/animati
         </div>
 
         <div @fadeUp>
-          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">Payment Confirmed</span>
+          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'payment.confirmed' | translate }}</span>
           <h1 class="font-['Forum'] text-3xl sm:text-4xl text-white tracking-tight mb-4">
-            Thank You!
+            {{ 'payment.thankYou' | translate }}
           </h1>
           <p class="text-neutral-400 text-sm leading-relaxed mb-3">
-            Your payment was successful and your order has been placed.
+            {{ 'payment.successMessage' | translate }}
           </p>
 
           <!-- Order ID box -->
           <div *ngIf="shortOrderId" class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-5 py-3 mb-8">
             <iconify-icon icon="solar:receipt-bold" width="18" class="text-[#C65A1E]"></iconify-icon>
-            <span class="text-neutral-400 text-sm">Order</span>
+            <span class="text-neutral-400 text-sm">{{ 'payment.order' | translate }}</span>
             <span class="text-white text-sm font-medium tracking-wider">{{ shortOrderId }}</span>
           </div>
 
@@ -55,11 +56,11 @@ import { trigger, transition, style, animate, keyframes } from '@angular/animati
           <div class="bg-[#111] border border-white/5 rounded-2xl p-6 text-left mb-8 space-y-3">
             <div class="flex items-start gap-3">
               <iconify-icon icon="solar:bell-bold" width="18" class="text-[#C65A1E] mt-0.5 shrink-0"></iconify-icon>
-              <p class="text-sm text-neutral-400">We'll contact you shortly to confirm your order details.</p>
+              <p class="text-sm text-neutral-400">{{ 'payment.confirmationText' | translate }}</p>
             </div>
             <div class="flex items-start gap-3">
               <iconify-icon icon="solar:letter-bold" width="18" class="text-[#C65A1E] mt-0.5 shrink-0"></iconify-icon>
-              <p class="text-sm text-neutral-400">A payment receipt has been sent to your email by Stripe.</p>
+              <p class="text-sm text-neutral-400">{{ 'payment.receiptText' | translate }}</p>
             </div>
           </div>
 
@@ -68,12 +69,12 @@ import { trigger, transition, style, animate, keyframes } from '@angular/animati
             <button
               (click)="goHome()"
               class="px-6 py-3 bg-[#C65A1E] hover:bg-[#b54e17] text-white text-sm font-medium rounded-xl transition-colors">
-              Return Home
+              {{ 'payment.returnHome' | translate }}
             </button>
             <a
               routerLink="/menu"
               class="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-medium rounded-xl transition-colors text-center">
-              Order More
+              {{ 'payment.orderMore' | translate }}
             </a>
           </div>
         </div>

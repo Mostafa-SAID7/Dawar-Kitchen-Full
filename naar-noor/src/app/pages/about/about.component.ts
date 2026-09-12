@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SeoService } from '../../services/seo.service';
 import { AboutComponent } from '../../sections/about/about.component';
 import { ChefsComponent } from '../../sections/chefs/chefs.component';
@@ -9,17 +10,16 @@ import { RevealDirective } from '../../directives/scroll-reveal.directive';
 @Component({
   selector: 'app-about-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, AboutComponent, ChefsComponent, RevealDirective],
+  imports: [CommonModule, RouterModule, AboutComponent, ChefsComponent, RevealDirective, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <!-- Page hero -->
     <div class="pt-32 pb-10 px-6 bg-[#0a0a0a]">
       <div class="max-w-3xl mx-auto text-center space-y-4">
-        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase">Our Story</span>
-        <h1 class="font-['Forum'] text-4xl sm:text-5xl text-white tracking-tight">About Naar &amp; Noor</h1>
+        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase">{{ 'about.ourStory' | translate }}</span>
+        <h1 class="font-['Forum'] text-4xl sm:text-5xl text-white tracking-tight">{{ 'about.aboutTitle' | translate }}</h1>
         <p class="text-neutral-400 text-sm sm:text-base leading-relaxed font-light max-w-xl mx-auto">
-          Naar &amp; Noor represents the collision of fire and light — a premium dining experience rooted in
-          centuries-old Egyptian culinary traditions, reimagined for the modern palate.
+          {{ 'app.description' | translate }}
         </p>
       </div>
     </div>
@@ -31,8 +31,19 @@ import { RevealDirective } from '../../directives/scroll-reveal.directive';
     <section class="py-16 px-6 bg-[#0d0d0d]">
       <div class="max-w-5xl mx-auto">
         <div reveal [revealDelay]="0" class="text-center mb-12">
-          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">What Drives Us</span>
-          <h2 class="font-['Forum'] text-3xl sm:text-4xl text-white tracking-tight">Our Philosophy</h2>
+          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'about.missionTitle' | translate }}</span>
+          <h2 class="font-['Forum'] text-3xl sm:text-4xl text-white tracking-tight">{{ 'about.whyWeExist' | translate }}</h2>
+        </div>
+        <div class="max-w-3xl mx-auto space-y-6 mb-12">
+          <p class="text-neutral-300 text-sm leading-relaxed font-light">
+            Dawar Kitchen is located in Ezbet Khairallah, one of Cairo's largest informal settlements. Through catering and food production, we provide dignified employment and vocational training for migrant, refugee, and Egyptian women. We pride ourselves on fair working conditions and a participatory approach that ensures worker engagement in core decision-making and business planning.
+          </p>
+          <p class="text-neutral-300 text-sm leading-relaxed font-light">
+            We celebrate food heritage and quality cuisine. We choose the finest and freshest ingredients, using locally sourced produce wherever possible. Our customers include embassies, NGOs, private businesses, and the general public across Cairo.
+          </p>
+          <p class="text-neutral-300 text-sm leading-relaxed font-light">
+            Founded as part of Dawar for Arts and Development, the kitchen began deliveries in April 2018. It empowers women with skills in commercial food production, small business management, and creates bridge-building and cross-cultural exchange through the universal language of food.
+          </p>
         </div>
         <div reveal [revealDelay]="80" revealFrom="bottom" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div *ngFor="let v of values" class="p-6 rounded-2xl bg-[#111] border border-white/5 space-y-3">
@@ -52,18 +63,16 @@ import { RevealDirective } from '../../directives/scroll-reveal.directive';
     <!-- CTA -->
     <section class="py-16 px-6 bg-[#0d0d0d] text-center">
       <div class="max-w-xl mx-auto space-y-5">
-        <h2 class="font-['Forum'] text-3xl text-white">Ready to Experience It?</h2>
-        <p class="text-sm text-neutral-400 font-light leading-relaxed">
-          Book a table and let our chefs take you on a journey through the authentic flavors of Egypt.
-        </p>
+        <h2 class="font-['Forum'] text-3xl text-white">{{ 'about.readyToSupport' | translate }}</h2>
+        <p class="text-sm text-neutral-400 font-light leading-relaxed">{{ 'about.supportMessage' | translate }}</p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
           <a routerLink="/reservations"
              class="px-8 py-3.5 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_28px_rgba(198,90,30,0.4)] transition-all duration-300">
-            Reserve a Table
+            {{ 'about.orderNow' | translate }}
           </a>
           <a routerLink="/menu"
              class="px-8 py-3.5 text-sm font-medium text-white border border-white/20 rounded-xl hover:bg-white/5 transition-all duration-300">
-            Explore the Menu
+            {{ 'about.exploreMenu' | translate }}
           </a>
         </div>
       </div>
@@ -71,33 +80,36 @@ import { RevealDirective } from '../../directives/scroll-reveal.directive';
   `
 })
 export class AboutPageComponent implements OnInit {
-  private readonly seo = inject(SeoService);
+  private readonly seo       = inject(SeoService);
+  private readonly translate = inject(TranslateService);
 
-  values = [
-    {
-      icon: 'solar:fire-bold',
-      title: 'Ancient Techniques',
-      description: 'Every dish is prepared using methods handed down through generations of Egyptian cooks — slow charcoal roasting, open flame, and time-honored spice blending.'
-    },
-    {
-      icon: 'solar:leaf-bold',
-      title: 'Seasonal Freshness',
-      description: 'We source locally where possible and rotate our menu with the seasons, ensuring every ingredient is at its peak when it reaches your plate.'
-    },
-    {
-      icon: 'solar:heart-bold',
-      title: 'Hospitality First',
-      description: 'From the moment you walk in to the final bite, your experience is our focus. We believe exceptional food deserves equally exceptional care.'
-    }
-  ];
+  get values() {
+    return [
+      {
+        icon: 'solar:fire-bold',
+        title: this.translate.instant('about.recipesTitle'),
+        description: this.translate.instant('about.recipesDesc')
+      },
+      {
+        icon: 'solar:leaf-bold',
+        title: this.translate.instant('about.ingredientsTitle'),
+        description: this.translate.instant('about.ingredientsDesc')
+      },
+      {
+        icon: 'solar:heart-bold',
+        title: this.translate.instant('about.fairWorkTitle'),
+        description: this.translate.instant('about.fairWorkDesc')
+      }
+    ];
+  }
 
   ngOnInit(): void {
     this.seo.set({
-      title:        'About | Naar & Noor',
-      description:  'Learn about Naar & Noor — a premium Egyptian dining experience rooted in centuries-old culinary traditions. Meet our chefs and discover the fire, spice, and passion behind every dish.',
-      keywords:     'about Naar Noor, Egyptian restaurant story, Egyptian chefs, Cairo cuisine Guernsey, restaurant philosophy, flame grilled Egyptian food',
-      canonicalUrl: 'https://www.naarnooor.com/about',
-      ogUrl:        'https://www.naarnooor.com/about',
+      title:        'About | Dawar Kitchen',
+      description:  'Learn about Dawar Kitchen — a social enterprise celebrating authentic Egyptian & Syrian cuisine while empowering Syrian and Egyptian women. Based in Ezbet Khairallah, Cairo.',
+      keywords:     'about Dawar Kitchen, Egyptian Syrian restaurant, social enterprise Cairo, women chefs, authentic cuisine, fair trade food Cairo',
+      canonicalUrl: 'https://www.dawarkitchen.com/about',
+      ogUrl:        'https://www.dawarkitchen.com/about',
     });
   }
 }

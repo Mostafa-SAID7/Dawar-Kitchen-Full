@@ -2,6 +2,7 @@ import { Component, OnInit, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService, Chef } from '../../services/api.service';
 import { SeoService } from '../../services/seo.service';
 import { AuthService } from '../../services/auth.service';
@@ -10,7 +11,7 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
 @Component({
   selector: 'app-reservations-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, AuthModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, AuthModalComponent, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <!-- Auth modal (shown when guest clicks Sign In) -->
@@ -21,10 +22,10 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
 
         <!-- Page header -->
         <div class="text-center mb-10 space-y-3">
-          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase">Reservations</span>
-          <h1 class="font-['Forum'] text-4xl sm:text-5xl text-white tracking-tight">Book Your Culinary Journey</h1>
+          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase">{{ 'reservations.orderOnline' | translate }}</span>
+          <h1 class="font-['Forum'] text-4xl sm:text-5xl text-white tracking-tight">{{ 'reservations.orderDelivery' | translate }}</h1>
           <p class="text-sm text-neutral-400 font-light max-w-md mx-auto leading-relaxed">
-            Choose your chef, pick a date, and secure your table at Naar &amp; Noor.
+            {{ 'reservations.placeOrderDesc' | translate }}
           </p>
         </div>
 
@@ -48,26 +49,25 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
               <iconify-icon icon="solar:lock-keyhole-minimalistic-bold" width="26"></iconify-icon>
             </div>
             <div class="space-y-2">
-              <h2 class="font-['Forum'] text-2xl text-white">Sign In to Book a Table</h2>
+              <h2 class="font-['Forum'] text-2xl text-white">{{ 'reservations.signInToOrder' | translate }}</h2>
               <p class="text-sm text-neutral-400 font-light max-w-sm mx-auto leading-relaxed">
-                A free account lets you manage your reservations, track your bookings, and enjoy a
-                personalised dining experience.
+                {{ 'reservations.freeAccountDesc' | translate }}
               </p>
             </div>
             <div class="flex flex-col sm:flex-row gap-3 justify-center pt-1">
               <button
                 (click)="authModalOpen = true"
                 class="px-8 py-3.5 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_24px_rgba(198,90,30,0.4)] transition-all duration-300">
-                Sign In to Continue
+                {{ 'reservations.signInContinue' | translate }}
               </button>
               <a routerLink="/register"
                  class="px-8 py-3.5 text-sm font-medium text-white border border-white/20 rounded-xl hover:bg-white/5 transition-all duration-300 text-center">
-                Create a Free Account
+                {{ 'reservations.createFreeAccount' | translate }}
               </a>
             </div>
             <p class="text-xs text-neutral-600">
-              Already browsing our menu?
-              <a routerLink="/menu" class="text-neutral-400 hover:text-[#C65A1E] transition-colors">View the full menu →</a>
+              {{ 'reservations.browsingMenu' | translate }}
+              <a routerLink="/menu" class="text-neutral-400 hover:text-[#C65A1E] transition-colors">{{ 'reservations.viewMenu' | translate }} →</a>
             </p>
           </div>
         </div>
@@ -75,20 +75,19 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
         <!-- ── BOOKING FORM: Logged in ── -->
         <div *ngIf="auth.isLoggedIn()">
 
-          <!-- Confirmation screen -->
-          <div *ngIf="confirmed" data-cy="reservation-confirmation"
+            <div *ngIf="confirmed" data-cy="reservation-confirmation"
                class="p-8 rounded-2xl bg-[#0d0d0d] border border-emerald-500/20 text-center space-y-4">
             <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto text-3xl">✓</div>
-            <h2 class="font-['Forum'] text-2xl text-white">Reservation Confirmed</h2>
-            <p class="text-neutral-400 text-sm">Thank you for booking with us. We look forward to serving you.</p>
+            <h2 class="font-['Forum'] text-2xl text-white">{{ 'reservations.orderConfirmed' | translate }}</h2>
+            <p class="text-neutral-400 text-sm">{{ 'reservations.confirmationText' | translate }}</p>
             <div class="p-4 bg-white/5 rounded-xl inline-block">
-              <span class="text-xs text-neutral-500 block mb-1">Confirmation Number</span>
+              <span class="text-xs text-neutral-500 block mb-1">{{ 'reservations.orderNumber' | translate }}</span>
               <span data-cy="confirmation-number" class="text-lg font-mono text-[#C65A1E] font-bold">#{{ confirmationId }}</span>
             </div>
             <div class="pt-2">
               <button (click)="confirmed = false"
                       class="px-6 py-2.5 text-sm text-white border border-white/15 rounded-xl hover:bg-white/5 transition-all">
-                Make Another Reservation
+                {{ 'reservations.placeAnother' | translate }}
               </button>
             </div>
           </div>
@@ -98,7 +97,7 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
 
             <!-- Chef selection -->
             <div class="md:col-span-1 space-y-4">
-              <h2 class="font-['Forum'] text-xl text-white">Select Your Chef</h2>
+              <h2 class="font-['Forum'] text-xl text-white">{{ 'reservations.deliveryZone' | translate }}</h2>
 
               <div *ngIf="loadingChefs" class="space-y-3">
                 <div *ngFor="let i of [1,2,3]" class="p-4 rounded-xl bg-[#0d0d0d] border border-white/5 animate-pulse">
@@ -125,7 +124,7 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
             <!-- Form -->
             <div class="md:col-span-2">
               <div *ngIf="!selectedChef" class="p-8 rounded-2xl bg-[#0d0d0d] border border-white/5 text-center text-neutral-500 text-sm">
-                Select a chef to begin your reservation.
+                {{ 'reservations.selectZone' | translate }}
               </div>
 
               <div *ngIf="selectedChef" data-cy="chef-details"
@@ -140,33 +139,33 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Date -->
                     <div class="space-y-1">
-                      <label class="text-xs font-medium text-neutral-400 uppercase">Date</label>
+                      <label class="text-xs font-medium text-neutral-400 uppercase">{{ 'reservations.date' | translate }}</label>
                       <input
                         type="date"
                         formControlName="date"
                         class="nn-input"
                       />
                       <div *ngIf="err('date')" data-cy="error-date" class="text-xs text-red-400">
-                        <span *ngIf="f['date'].errors?.['required']">Date is required</span>
-                        <span *ngIf="f['date'].errors?.['futureDate']">Date must be in the future</span>
+                        <span *ngIf="f['date'].errors?.['required']">{{ 'reservations.dateRequired' | translate }}</span>
+                        <span *ngIf="f['date'].errors?.['futureDate']">{{ 'reservations.futureDate' | translate }}</span>
                       </div>
                     </div>
 
                     <!-- Time -->
                     <div class="space-y-1">
-                      <label class="text-xs font-medium text-neutral-400 uppercase">Time</label>
+                      <label class="text-xs font-medium text-neutral-400 uppercase">{{ 'reservations.time' | translate }}</label>
                       <input
                         type="time"
                         formControlName="time"
                         class="nn-input"
                       />
-                      <div *ngIf="err('time')" data-cy="error-time" class="text-xs text-red-400">Time is required</div>
+                      <div *ngIf="err('time')" data-cy="error-time" class="text-xs text-red-400">{{ 'reservations.timeRequired' | translate }}</div>
                     </div>
                   </div>
 
                   <!-- Guests -->
                   <div class="space-y-1">
-                    <label class="text-xs font-medium text-neutral-400 uppercase">Number of Guests</label>
+                    <label class="text-xs font-medium text-neutral-400 uppercase">{{ 'reservations.partySize' | translate }}</label>
                     <input
                       type="number"
                       formControlName="guestCount"
@@ -174,21 +173,21 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
                       class="nn-input"
                     />
                     <div *ngIf="err('guestCount')" data-cy="error-guestCount" class="text-xs text-red-400">
-                      <span *ngIf="f['guestCount'].errors?.['min']">At least 1 guest required</span>
-                      <span *ngIf="f['guestCount'].errors?.['max']">Maximum 50 guests</span>
-                      <span *ngIf="f['guestCount'].errors?.['required']">Guest count is required</span>
+                      <span *ngIf="f['guestCount'].errors?.['min']">{{ 'reservations.minGuests' | translate }}</span>
+                      <span *ngIf="f['guestCount'].errors?.['max']">{{ 'reservations.maxGuests' | translate }}</span>
+                      <span *ngIf="f['guestCount'].errors?.['required']">{{ 'reservations.guestCountRequired' | translate }}</span>
                     </div>
                   </div>
 
                   <!-- Special requests -->
                   <div class="space-y-1">
                     <label class="text-xs font-medium text-neutral-400 uppercase">
-                      Special Requests <span class="text-neutral-600 normal-case">(optional)</span>
+                      {{ 'reservations.specialRequests' | translate }} <span class="text-neutral-600 normal-case">{{ 'checkout.optional' | translate }}</span>
                     </label>
                     <input
                       type="text"
                       formControlName="specialRequests"
-                      placeholder="Dietary requirements, celebrations, allergies…"
+                      [placeholder]="'reservations.specialRequestsPlaceholder' | translate"
                       class="nn-input"
                     />
                   </div>
@@ -197,10 +196,10 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
                     type="submit"
                     [disabled]="submitting"
                     class="w-full py-3.5 mt-2 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span *ngIf="!submitting">Confirm Booking</span>
+                    <span *ngIf="!submitting">{{ 'reservations.placeOrder' | translate }}</span>
                     <span *ngIf="submitting" class="flex items-center justify-center gap-2">
                       <span class="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
-                      Booking…
+                      {{ 'reservations.placing' | translate }}
                     </span>
                   </button>
                 </form>
@@ -214,10 +213,11 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
   `
 })
 export class ReservationsPageComponent implements OnInit {
-  private readonly fb  = inject(FormBuilder);
-  private readonly api = inject(ApiService);
-  private readonly seo = inject(SeoService);
-  readonly auth        = inject(AuthService);
+  private readonly fb        = inject(FormBuilder);
+  private readonly api       = inject(ApiService);
+  private readonly seo       = inject(SeoService);
+  private readonly translate = inject(TranslateService);
+  readonly auth              = inject(AuthService);
 
   chefs: Chef[]         = [];
   selectedChef: Chef | null = null;
@@ -228,31 +228,33 @@ export class ReservationsPageComponent implements OnInit {
   confirmationId = '';
   authModalOpen  = false;
 
-  features = [
-    {
-      icon: 'solar:chef-hat-bold',
-      title: 'Choose Your Chef',
-      description: 'Select from our team of award-winning Egyptian chefs, each with a unique culinary style.'
-    },
-    {
-      icon: 'solar:calendar-bold',
-      title: 'Pick Your Date & Time',
-      description: 'Reserve your preferred slot for lunch or dinner, with tables available seven days a week.'
-    },
-    {
-      icon: 'solar:star-bold',
-      title: 'Personalised Experience',
-      description: "Add dietary requirements or special requests — we'll make sure every detail is perfect."
-    }
-  ];
+  get features() {
+    return [
+      {
+        icon: 'solar:cart-bold',
+        title: this.translate.instant('reservations.browseMenuTitle'),
+        description: this.translate.instant('reservations.browseMenuDesc')
+      },
+      {
+        icon: 'solar:map-point-bold',
+        title: this.translate.instant('reservations.chooseAreaTitle'),
+        description: this.translate.instant('reservations.chooseAreaDesc')
+      },
+      {
+        icon: 'solar:home-bold',
+        title: this.translate.instant('reservations.freshDeliveryTitle'),
+        description: this.translate.instant('reservations.freshDeliveryDesc')
+      }
+    ];
+  }
 
   ngOnInit(): void {
     this.seo.set({
-      title:        'Reservations | Naar & Noor',
-      description:  'Reserve a table at Naar & Noor. Choose your chef, pick a date, and secure your Egyptian dining experience. Tables available for lunch and dinner, seven days a week.',
-      keywords:     'book a table Naar Noor, Egyptian restaurant reservation, Guernsey restaurant booking, reserve table Egyptian, dinner reservation Guernsey',
-      canonicalUrl: 'https://www.naarnooor.com/reservations',
-      ogUrl:        'https://www.naarnooor.com/reservations',
+      title:        'Order Delivery | Dawar Kitchen',
+      description:  'Order authentic Egyptian & Syrian cuisine from Dawar Kitchen. Fresh, home-style meals delivered across Cairo. Supporting Syrian and Egyptian women through fair employment.',
+      keywords:     'order food Cairo, Dawar Kitchen delivery, Egyptian Syrian food, Cairo food delivery, authentic cuisine Cairo, social enterprise restaurant',
+      canonicalUrl: 'https://www.dawarkitchen.com/order',
+      ogUrl:        'https://www.dawarkitchen.com/order',
     });
 
     this.form = this.fb.group({
