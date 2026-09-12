@@ -25,7 +25,7 @@ export class LoginPage {
   }
 
   static getLogoutButton() {
-    return cy.get('button').contains('Logout');
+    return cy.get('button').contains('Sign Out');
   }
 
   static enterEmail(email: string) {
