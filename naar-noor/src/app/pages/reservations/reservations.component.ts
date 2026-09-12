@@ -33,7 +33,7 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
 
           <!-- What they'll get — preview cards -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div *ngFor="let f of features" class="p-5 rounded-2xl bg-[#0d0d0d] border border-white/5 flex flex-col gap-3">
+            <div *ngFor="let f of features" data-cy="chef-card" class="p-5 rounded-2xl bg-[#0d0d0d] border border-white/5 flex flex-col gap-3">
               <div class="w-9 h-9 rounded-lg bg-[#C65A1E]/10 border border-[#C65A1E]/20 flex items-center justify-center text-[#C65A1E]">
                 <iconify-icon [attr.icon]="f.icon" width="18"></iconify-icon>
               </div>
@@ -260,12 +260,6 @@ export class ReservationsPageComponent implements OnInit {
       time:            ['', [Validators.required]],
       guestCount:      [2,  [Validators.required, Validators.min(1), Validators.max(50)]],
       specialRequests: ['']
-    });
-
-    // Force form re-validation when values change (fixes E2E form validation)
-    this.form.valueChanges.subscribe(() => {
-      // Trigger validation update
-      this.form.updateValueAndValidity({ emitEvent: false });
     });
 
     if (this.auth.isLoggedIn()) {

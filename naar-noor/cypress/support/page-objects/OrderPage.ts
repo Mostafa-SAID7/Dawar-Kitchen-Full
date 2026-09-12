@@ -52,7 +52,7 @@ export class OrderPage {
   }
 
   static getAddressInput() {
-    return cy.get('textarea[name="address"]');
+    return cy.get('[data-cy="delivery-address"]');
   }
 
   static getOrderTypeSelect() {
@@ -65,11 +65,16 @@ export class OrderPage {
   }
 
   static changeQuantity(itemIndex: number, quantity: number) {
-    // Re-query to avoid detached DOM issues when form re-renders
-    cy.get('[data-cy="cart-item"]').eq(itemIndex).find('input[type="number"]')
-      .clear()
-      .type(quantity.toString(), { force: true });
-    // Wait for the form to re-render after input
+    // Get the initial total, then change quantity, then verify it changed
+    // Break the chain to avoid DOM detachment issues
+    cy.get('[data-cy="cart-item"]')
+      .eq(itemIndex)
+      .find('input[type="number"]')
+      .as('quantityInput');
+    
+    cy.get('@quantityInput').clear();
+    cy.get('@quantityInput').type(quantity.toString(), { force: true });
+    cy.wait(500); // Let Angular update the total
     cy.get('[data-cy="order-total"]').should('be.visible');
   }
 

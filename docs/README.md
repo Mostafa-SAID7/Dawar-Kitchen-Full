@@ -1,28 +1,48 @@
 # 📚 Documentation Index
 
-Welcome to the **Naar-Noor** documentation directory. Below is an index of all detailed documentation files to help you navigate.
+Welcome to the **Naar & Noor** documentation. All files are organized below by category.
 
-## 🛠️ General Setup & Development
-*   **[GETTING_STARTED.md](../GETTING_STARTED.md)** (Root) - Local setup and development workflow guide.
-*   **[STRUCTURE.md](STRUCTURE.md)** - Codebase structure and layout directory map.
-*   **[ARCHITECTURE.md](ARCHITECTURE.md)** - Deep dive into architecture patterns (Clean Architecture, CQRS, and Domain-Driven Design).
-*   **[TESTING.md](TESTING.md)** - Testing guidelines, frameworks, and git hooks integration.
+---
 
-## 💻 Tech Stack & Features
-*   **[FRONTEND.md](FRONTEND.md)** - Angular 18 implementation details, styling, and builds.
-*   **[BACKEND.md](BACKEND.md)** - ASP.NET Core 8 REST API implementation, services, and libraries.
-*   **[DATABASE.md](DATABASE.md)** - PostgreSQL database design, schema, and Entity Framework Core migrations.
-*   **[API.md](API.md)** - API documentation, endpoints, and requests/responses structure.
+## 🛠️ Setup & Development
+
+| Document | Description |
+|----------|-------------|
+| [STRUCTURE.md](STRUCTURE.md) | Codebase layout and directory map |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Clean Architecture, CQRS, Domain-Driven Design |
+| [TESTING.md](TESTING.md) | Testing strategy, frameworks, and git hooks |
+
+---
+
+## 💻 Tech Stack
+
+| Document | Description |
+|----------|-------------|
+| [FRONTEND.md](FRONTEND.md) | Angular 18, Tailwind CSS, i18n, PWA |
+| [BACKEND.md](BACKEND.md) | ASP.NET Core 8, services, middleware |
+| [DATABASE.md](DATABASE.md) | PostgreSQL schema, EF Core migrations |
+| [API.md](API.md) | REST API endpoint reference |
+
+---
 
 ## 🚀 Deployment & Operations
-*   **[DEPLOYMENT.md](DEPLOYMENT.md)** - Step-by-step instructions for deploying to staging, production, and Docker/Nginx setup.
-*   **[SECRETS.md](SECRETS.md)** - Security practices for environment variable secrets.
-*   **[RUNBOOK.md](RUNBOOK.md)** - Operators runbook for production deployment, backups, and live logs.
-*   **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Troubleshooting common errors, Docker issues, and database issues.
-*   **[INCIDENT_RESPONSE.md](INCIDENT_RESPONSE.md)** - Incident management and emergency contacts.
 
-## 🔒 Security & Policies
-*   **[SECURITY.md](SECURITY.md)** - Security policy, reporting procedures, and OWASP Top 10 configuration.
-*   **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community guidelines.
-*   **[CONTRIBUTING.md](CONTRIBUTING.md)** - Code contribution rules.
-*   **[CONTRIBUTORS.md](CONTRIBUTORS.md)** - Credits for developers.
+| Document | Description |
+|----------|-------------|
+| [DEPLOYMENT.md](DEPLOYMENT.md) | Docker, Vercel, Azure — step-by-step |
+| [SECRETS.md](SECRETS.md) | Environment variables and secrets management |
+| [RUNBOOK.md](RUNBOOK.md) | Production runbook — backups, logs, scaling |
+| [RELEASE.md](RELEASE.md) | Release process and versioning |
+| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Common errors and fixes |
+| [INCIDENT_RESPONSE.md](INCIDENT_RESPONSE.md) | Incident management and escalation |
+
+---
+
+## 🔒 Security & Community
+
+| Document | Description |
+|----------|-------------|
+| [SECURITY.md](SECURITY.md) | Security policy, CSP, OWASP Top 10 |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community guidelines |
+| [CONTRIBUTORS.md](CONTRIBUTORS.md) | Project contributors |

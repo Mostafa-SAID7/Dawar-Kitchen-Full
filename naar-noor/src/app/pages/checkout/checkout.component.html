@@ -133,9 +133,10 @@
         </div>
 
         <!-- Delivery address -->
-        <div *ngIf="isDelivery" class="space-y-2">
+        <div *ngIf="isDelivery" class="space-y-2" data-cy="delivery-address-section">
           <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Delivery address</p>
           <textarea
+            data-cy="delivery-address"
             name="address"
             formControlName="deliveryAddress"
             rows="3"

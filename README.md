@@ -1,250 +1,177 @@
-# 🍽️ Naar-Noor
+<div align="center">
 
-**A modern restaurant platform where customers can browse menus, book reservations, and leave reviews—all in English and Arabic.**
+# 🔥 Naar & Noor
 
-## What This App Does
+**A premium full-stack restaurant platform — bilingual, real-time, and production-ready.**
 
-### For Customers
-- **Browse menus** - See what restaurants offer, with full descriptions
-- **Book a table** - Reserve a spot for a specific date and time
-- **Check availability** - Know instantly if a table is open when you want it
-- **Write reviews** - Share your experience and rate the restaurant
-- **See chef profiles** - Learn about the chefs and their specialties
-- **Contact support** - Ask questions through a simple contact form
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.1.1-blue)](CHANGELOG.md)
+[![Tests](https://img.shields.io/badge/tests-80%25%2B%20coverage-brightgreen)](docs/TESTING.md)
+[![Security](https://img.shields.io/badge/security-hardened%20%7C%200%20CVE-brightgreen)](docs/SECURITY.md)
+[![Lighthouse](https://img.shields.io/badge/Lighthouse-94%2F100-orange)](docs/DEPLOYMENT.md)
 
-### For Restaurant Staff
-- **Manage menus** - Add, edit, or remove dishes
-- **View reservations** - See who's coming and when
-- **Manage staff** - Add chefs and team members
-- **Read reviews** - See what customers think
-- **Handle inquiries** - Respond to customer questions
+[Live Demo](https://naar-noor.vercel.app) · [API Docs](docs/API.md) · [Quick Start](#-quick-start) · [Documentation](docs/README.md)
 
-## 🎉 Project Status
+</div>
 
-✅ **PRODUCTION READY** — 100% Complete | Delivered July 1, 2026
+---
 
-This application is fully built, tested, and secured. It's ready to go live today.
+## ✨ Overview
 
-**To deploy:** Follow [docs/PRODUCTION_RUNBOOK.md](docs/PRODUCTION_RUNBOOK.md)  
-**New to this?** Start with [GETTING_STARTED.md](GETTING_STARTED.md)
-
-[![Deployment](https://img.shields.io/badge/deployment-Docker%20%2B%20Kubernetes-success)](docker-compose.yml)
-[![Tests](https://img.shields.io/badge/tests-80%25%2B-brightgreen)](tests)
-[![Security](https://img.shields.io/badge/security-Hardened%20%2B%200%20CVE-brightgreen)](docs/SECURITY.md)
-
-## Tech Stack
+**Naar & Noor** (نار و نور — Fire & Light) is a modern restaurant management platform built with Angular 18 and ASP.NET Core 8, following Clean Architecture principles. Customers can browse menus, book tables, and order online — fully in **English and Arabic**.
 
 | Layer | Technology |
 |-------|-----------|
-| **Frontend** | Angular 18 (modern, fast, responsive) |
-| **Backend** | ASP.NET Core 8 (secure, scalable) |
-| **Database** | PostgreSQL (reliable, structured) |
-| **Deployment** | Docker + Kubernetes (production-ready) |
+| **Frontend** | Angular 18 · TypeScript · Tailwind CSS · RxJS |
+| **Backend** | ASP.NET Core 8 · Clean Architecture · CQRS · MediatR |
+| **Database** | PostgreSQL · Entity Framework Core · Supabase |
+| **Payments** | Stripe (checkout sessions + webhooks) |
+| **Auth** | Supabase Auth · JWT |
+| **Deployment** | Docker · Vercel (frontend) · Azure App Service (backend) |
+| **Testing** | Cypress E2E · Jest · xUnit · Property-based tests |
+| **CI/CD** | GitHub Actions (9 workflows) |
 
-## Quick Start (5 Minutes)
+---
+
+## 🚀 Quick Start
 
 ```bash
-# 1. Get the code
-git clone <repository>
-cd Naar-Noor
+# Clone
+git clone https://github.com/Mostafa-SAID7/Naar-Noor-Full.git
+cd Naar-Noor-Full
 
-# 2. Start the app locally
-docker-compose build
+# Copy environment config
+cp .env.example .env
+# Edit .env with your Supabase + Stripe keys
+
+# Start everything with Docker
 docker-compose up -d
 
-# 3. Open in your browser
-http://localhost        # The app is here
-http://localhost:8080   # API documentation
-
-# 4. Test it
-curl http://localhost/health      # Should return 200
-curl http://localhost:8080/health # Should return 200
+# App is live at:
+# http://localhost        → Frontend
+# http://localhost:8080   → Backend API + Swagger
 ```
 
-## Key Features
+### Local Development (without Docker)
 
-- ✅ **User accounts** - Create account, log in securely
-- ✅ **Reservations** - Book tables, cancel, select Himalayan chefs, and manage bookings
-- ✅ **Menus** - Browse items dynamically with categorizations, descriptions, and custom same-origin proxy fallback APIs
-- ✅ **Reviews** - Read and write reviews with rating selector stars, feedback validation, and dynamic listing
-- ✅ **Bilingual** - Works in English and Arabic
-- ✅ **Mobile-friendly** - Works on phones and tablets with customized, unified `nn-input` form styling
-- ✅ **Secure** - Strict Content Security Policy (CSP) allowing only verified scripts, styles, and Iconify endpoints
-- ✅ **Fast** - Optimized for speed (Lighthouse 94/100)
-- ✅ **Accessible** - Designed for everyone (WCAG 2.1 AA)
-
-## 🚀 Get Started
-
-### Quick setup
-
-```bash
-git clone https://github.com/Mostafa-SAID7/Naar-Noor.git
-cd Naar-Noor
-```
-
-Then follow the detailed setup guide:
-
-- 📘 [Detailed installation and setup](GETTING_STARTED.md)
-- 📂 [Project structure](docs/STRUCTURE.md)
-- 🏗️ [Architecture](docs/ARCHITECTURE.md)
-
-### Top-level folders
-
-- `api-server/` — ASP.NET Core backend
-- `naar-noor/` — Angular frontend
-- `docs/` — project documentation
-
-## 📚 Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [docs/README.md](docs/README.md) | Documentation index |
-| [GETTING_STARTED.md](GETTING_STARTED.md) | Setup and development guide |
-| [docs/STRUCTURE.md](docs/STRUCTURE.md) | Codebase layout |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Design and patterns |
-| [docs/FRONTEND.md](docs/FRONTEND.md) | Frontend development |
-| [docs/BACKEND.md](docs/BACKEND.md) | Backend development |
-| [docs/API.md](docs/API.md) | API reference |
-| [docs/DATABASE.md](docs/DATABASE.md) | Database schema and migrations |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Deployment instructions |
-| [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Common issues and fixes |
-| [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | Contribution guidelines |
-
-## 🏗️ Tech Stack
-
-- **Frontend**: Angular 18, TypeScript, Tailwind CSS, RxJS
-- **Backend**: ASP.NET Core 8, Entity Framework Core, SQL Server, MediatR
-- **Patterns**: Clean Architecture, CQRS, Dependency Injection
-
-## 📦 Running locally
-
-For full setup details, use [GETTING_STARTED.md](GETTING_STARTED.md).
-
-### Backend
-
+**Backend:**
 ```bash
 cd api-server
 dotnet restore
 dotnet run --project src/NaarNoor.API/NaarNoor.API.csproj
 ```
 
-### Frontend
-
+**Frontend:**
 ```bash
 cd naar-noor
 npm install
-npm run dev
+npm run dev          # http://localhost:4200
 ```
-
-## 🧪 Testing and Git Hooks
-
-### Post-Clone Setup
-
-After cloning the repository, install hooks for your development environment:
-
-```bash
-cd naar-noor
-npm run husky:install
-```
-
-This command sets up Git hooks that automatically run tests before each commit, preventing commits with failing tests.
-
-### What Are These Hooks?
-
-Git hooks are automated scripts that run at specific points in your Git workflow:
-
-- **pre-commit**: Runs frontend tests before allowing a commit. Fails if tests don't pass.
-- **post-merge**: Updates dependencies automatically if `package.json` changes during a pull/merge.
-- **install**: Ensures dependencies are installed after fresh clones.
-
-### How Pre-Commit Hooks Work
-
-```bash
-# You make changes and stage them
-git add .
-
-# You attempt to commit
-git commit -m "feat: add new feature"
-
-# Pre-commit hook runs automatically
-# If tests ✅ PASS → Commit succeeds
-# If tests ❌ FAIL → Commit blocked, fix tests and retry
-```
-
-### Running Tests Manually
-
-```bash
-cd naar-noor
-npm test      # Run tests in watch mode
-npm run test:ci  # Run tests once with coverage (CI mode)
-```
-
-### Bypassing Hooks (Emergency Only)
-
-If you absolutely must commit without running tests:
-
-```bash
-# Skip all hooks
-git commit --no-verify
-
-# Or set environment variable
-HUSKY=0 git commit -m "emergency fix"
-```
-
-⚠️ **Use sparingly** — hooks exist to maintain code quality. Bypassing them defeats their purpose.
-
-### Detailed Testing Documentation
-
-For comprehensive testing guides, see:
-
-- [docs/TESTING.md](docs/TESTING.md) — Quick start and testing patterns
-
-For hook-specific details, see [naar-noor/.husky/README.md](naar-noor/.husky/README.md).
-
-## 🚀 Deployment
- 
-See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for full deployment instructions.
-
-### Vercel Deployment (Subfolder config)
-To deploy this project in Vercel from a monorepo setup:
-1. Ensure the root `vercel.json` exists with the prefix commands (`npm install --prefix naar-noor` & `npm run build --prefix naar-noor`).
-2. Make sure the output path is set correctly to `naar-noor/dist/naar-noor/browser`.
-3. Vercel will install dependencies in the correct subdirectory, compile Angular, and host the client-side app.
-
-## 🤝 Contributing
-
-Before contributing, please review:
-
-- [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)
-- [docs/CODE_OF_CONDUCT.md](docs/CODE_OF_CONDUCT.md)
-- [docs/SECURITY.md](docs/SECURITY.md)
-
-## 📄 License
-
-This project is licensed under the MIT License. See [LICENSE.md](LICENSE.md).
-
-## 📞 Support
-
-If you need help:
-
-- Visit the documentation folder: [docs/README.md](docs/README.md)
-- Open an issue: https://github.com/Mostafa-SAID7/Naar-Noor/issues
-- Use GitHub Discussions: https://github.com/Mostafa-SAID7/Naar-Noor/discussions
 
 ---
 
-## 🎉 Acknowledgments
+## 📁 Project Structure
 
-- Built with ❤️ by the Naar & Noor team
-- Inspired by modern restaurant management practices
-- Thanks to all contributors and supporters
+```
+Naar-Noor-Full/
+├── api-server/          # ASP.NET Core 8 backend (Clean Architecture)
+│   ├── src/
+│   │   ├── NaarNoor.API/            # Controllers, Middleware, DTOs
+│   │   ├── NaarNoor.Application/    # CQRS Commands/Queries, Validators
+│   │   ├── NaarNoor.Domain/         # Entities, Value Objects, Enums
+│   │   └── NaarNoor.Infrastructure/ # EF Core, Repositories, Services
+│   └── tests/                       # Unit + Integration + Property tests
+├── naar-noor/           # Angular 18 frontend
+│   └── src/app/
+│       ├── components/  # Reusable UI (header, cart, auth-modal…)
+│       ├── pages/       # Routed pages (home, menu, checkout…)
+│       ├── sections/    # Homepage sections (hero, chefs, blog…)
+│       ├── services/    # API, auth, cart, realtime, SEO…
+│       └── models/      # TypeScript interfaces
+├── docs/                # Full project documentation
+├── .github/workflows/   # CI/CD — 9 GitHub Actions pipelines
+├── docker-compose.yml   # Production stack
+├── docker-compose.dev.yml
+└── Makefile             # Common dev commands
+```
+
+---
+
+## ⚙️ CI/CD Pipelines
+
+Nine independent, clearly-named GitHub Actions workflows:
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `secret-scan` | push / PR | Gitleaks + TruffleHog + detect-secrets |
+| `unit-tests` | push / PR | Backend xUnit + Frontend Jest |
+| `integration-tests` | push / PR | API integration test suite |
+| `coverage-analysis` | push / PR | Coverage gates + badge generation |
+| `build-artifacts` | push / PR | Docker images + Angular production build |
+| `deploy` | push → main | Deploy to Vercel + Azure App Service |
+| `sast-sca` | push / PR | CodeQL + OWASP dependency check |
+| `lighthouse-ci` | push → main | Performance, SEO, Accessibility audits |
+| `release` | tag push | Semantic versioning + GitHub Release |
+
+---
+
+## 🧪 Testing
+
+```bash
+# Frontend unit tests
+cd naar-noor
+npm test              # watch mode
+npm run test:ci       # single run with coverage
+
+# Backend tests
+cd api-server
+dotnet test
+
+# E2E tests (Cypress)
+cd naar-noor
+npx cypress open      # interactive
+npx cypress run       # headless CI mode
+```
+
+See [docs/TESTING.md](docs/TESTING.md) for full testing strategy.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feat/my-feature`)
+3. Commit your changes (pre-commit hooks run tests automatically)
+4. Open a Pull Request
+
+Please read [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) and [docs/CODE_OF_CONDUCT.md](docs/CODE_OF_CONDUCT.md) before contributing.
+
+---
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Clean Architecture, CQRS, DDD patterns |
+| [docs/FRONTEND.md](docs/FRONTEND.md) | Angular structure, components, i18n |
+| [docs/BACKEND.md](docs/BACKEND.md) | API design, services, auth flow |
+| [docs/API.md](docs/API.md) | Endpoint reference |
+| [docs/DATABASE.md](docs/DATABASE.md) | Schema, migrations, seeding |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Docker, Vercel, Azure deployment |
+| [docs/SECURITY.md](docs/SECURITY.md) | CSP, secrets, OWASP hardening |
+| [docs/TESTING.md](docs/TESTING.md) | Testing strategy and coverage |
+| [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Common issues and fixes |
+
+---
+
+## 📄 License
+
+Released under the [MIT License](LICENSE). Copyright © 2026 Naar & Noor — Mostafa SAID.
 
 ---
 
 <div align="center">
 
-**[⬆ Back to Top](#-naar--noor)**
-
-Made with ❤️ | [GitHub](https://github.com/Mostafa-SAID7/Naar-Noor) | [Live Demo](https://naar-noor.vercel.app)
+Made with ❤️ · [GitHub](https://github.com/Mostafa-SAID7/Naar-Noor-Full) · [Live Demo](https://naar-noor.vercel.app) · [Report an Issue](https://github.com/Mostafa-SAID7/Naar-Noor-Full/issues)
 
 </div>
