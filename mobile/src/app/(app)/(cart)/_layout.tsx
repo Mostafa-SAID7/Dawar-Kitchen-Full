@@ -1,5 +1,0 @@
-import { Stack } from 'expo-router';
-
-export default function CartLayout() {
-  return <Stack screenOptions={{ title: 'Cart', headerShown: false }} />;
-}
