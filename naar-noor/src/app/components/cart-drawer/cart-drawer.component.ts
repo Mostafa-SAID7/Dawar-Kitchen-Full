@@ -112,7 +112,7 @@ import { DrawerStep } from '../../models';
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-white leading-tight">{{ item.name }}</p>
                 <p class="text-xs text-neutral-500 mt-0.5">{{ item.category }}</p>
-                <p class="text-sm text-[#C65A1E] font-medium mt-1.5">
+                <p class="text-sm text-[#C65A1E] font-medium mt-1.5" data-cy="item-price">
                   £{{ (item.price * item.quantity).toFixed(2) }}
                 </p>
               </div>
@@ -138,7 +138,7 @@ import { DrawerStep } from '../../models';
           <div *ngIf="!cart.isEmpty()" class="px-6 py-5 border-t border-white/5 space-y-3 shrink-0">
             <div class="flex items-center justify-between text-sm">
               <span class="text-neutral-400">Subtotal</span>
-              <span class="text-white font-medium">{{ cart.formattedTotal() }}</span>
+              <span class="text-white font-medium" data-cy="order-total">{{ cart.formattedTotal() }}</span>
             </div>
             <p class="text-xs text-neutral-600">Delivery fee confirmed at next step</p>
             <button (click)="goToStep2()"
@@ -166,6 +166,11 @@ import { DrawerStep } from '../../models';
             <!-- Order type -->
             <div>
               <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase mb-3">How would you like your order?</p>
+              <select formControlName="type" name="orderType" data-cy="order-type-select" class="nn-input w-full mb-3">
+                <option value="dine-in">Dine-in</option>
+                <option value="delivery">Delivery</option>
+                <option value="pickup">Pickup</option>
+              </select>
               <div class="grid grid-cols-3 gap-2">
                 <label *ngFor="let t of orderTypes; trackBy: trackByType"
                        class="flex flex-col items-center gap-1.5 p-3 rounded-xl border cursor-pointer transition-all duration-200"
@@ -194,6 +199,8 @@ import { DrawerStep } from '../../models';
 
               <div>
                 <input formControlName="customerName" type="text" placeholder="Full name"
+                       name="customerName"
+                       data-cy="customer-name"
                        class="nn-input"
                        [ngClass]="err('customerName') ? 'nn-field--error' : ''">
                 <p *ngIf="err('customerName')" class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
@@ -216,6 +223,8 @@ import { DrawerStep } from '../../models';
 
               <div>
                 <input formControlName="phoneNumber" type="tel" placeholder="Phone number"
+                       name="phone"
+                       data-cy="phone"
                        class="nn-input"
                        [ngClass]="err('phoneNumber') ? 'nn-field--error' : ''">
                 <p *ngIf="err('phoneNumber')" class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
@@ -231,11 +240,47 @@ import { DrawerStep } from '../../models';
               <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Delivery address</p>
               <textarea formControlName="deliveryAddress" rows="3"
                         placeholder="Full delivery address including postcode"
+                        name="address"
+                        data-cy="delivery-address"
                         class="nn-input resize-none"
                         [ngClass]="err('deliveryAddress') ? 'nn-field--error' : ''"></textarea>
               <p *ngIf="err('deliveryAddress')" class="text-xs text-red-400 flex items-center gap-1">
                 <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
                 Please enter your full delivery address.
+              </p>
+            </div>
+
+            <!-- Pickup time (for takeaway) -->
+            <div *ngIf="orderType === 'collection'" class="space-y-2">
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Pickup time</p>
+              <input formControlName="pickupTime" type="time"
+                     data-cy="pickup-time"
+                     class="nn-input"
+                     [ngClass]="err('pickupTime') ? 'nn-field--error' : ''">
+              <p *ngIf="err('pickupTime')" class="text-xs text-red-400 flex items-center gap-1">
+                <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
+                Please select a pickup time.
+              </p>
+            </div>
+
+            <!-- Table selection (for dine-in) -->
+            <div *ngIf="isDineIn" class="space-y-2">
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Select table</p>
+              <select formControlName="tableNumber"
+                      data-cy="table-selection"
+                      class="nn-input"
+                      [ngClass]="err('tableNumber') ? 'nn-field--error' : ''">
+                <option value="" disabled>Choose a table...</option>
+                <option value="1">Table 1</option>
+                <option value="2">Table 2</option>
+                <option value="3">Table 3</option>
+                <option value="4">Table 4</option>
+                <option value="5">Table 5</option>
+                <option value="6">Table 6</option>
+              </select>
+              <p *ngIf="err('tableNumber')" class="text-xs text-red-400 flex items-center gap-1">
+                <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
+                Please select a table.
               </p>
             </div>
 
@@ -275,6 +320,7 @@ import { DrawerStep } from '../../models';
           <!-- Step 2 footer -->
           <div class="px-6 py-5 border-t border-white/5 space-y-3 shrink-0">
             <button (click)="submit()" [disabled]="submitting"
+                    data-cy="pay-button"
                     class="w-full py-3.5 text-sm font-medium rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
                     [ngClass]="submitting
                       ? 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
@@ -327,10 +373,11 @@ import { DrawerStep } from '../../models';
           </div>
 
           <!-- Step 3 footer -->
-          <div class="px-6 py-5 border-t border-white/5 shrink-0">
+          <div class="px-6 py-5 border-t border-white/5 shrink-0 space-y-3">
             <button (click)="startOver()"
+                    data-cy="back-to-menu"
                     class="w-full py-3.5 text-sm font-medium text-[#0a0a0a] bg-white rounded-xl hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300">
-              Order Something Else
+              Back to Menu
             </button>
           </div>
         </ng-container>
@@ -385,6 +432,8 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
       phoneNumber:          ['', [Validators.required, Validators.minLength(7)]],
       type:                 ['collection', Validators.required],
       deliveryAddress:      [''],
+      pickupTime:           [''],
+      tableNumber:          [''],
       tableReservationName: [''],
       notes:                ['', Validators.maxLength(300)]
     });
@@ -392,12 +441,25 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
     this.typeSub = this.form.get('type')!.valueChanges.subscribe(val => {
       const addr  = this.form.get('deliveryAddress')!;
       const table = this.form.get('tableReservationName')!;
+      const pickup = this.form.get('pickupTime')!;
+      const tableNum = this.form.get('tableNumber')!;
+      
       addr.clearValidators();  addr.setValue('');
       table.clearValidators(); table.setValue('');
+      pickup.clearValidators(); pickup.setValue('');
+      tableNum.clearValidators(); tableNum.setValue('');
+      
       if (val === 'delivery') addr.setValidators([Validators.required, Validators.minLength(5)]);
-      if (val === 'dine-in')  table.setValidators([Validators.required, Validators.minLength(2)]);
+      if (val === 'dine-in') {
+        table.setValidators([Validators.required, Validators.minLength(2)]);
+        tableNum.setValidators([Validators.required]);
+      }
+      if (val === 'collection') pickup.setValidators([Validators.required]);
+      
       addr.updateValueAndValidity();
       table.updateValueAndValidity();
+      pickup.updateValueAndValidity();
+      tableNum.updateValueAndValidity();
     });
   }
 
