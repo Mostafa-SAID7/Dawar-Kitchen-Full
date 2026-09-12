@@ -262,6 +262,12 @@ export class ReservationsPageComponent implements OnInit {
       specialRequests: ['']
     });
 
+    // Force form re-validation when values change (fixes E2E form validation)
+    this.form.valueChanges.subscribe(() => {
+      // Trigger validation update
+      this.form.updateValueAndValidity({ emitEvent: false });
+    });
+
     if (this.auth.isLoggedIn()) {
       this.loadChefs();
     }
