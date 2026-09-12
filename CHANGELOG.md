@@ -1,3 +1,6 @@
+## [1.1.2] - 2026-09-12
+
+### Changes
 # Changelog
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Semantic Versioning](https://semver.org/).
