@@ -226,5 +226,10 @@ public class CreateStripeCheckoutSessionCommandHandlerTests : ApplicationLayerTe
         public void Add(Order entity) => _orders.Add(entity);
         public void Remove(Order entity) => _orders.Remove(entity);
         public void Update(Order entity) { }
+
+        public Task<Order?> FindAsync(
+            System.Linq.Expressions.Expression<Func<Order, bool>> predicate,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult<Order?>(_orders.FirstOrDefault(predicate.Compile()));
     }
 }

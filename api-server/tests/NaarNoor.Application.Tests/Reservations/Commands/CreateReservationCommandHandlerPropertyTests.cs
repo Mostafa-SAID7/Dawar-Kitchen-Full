@@ -335,6 +335,11 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
         {
             return Enumerable.Empty<Reservation>().AsQueryable();
         }
+
+        public Task<Reservation?> FindAsync(
+            System.Linq.Expressions.Expression<Func<Reservation, bool>> predicate,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult<Reservation?>(null);
     }
 
     #endregion

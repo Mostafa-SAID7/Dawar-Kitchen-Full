@@ -303,6 +303,11 @@ public class CreateOrderCommandHandlerPropertyTests : ApplicationLayerTestBase
 
         public IQueryable<Order> Query() =>
             Enumerable.Empty<Order>().AsQueryable();
+
+        public Task<Order?> FindAsync(
+            System.Linq.Expressions.Expression<Func<Order, bool>> predicate,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult<Order?>(null);
     }
 
     #endregion
