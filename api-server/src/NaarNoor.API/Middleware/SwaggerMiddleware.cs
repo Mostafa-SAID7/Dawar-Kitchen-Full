@@ -47,7 +47,7 @@ public static class SwaggerMiddleware
             // ✅ Document API servers
             options.AddServer(new OpenApiServer
             {
-                Url = "http://localhost:8080",
+                Url = "http://localhost:5108",
                 Description = "Development"
             });
             options.AddServer(new OpenApiServer

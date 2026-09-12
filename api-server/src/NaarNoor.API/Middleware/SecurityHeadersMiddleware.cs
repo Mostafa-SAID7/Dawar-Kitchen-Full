@@ -13,19 +13,30 @@ public static class SecurityHeadersMiddleware
             context.Response.Headers["X-Content-Type-Options"] = "nosniff";
             context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
             context.Response.Headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload";
-            // ⚠️ SECURITY: Remove 'unsafe-inline' to prevent XSS attacks
-            // Use strict CSP with only trusted sources
-            context.Response.Headers["Content-Security-Policy"] =
-                "default-src 'self'; " +
-                "style-src 'self' https://fonts.googleapis.com; " +
-                "font-src 'self' https://fonts.gstatic.com; " +
-                "script-src 'self'; " +
-                "connect-src 'self'; " +
-                "img-src 'self' data: https:; " +
-                "frame-ancestors 'none'; " +
-                "upgrade-insecure-requests; " +
-                "base-uri 'self'; " +
-                "form-action 'self';";
+            // CSP policy: allow inline styles and scripts for Swagger UI in development
+            // In production, consider using nonces or removing 'unsafe-inline'
+            var cspPolicy = app.Environment.IsDevelopment()
+                ? "default-src 'self'; " +
+                  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+                  "font-src 'self' https://fonts.gstatic.com; " +
+                  "script-src 'self' 'unsafe-inline'; " +
+                  "connect-src 'self'; " +
+                  "img-src 'self' data: https:; " +
+                  "frame-ancestors 'none'; " +
+                  "base-uri 'self'; " +
+                  "form-action 'self';"
+                : "default-src 'self'; " +
+                  "style-src 'self' https://fonts.googleapis.com; " +
+                  "font-src 'self' https://fonts.gstatic.com; " +
+                  "script-src 'self'; " +
+                  "connect-src 'self'; " +
+                  "img-src 'self' data: https:; " +
+                  "frame-ancestors 'none'; " +
+                  "upgrade-insecure-requests; " +
+                  "base-uri 'self'; " +
+                  "form-action 'self';";
+            
+            context.Response.Headers["Content-Security-Policy"] = cspPolicy;
             context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
             context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=(), payment=()";
 
