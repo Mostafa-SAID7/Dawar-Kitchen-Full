@@ -195,7 +195,7 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
 
                   <button
                     type="submit"
-                    [disabled]="form.invalid || submitting"
+                    [disabled]="!form.valid || submitting"
                     class="w-full py-3.5 mt-2 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                     <span *ngIf="!submitting">Confirm Booking</span>
                     <span *ngIf="submitting" class="flex items-center justify-center gap-2">
@@ -256,7 +256,7 @@ export class ReservationsPageComponent implements OnInit {
     });
 
     this.form = this.fb.group({
-      date:            ['', [Validators.required, this.futureDateValidator]],
+      date:            ['', [Validators.required, this.futureDateValidator.bind(this)]],
       time:            ['', [Validators.required]],
       guestCount:      [2,  [Validators.required, Validators.min(1), Validators.max(50)]],
       specialRequests: ['']
