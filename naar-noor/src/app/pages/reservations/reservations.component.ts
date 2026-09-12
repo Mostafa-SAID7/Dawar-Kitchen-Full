@@ -299,7 +299,10 @@ export class ReservationsPageComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.submitting = true;
     const val = this.form.value;
 
