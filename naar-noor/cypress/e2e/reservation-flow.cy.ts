@@ -68,7 +68,7 @@ describe('Reservation Page — authenticated booking flow', () => {
   afterEach(() => {
     // Remove any reservations created under the test email.
     // cleanupAfterTest() is idempotent and no-ops when DB not available.
-    cy.cleanupAfterTest('demo@example.com');
+    cy.cleanupAfterTest('freeplan964@gmail.com');
   });
 
   it('renders the chef list when authenticated', () => {

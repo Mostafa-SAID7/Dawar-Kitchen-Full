@@ -8,7 +8,7 @@ import { ReservationPage } from '../support/page-objects/ReservationPage';
  * DB_AVAILABLE = true  → passthrough intercepts; real chefs & reservations API
  * DB_AVAILABLE = false → fixture stubs (chefs.json / reservation.json)
  *
- * Cleanup: afterEach removes reservations created for demo@example.com.
+ * Cleanup: afterEach removes reservations created for freeplan964@gmail.com.
  */
 describe('Reservation Workflow E2E Tests', () => {
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('Reservation Workflow E2E Tests', () => {
   });
 
   afterEach(() => {
-    cy.cleanupAfterTest('demo@example.com');
+    cy.cleanupAfterTest('freeplan964@gmail.com');
   });
 
   // ── Unauthenticated ──────────────────────────────────────────────────────────

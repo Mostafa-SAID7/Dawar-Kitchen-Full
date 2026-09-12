@@ -57,7 +57,7 @@ declare global {
 
 // ── visitAuthenticated ────────────────────────────────────────────────────────
 
-Cypress.Commands.add('visitAuthenticated', (url: string, email = 'demo@example.com') => {
+Cypress.Commands.add('visitAuthenticated', (url: string, email = 'freeplan964@gmail.com') => {
   const session = {
     accessToken: makeFakeJwt(email),
     userId: 'test-user-id',
