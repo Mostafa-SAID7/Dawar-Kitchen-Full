@@ -1,17 +1,40 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, signal, effect } from '@angular/core';
 import { CartItem } from '../models';
 
 export type { CartItem };
 
+const STORAGE_KEY = 'nn_cart';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  readonly items = signal<CartItem[]>([]);
+  readonly items = signal<CartItem[]>(this.loadFromStorage());
   readonly isOpen = signal(false);
 
   readonly count = computed(() => this.items().reduce((sum, i) => sum + i.quantity, 0));
   readonly total = computed(() => this.items().reduce((sum, i) => sum + i.price * i.quantity, 0));
   readonly isEmpty = computed(() => this.items().length === 0);
+
+  constructor() {
+    // Auto-persist cart to localStorage whenever items change
+    effect(() => {
+      const itemsList = this.items();
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(itemsList));
+      } catch (e) {
+        console.error('Failed to save cart to localStorage', e);
+      }
+    });
+  }
+
+  private loadFromStorage(): CartItem[] {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error('Failed to load cart from localStorage', e);
+      return [];
+    }
+  }
 
   open()  { this.isOpen.set(true); }
   close() { this.isOpen.set(false); }
@@ -50,6 +73,11 @@ export class CartService {
 
   clear(): void {
     this.items.set([]);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.error('Failed to clear cart from localStorage', e);
+    }
   }
 
   setQuantity(id: string, qty: number): void {

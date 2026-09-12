@@ -29,6 +29,9 @@ describe('CartDrawerComponent - Component State Management (Property 15)', () =>
   let toastService: ToastService;
 
   beforeEach(async () => {
+    // Clear localStorage to ensure each test starts with a clean cart
+    localStorage.clear();
+
     await TestBed.configureTestingModule({
       imports: [
         CartDrawerComponent,
