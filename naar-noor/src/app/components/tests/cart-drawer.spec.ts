@@ -226,6 +226,7 @@ describe('CartDrawerComponent - Component State Management (Property 15)', () =>
       email: 'ahmed@example.com',
       phoneNumber: '07700900123',
       type: 'collection',
+      pickupTime: '14:00'
     });
 
     cartService.add({
@@ -270,6 +271,7 @@ describe('CartDrawerComponent - Component State Management (Property 15)', () =>
       email: 'john@example.com',
       phoneNumber: '07712345678',
       type: 'collection',
+      pickupTime: '14:00'
     });
 
     cartService.add({
@@ -299,6 +301,7 @@ describe('CartDrawerComponent - Component State Management (Property 15)', () =>
       email: 'john@example.com',
       phoneNumber: '07712345678',
       type: 'collection',
+      pickupTime: '14:00'
     });
 
     cartService.add({
