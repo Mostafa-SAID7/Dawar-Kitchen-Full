@@ -39,6 +39,7 @@ public class RepositoryTestBaseTests : RepositoryTestBase
         // Arrange & Act & Assert
         DbContext.Should().NotBeNull();
         DbContext.Should().BeOfType<ApplicationDbContext>();
+        await Task.CompletedTask;
     }
 
     [Fact]
@@ -63,6 +64,7 @@ public class RepositoryTestBaseTests : RepositoryTestBase
         var method = typeof(RepositoryTestBase).GetMethod("SeedAsync", 
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         method.Should().NotBeNull("SeedAsync method should exist");
+        await Task.CompletedTask;
     }
 
     [Fact]
@@ -74,6 +76,7 @@ public class RepositoryTestBaseTests : RepositoryTestBase
         var method = typeof(RepositoryTestBase).GetMethod("ClearAsync",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         method.Should().NotBeNull("ClearAsync method should exist");
+        await Task.CompletedTask;
     }
 
     [Fact]
@@ -85,6 +88,7 @@ public class RepositoryTestBaseTests : RepositoryTestBase
         var method = typeof(RepositoryTestBase).GetMethod("GetCountAsync",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         method.Should().NotBeNull("GetCountAsync method should exist");
+        await Task.CompletedTask;
     }
 
     [Fact]

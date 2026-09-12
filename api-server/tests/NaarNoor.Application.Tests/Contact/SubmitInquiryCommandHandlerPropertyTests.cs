@@ -208,6 +208,11 @@ public class SubmitInquiryCommandHandlerPropertyTests : ApplicationLayerTestBase
 
         public IQueryable<ContactInquiry> Query() =>
             Enumerable.Empty<ContactInquiry>().AsQueryable();
+
+        public Task<ContactInquiry?> FindAsync(
+            System.Linq.Expressions.Expression<Func<ContactInquiry, bool>> predicate,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult<ContactInquiry?>(null);
     }
 
     #endregion

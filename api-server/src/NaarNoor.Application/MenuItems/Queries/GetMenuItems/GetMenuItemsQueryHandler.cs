@@ -1,7 +1,34 @@
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 
 namespace NaarNoor.Application.MenuItems.Queries.GetMenuItems;
+
+/// <summary>
+/// Query handler for retrieving menu items without caching.
+/// Returns all available items, optionally filtered by category.
+/// </summary>
+public class GetMenuItemsQueryHandler : IRequestHandler<GetMenuItemsQuery, List<MenuItemDto>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+
+    public GetMenuItemsQueryHandler(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    public async Task<List<MenuItemDto>> Handle(GetMenuItemsQuery request, CancellationToken cancellationToken)
+    {
+        var menuItems = _unitOfWork.MenuItems.Query()
+            .Where(m => m.IsAvailable)
+            .FilterByCategory(request.Category)
+            .ProjectToDto();
+
+        return await menuItems.ToListAsync(cancellationToken);
+    }
+}
 
 /// <summary>
 /// Centralized EF projection from MenuItem entity → MenuItemDto.

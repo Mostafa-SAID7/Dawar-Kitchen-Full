@@ -106,6 +106,7 @@ public class BaseClassFunctionalityTests : IAsyncLifetime
         // Verify it's functional by checking Database property
         var isInMemory = dbContext.Database.IsInMemory();
         isInMemory.Should().BeTrue("Test database should be in-memory");
+        await Task.CompletedTask;
     }
 
     [Fact]
@@ -328,6 +329,7 @@ public class BaseClassFunctionalityTests : IAsyncLifetime
 
         // Cleanup
         await testClass.DisposeAsync();
+        await Task.CompletedTask;
     }
 
     [Fact]
@@ -360,6 +362,7 @@ public class BaseClassFunctionalityTests : IAsyncLifetime
         testClass.TestAssertResponseCreated(HttpStatusCode.Created);
 
         await testClass.DisposeAsync();
+        await Task.CompletedTask;
     }
 
     [Fact]
