@@ -61,7 +61,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v10
         with:
           configPath: './naar-noor/lighthouse.config.js'
-          uploadArtifacts: true
+          uploadArtifacts: false
           temporaryPublicStorage: true
 
       - name: Comment PR with Lighthouse scores
