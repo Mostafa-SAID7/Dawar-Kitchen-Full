@@ -52,6 +52,13 @@ describe('RealtimeService', () => {
     (global as any).WebSocket.OPEN = MockWebSocket.OPEN;
     (global as any).WebSocket.CLOSED = MockWebSocket.CLOSED;
 
+    // Mock environment to have a valid supabase URL for testing
+    jest.spyOn(require('../../environments/environment'), 'environment', 'get').mockReturnValue({
+      supabaseUrl: 'https://valid-project.supabase.co',
+      supabaseAnonKey: 'valid-key',
+      apiUrl: 'http://localhost:5108'
+    });
+
     TestBed.configureTestingModule({ providers: [RealtimeService] });
     service = TestBed.inject(RealtimeService);
     mockWs = null;
@@ -60,6 +67,7 @@ describe('RealtimeService', () => {
   afterEach(() => {
     (global as any).WebSocket = originalWebSocket;
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should be created', () => {
