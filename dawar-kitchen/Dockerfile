@@ -1,5 +1,5 @@
 # Frontend Container - Angular 18 with Nginx
-# Naming Convention: naar-noor-{environment}-web
+# Naming Convention: dawar-kitchen-{environment}-web
 # Multi-stage build for optimized production image
 
 # Stage 1: Build Angular application
@@ -29,7 +29,7 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 # Copy compiled Angular app from builder stage
-COPY --from=builder /app/dist/naar-noor/browser .
+COPY --from=builder /app/dist/dawar-kitchen/browser .
 
 # Copy custom nginx configuration (references container hostnames)
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -40,9 +40,9 @@ RUN chmod +x /app/health-check.sh
 
 # Metadata labels for container identification
 LABEL \
-    service="naar-noor-web" \
+    service="dawar-kitchen-web" \
     component="frontend" \
-    description="Naar & Noor Frontend - Angular 18 + Nginx" \
+    description="Dawar Kitchen Frontend - Angular 18 + Nginx" \
     version="1.0.0"
 
 # Expose port

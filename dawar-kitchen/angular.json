@@ -81,7 +81,7 @@
           },
           "configurations": {
             "development": {
-              "buildTarget": "naar-noor:build:development"
+              "buildTarget": "dawar-kitchen:build:development"
             }
           },
           "defaultConfiguration": "development"
