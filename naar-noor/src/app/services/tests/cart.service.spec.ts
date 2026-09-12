@@ -258,9 +258,10 @@ describe('CartService - State Management and Error Handling (Property 13)', () =
   });
 
   /**
-   * Test 12: Adding item automatically opens cart
+   * Test 12: Adding item does NOT automatically open cart
+   * (User must explicitly click cart icon to view)
    */
-  it('should open cart when adding item', () => {
+  it('should NOT automatically open cart when adding item', () => {
     service.close();
     expect(service.isOpen()).toBe(false);
 
@@ -271,7 +272,7 @@ describe('CartService - State Management and Error Handling (Property 13)', () =
       category: 'Mains',
     });
 
-    expect(service.isOpen()).toBe(true);
+    expect(service.isOpen()).toBe(false);
   });
 
   /**
