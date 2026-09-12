@@ -96,7 +96,8 @@ describe('Order Workflow E2E Tests', () => {
       OrderPage.selectOrderType('delivery');
       OrderPage.getAddressInput().should('be.visible');
       OrderPage.selectOrderType('pickup');
-      OrderPage.getAddressInput().should('not.be.visible');
+      // address field is removed from DOM (*ngIf) when pickup is selected
+      cy.get('[data-cy="delivery-address"]').should('not.exist');
     });
   });
 

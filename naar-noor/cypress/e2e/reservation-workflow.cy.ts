@@ -10,6 +10,14 @@ import { ReservationPage } from '../support/page-objects/ReservationPage';
  *
  * Cleanup: afterEach removes reservations created for freeplan964@gmail.com.
  */
+
+/** Always 60 days ahead so the futureDateValidator never rejects in CI. */
+function getFutureDate(daysAhead = 60): string {
+  const d = new Date();
+  d.setDate(d.getDate() + daysAhead);
+  return d.toISOString().split('T')[0];
+}
+
 describe('Reservation Workflow E2E Tests', () => {
   beforeEach(() => {
     interceptChefs();
@@ -36,7 +44,9 @@ describe('Reservation Workflow E2E Tests', () => {
     });
 
     it('should display chef preview cards', () => {
-      cy.get('[data-cy="chef-card"]').should('have.length.at.least', 1);
+      // Unauthenticated view shows feature-preview cards (data-cy="feature-card"),
+      // not real chef cards. Real chef cards only render after authentication.
+      cy.get('[data-cy="feature-card"]').should('have.length.at.least', 1);
     });
 
     it('should show a sign-in prompt for unauthenticated users', () => {
@@ -95,14 +105,14 @@ describe('Reservation Workflow E2E Tests', () => {
     });
 
     it('should enable submit button after filling all required fields', () => {
-      ReservationPage.setDate('2026-08-15');
+      ReservationPage.setDate(getFutureDate(60));
       ReservationPage.setTime('19:00');
       ReservationPage.setGuestCount(4);
       cy.get('button[type="submit"]').should('not.be.disabled');
     });
 
     it('should accept an optional special-requests field', () => {
-      ReservationPage.setDate('2026-08-15');
+      ReservationPage.setDate(getFutureDate(60));
       ReservationPage.setTime('19:00');
       ReservationPage.setGuestCount(4);
       ReservationPage.setSpecialRequests('Window seat preferred');
@@ -110,7 +120,7 @@ describe('Reservation Workflow E2E Tests', () => {
     });
 
     it('should show confirmation screen after successful submission', () => {
-      ReservationPage.setDate('2026-08-15');
+      ReservationPage.setDate(getFutureDate(60));
       ReservationPage.setTime('19:00');
       ReservationPage.setGuestCount(2);
       cy.get('button[type="submit"]').click();
@@ -119,7 +129,7 @@ describe('Reservation Workflow E2E Tests', () => {
     });
 
     it('should display a confirmation number', () => {
-      ReservationPage.setDate('2026-08-15');
+      ReservationPage.setDate(getFutureDate(60));
       ReservationPage.setTime('19:00');
       ReservationPage.setGuestCount(2);
       cy.get('button[type="submit"]').click();
@@ -129,7 +139,7 @@ describe('Reservation Workflow E2E Tests', () => {
     });
 
     it('should allow making another reservation from the confirmation screen', () => {
-      ReservationPage.setDate('2026-08-15');
+      ReservationPage.setDate(getFutureDate(60));
       ReservationPage.setTime('19:00');
       ReservationPage.setGuestCount(2);
       cy.get('button[type="submit"]').click();
@@ -150,6 +160,8 @@ describe('Reservation Workflow E2E Tests', () => {
     });
 
     it('should show date-required error when submitting without a date', () => {
+      // Button is always clickable (only disabled while submitting),
+      // so submit() runs and calls markAllAsTouched() to surface errors.
       cy.get('button[type="submit"]').click();
       cy.get('[data-cy="error-date"]').should('contain', 'required');
     });

@@ -33,7 +33,7 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
 
           <!-- What they'll get — preview cards -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div *ngFor="let f of features" data-cy="chef-card" class="p-5 rounded-2xl bg-[#0d0d0d] border border-white/5 flex flex-col gap-3">
+            <div *ngFor="let f of features" data-cy="feature-card" class="p-5 rounded-2xl bg-[#0d0d0d] border border-white/5 flex flex-col gap-3">
               <div class="w-9 h-9 rounded-lg bg-[#C65A1E]/10 border border-[#C65A1E]/20 flex items-center justify-center text-[#C65A1E]">
                 <iconify-icon [attr.icon]="f.icon" width="18"></iconify-icon>
               </div>
@@ -195,7 +195,7 @@ import { AuthModalComponent } from '../../components/auth-modal/auth-modal.compo
 
                   <button
                     type="submit"
-                    [disabled]="!form.valid || submitting"
+                    [disabled]="submitting"
                     class="w-full py-3.5 mt-2 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                     <span *ngIf="!submitting">Confirm Booking</span>
                     <span *ngIf="submitting" class="flex items-center justify-center gap-2">

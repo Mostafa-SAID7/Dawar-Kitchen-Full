@@ -65,16 +65,10 @@ export class OrderPage {
   }
 
   static changeQuantity(itemIndex: number, quantity: number) {
-    // Get the initial total, then change quantity, then verify it changed
-    // Break the chain to avoid DOM detachment issues
-    cy.get('[data-cy="cart-item"]')
-      .eq(itemIndex)
-      .find('input[type="number"]')
-      .as('quantityInput');
-    
-    cy.get('@quantityInput').clear();
-    cy.get('@quantityInput').type(quantity.toString(), { force: true });
-    cy.wait(500); // Let Angular update the total
+    // .clear() triggers Angular re-render — alias becomes stale.
+    // Re-query the input after clearing to get a fresh DOM reference.
+    cy.get('[data-cy="cart-item"]').eq(itemIndex).find('input[type="number"]').clear();
+    cy.get('[data-cy="cart-item"]').eq(itemIndex).find('input[type="number"]').type(quantity.toString());
     cy.get('[data-cy="order-total"]').should('be.visible');
   }
 

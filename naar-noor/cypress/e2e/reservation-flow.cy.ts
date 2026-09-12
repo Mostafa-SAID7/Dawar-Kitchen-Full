@@ -53,9 +53,15 @@ describe('Reservation Page — unauthenticated', () => {
   });
 });
 
-// ── B: Authenticated booking flow ─────────────────────────────────────────
+// ── B: Authenticated booking flow ———————————————————————————
 describe('Reservation Page — authenticated booking flow', () => {
-  const FUTURE_DATE = '2026-08-20';
+  // Always 60 days from today so this never expires in CI
+  function getFutureDate(daysAhead = 60): string {
+    const d = new Date();
+    d.setDate(d.getDate() + daysAhead);
+    return d.toISOString().split('T')[0];
+  }
+  const FUTURE_DATE = getFutureDate(60);
 
   beforeEach(() => {
     interceptChefs();
