@@ -110,17 +110,23 @@ jobs:
       - name: Update release metadata
         if: steps.check_version.outputs.changed == 'true'
         run: |
-          # Use jq from npm installation (already installed)
           RELEASE_DATE=$(date -u +'%Y-%m-%d')
           NEXT_VERSION="${{ steps.next_version.outputs.version }}"
           MAJOR="${{ steps.next_version.outputs.major }}"
           MINOR="${{ steps.next_version.outputs.minor }}"
           PATCH="${{ steps.next_version.outputs.patch }}"
           
-          # Update .release-metadata.json using npx jq
-          npx jq --arg ver "$NEXT_VERSION" --arg date "$RELEASE_DATE" --arg major "$MAJOR" --arg minor "$MINOR" --arg patch "$PATCH" \
-            '.version = $ver | .releaseDate = $date | .semanticVersion.major = ($major | tonumber) | .semanticVersion.minor = ($minor | tonumber) | .semanticVersion.patch = ($patch | tonumber)' \
-            .release-metadata.json > .release-metadata.json.tmp && mv .release-metadata.json.tmp .release-metadata.json
+          # Update .release-metadata.json using Node.js
+          node -e "
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('.release-metadata.json', 'utf8'));
+            data.version = '$NEXT_VERSION';
+            data.releaseDate = '$RELEASE_DATE';
+            data.semanticVersion.major = $MAJOR;
+            data.semanticVersion.minor = $MINOR;
+            data.semanticVersion.patch = $PATCH;
+            fs.writeFileSync('.release-metadata.json', JSON.stringify(data, null, 2) + '\n');
+          "
 
       - name: Generate changelog
         if: steps.check_version.outputs.changed == 'true'
@@ -129,34 +135,18 @@ jobs:
           PREV_VERSION="${{ steps.previous_version.outputs.version }}"
           NEXT_VERSION="${{ steps.next_version.outputs.version }}"
           
-          # Generate changelog entries
-          CHANGELOG=$(git log --oneline $PREV_VERSION..HEAD 2>/dev/null | sed 's/^/  - /')
-          
-          # Create changelog entry
           {
             echo "## [$NEXT_VERSION] - $(date -u +'%Y-%m-%d')"
             echo ""
-            if git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep -q "feat:"; then
-              echo "### Features"
-              git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep "feat:" | sed 's/^/  - /'
-              echo ""
-            fi
-            if git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep -q "fix:"; then
-              echo "### Bug Fixes"
-              git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep "fix:" | sed 's/^/  - /'
-              echo ""
-            fi
-            echo "### Other Changes"
-            git log --oneline $PREV_VERSION..HEAD 2>/dev/null | grep -v -E "^.*(feat:|fix:|test:|docs:|chore:|ci:)" | sed 's/^/  - /'
+            echo "### Changes"
+            git log --oneline $PREV_VERSION..HEAD 2>/dev/null | sed 's/^/  - /' || echo "  - Initial release"
           } > CHANGELOG.tmp
           
-          # Prepend to existing CHANGELOG.md if it exists
           if [ -f CHANGELOG.md ]; then
             cat CHANGELOG.md >> CHANGELOG.tmp
           fi
           mv CHANGELOG.tmp CHANGELOG.md
           
-          # Save for later use
           echo "path=CHANGELOG.md" >> $GITHUB_OUTPUT
 
       - name: Commit version changes
