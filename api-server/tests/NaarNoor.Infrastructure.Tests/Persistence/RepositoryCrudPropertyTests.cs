@@ -30,7 +30,7 @@ public class RepositoryCrudPropertyTests : IAsyncLifetime
     public void Add_Chef_AppearsInQuery()
     {
         var repo = new Repository<Chef>(_context);
-        var chef = new Chef { Name = "Ahmad", Title = "Head Chef", Bio = "Expert", Specialty = "Himalayan" };
+        var chef = new Chef { Name = "Ahmad", Title = "Head Chef", Bio = "Expert", Specialty = "Egyptian" };
 
         repo.Add(chef);
         _context.SaveChanges();
@@ -44,7 +44,7 @@ public class RepositoryCrudPropertyTests : IAsyncLifetime
     {
         var repo = new Repository<Chef>(_context);
         repo.Add(new Chef { Name = "Chef A", Title = "Senior", Bio = "Bio A", Specialty = "Indian" });
-        repo.Add(new Chef { Name = "Chef B", Title = "Junior", Bio = "Bio B", Specialty = "Nepali" });
+        repo.Add(new Chef { Name = "Chef B", Title = "Junior", Bio = "Bio B", Specialty = "Coptic" });
         _context.SaveChanges();
 
         repo.Query().Count().Should().BeGreaterThanOrEqualTo(2);
@@ -97,12 +97,12 @@ public class RepositoryCrudPropertyTests : IAsyncLifetime
     public void Add_MenuItem_AppearsInQuery()
     {
         var repo = new Repository<MenuItem>(_context);
-        var item = new MenuItem { Name = "Momos", Description = "Himalayan dumplings", Price = 8.95m, Category = MenuCategory.Starters };
+        var item = new MenuItem { Name = "Hawawshi", Description = "Egyptian dumplings", Price = 8.95m, Category = MenuCategory.Starters };
         repo.Add(item);
         _context.SaveChanges();
 
         var result = repo.Query().First(m => m.Id == item.Id);
-        result.Name.Should().Be("Momos");
+        result.Name.Should().Be("Hawawshi");
         result.Price.Should().Be(8.95m);
     }
 
@@ -158,7 +158,7 @@ public class RepositoryCrudPropertyTests : IAsyncLifetime
     public void Query_ReturnsIQueryable_SupportingLinqChain()
     {
         var repo = new Repository<MenuItem>(_context);
-        repo.Add(new MenuItem { Name = "Dal Bhat", Description = "Lentil rice", Price = 14.95m, Category = MenuCategory.Mains, IsVegetarian = true });
+        repo.Add(new MenuItem { Name = "Koshari", Description = "Lentil rice", Price = 14.95m, Category = MenuCategory.Mains, IsVegetarian = true });
         repo.Add(new MenuItem { Name = "Lamb Rogan Josh", Description = "Slow braised lamb", Price = 18.95m, Category = MenuCategory.Mains });
         _context.SaveChanges();
 

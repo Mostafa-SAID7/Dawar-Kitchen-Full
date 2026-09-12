@@ -157,7 +157,7 @@ public class GetChefsQueryHandlerPropertyTests : ApplicationLayerTestBase
             Title = i % 2 == 0 ? "Head Chef" : "Sous Chef",
             Bio = $"Biography {i}",
             ImageUrl = i % 3 == 0 ? null : $"https://example.com/chef{i}.jpg",
-            Specialty = i % 2 == 0 ? "Himalayan" : "Nepalese",
+            Specialty = i % 2 == 0 ? "Egyptian" : "Egyptese",
             IsActive = isActive,
             SortOrder = i
         }).ToList();
@@ -182,9 +182,9 @@ public class GetChefsQueryHandlerPropertyTests : ApplicationLayerTestBase
 
         data.Add(new List<Chef>
         {
-            new() { Name = "Roshan Thapa",  Title = "Head Chef",      Bio = "15 years Himalayan cuisine",    Specialty = "Himalayan", IsActive = true, SortOrder = 1 },
-            new() { Name = "Anita Gurung",  Title = "Sous Chef",       Bio = "Nepalese street food specialist", Specialty = "Nepalese",  IsActive = true, SortOrder = 2 },
-            new() { Name = "Karma Sherpa",  Title = "Pastry Chef",     Bio = "Award-winning desserts",        Specialty = "Tibetan",   IsActive = true, SortOrder = 3 }
+            new() { Name = "Roshan Thapa",  Title = "Head Chef",      Bio = "15 years Egyptian cuisine",    Specialty = "Egyptian", IsActive = true, SortOrder = 1 },
+            new() { Name = "Anita Gurung",  Title = "Sous Chef",       Bio = "Egyptese street food specialist", Specialty = "Egyptese",  IsActive = true, SortOrder = 2 },
+            new() { Name = "Karma Sherpa",  Title = "Pastry Chef",     Bio = "Award-winning desserts",        Specialty = "Middle Eastern",   IsActive = true, SortOrder = 3 }
         });
 
         data.Add(new List<Chef>
@@ -194,8 +194,8 @@ public class GetChefsQueryHandlerPropertyTests : ApplicationLayerTestBase
 
         data.Add(new List<Chef>
         {
-            new() { Name = "Chef A", Title = "Head Chef",  Bio = "Bio A", Specialty = "Himalayan", IsActive = true, SortOrder = 10, ImageUrl = null },
-            new() { Name = "Chef B", Title = "Sous Chef",  Bio = "Bio B", Specialty = "Nepalese",  IsActive = true, SortOrder = 20, ImageUrl = "https://example.com/b.jpg" }
+            new() { Name = "Chef A", Title = "Head Chef",  Bio = "Bio A", Specialty = "Egyptian", IsActive = true, SortOrder = 10, ImageUrl = null },
+            new() { Name = "Chef B", Title = "Sous Chef",  Bio = "Bio B", Specialty = "Egyptese",  IsActive = true, SortOrder = 20, ImageUrl = "https://example.com/b.jpg" }
         });
 
         return data;
@@ -207,19 +207,19 @@ public class GetChefsQueryHandlerPropertyTests : ApplicationLayerTestBase
 
         data.Add(new List<Chef>
         {
-            new() { Name = "Active A",   Title = "Head Chef",  Bio = "Bio A", Specialty = "Himalayan", IsActive = true,  SortOrder = 1 },
-            new() { Name = "Inactive B", Title = "Sous Chef",  Bio = "Bio B", Specialty = "Nepalese",  IsActive = false, SortOrder = 2 },
-            new() { Name = "Active C",   Title = "Pastry",     Bio = "Bio C", Specialty = "Tibetan",   IsActive = true,  SortOrder = 3 }
+            new() { Name = "Active A",   Title = "Head Chef",  Bio = "Bio A", Specialty = "Egyptian", IsActive = true,  SortOrder = 1 },
+            new() { Name = "Inactive B", Title = "Sous Chef",  Bio = "Bio B", Specialty = "Egyptese",  IsActive = false, SortOrder = 2 },
+            new() { Name = "Active C",   Title = "Pastry",     Bio = "Bio C", Specialty = "Middle Eastern",   IsActive = true,  SortOrder = 3 }
         });
 
         data.Add(new List<Chef>
         {
-            new() { Name = "All Inactive", Title = "Head Chef", Bio = "Retired", Specialty = "Himalayan", IsActive = false, SortOrder = 1 }
+            new() { Name = "All Inactive", Title = "Head Chef", Bio = "Retired", Specialty = "Egyptian", IsActive = false, SortOrder = 1 }
         });
 
         data.Add(new List<Chef>
         {
-            new() { Name = "Only Active", Title = "Chef", Bio = "Active", Specialty = "Nepalese", IsActive = true, SortOrder = 5 }
+            new() { Name = "Only Active", Title = "Chef", Bio = "Active", Specialty = "Egyptese", IsActive = true, SortOrder = 5 }
         });
 
         return data;

@@ -39,7 +39,7 @@ public class ReferentialIntegrityPropertyTests : IAsyncLifetime
             TotalAmount = 20.00m,
             Items = new List<OrderItem>
             {
-                new OrderItem { MenuItemName = "Momos", UnitPrice = 8.95m, Quantity = 2 },
+                new OrderItem { MenuItemName = "Hawawshi", UnitPrice = 8.95m, Quantity = 2 },
                 new OrderItem { MenuItemName = "Lassi", UnitPrice = 4.50m, Quantity = 1 }
             }
         };
@@ -56,7 +56,7 @@ public class ReferentialIntegrityPropertyTests : IAsyncLifetime
         var repo = new Repository<MenuItem>(_context);
         var item = new MenuItem
         {
-            Name = "Veg Momos",
+            Name = "Veg Hawawshi",
             Description = "Handcrafted dumplings",
             Price = 7.95m,
             Category = MenuCategory.Starters,
@@ -131,8 +131,8 @@ public class ReferentialIntegrityPropertyTests : IAsyncLifetime
         {
             Name = "Chef Binod",
             Title = "Executive Chef",
-            Bio = "Master of Himalayan cuisine.",
-            Specialty = "Nepali",
+            Bio = "Master of Egyptian cuisine.",
+            Specialty = "Coptic",
             IsActive = true,
             SortOrder = 1
         };

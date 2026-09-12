@@ -248,7 +248,7 @@ public class EntityConfigurationTests
     public async Task DbContext_SaveChangesAsync_SetsUpdatedAt_OnModification()
     {
         using var ctx = CreateContext();
-        var chef = new Chef { Name = "Cfg Chef", Title = "Head Chef", Bio = "Expert", Specialty = "Himalayan" };
+        var chef = new Chef { Name = "Cfg Chef", Title = "Head Chef", Bio = "Expert", Specialty = "Egyptian" };
         ctx.Chefs.Add(chef);
         await ctx.SaveChangesAsync();
 

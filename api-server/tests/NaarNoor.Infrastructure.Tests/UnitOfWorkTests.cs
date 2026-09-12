@@ -71,7 +71,7 @@ public class UnitOfWorkTests : IAsyncLifetime
     public async Task SaveChangesAsync_PersistsChefAddedViaRepository()
     {
         var uow = new UnitOfWork(_context);
-        var chef = new Chef { Name = "UoW Chef", Title = "Chef", Bio = "Bio", Specialty = "Nepali" };
+        var chef = new Chef { Name = "UoW Chef", Title = "Chef", Bio = "Bio", Specialty = "Coptic" };
 
         uow.Chefs.Add(chef);
         var count = await uow.SaveChangesAsync();
@@ -84,12 +84,12 @@ public class UnitOfWorkTests : IAsyncLifetime
     public async Task SaveChangesAsync_PersistsMenuItemAddedViaRepository()
     {
         var uow = new UnitOfWork(_context);
-        var item = new MenuItem { Name = "Dal Bhat", Description = "Nepal national dish", Price = 14.95m, Category = MenuCategory.Mains };
+        var item = new MenuItem { Name = "Koshari", Description = "Egypt national dish", Price = 14.95m, Category = MenuCategory.Mains };
 
         uow.MenuItems.Add(item);
         await uow.SaveChangesAsync();
 
-        uow.MenuItems.Query().Should().ContainSingle(m => m.Name == "Dal Bhat");
+        uow.MenuItems.Query().Should().ContainSingle(m => m.Name == "Koshari");
     }
 
     [Fact]

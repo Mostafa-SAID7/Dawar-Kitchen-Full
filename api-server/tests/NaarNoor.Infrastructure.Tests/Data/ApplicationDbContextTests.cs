@@ -130,7 +130,7 @@ public class ApplicationDbContextTests : IAsyncLifetime
             TotalAmount = 29.90m,
             Items = new List<OrderItem>
             {
-                new() { MenuItemId = Guid.NewGuid(), MenuItemName = "Momos", UnitPrice = 8.95m, Quantity = 2 },
+                new() { MenuItemId = Guid.NewGuid(), MenuItemName = "Hawawshi", UnitPrice = 8.95m, Quantity = 2 },
                 new() { MenuItemId = Guid.NewGuid(), MenuItemName = "Sel Roti", UnitPrice = 4.50m, Quantity = 3 }
             }
         };

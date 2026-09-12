@@ -31,7 +31,7 @@ public class TransactionAtomicityPropertyTests : IAsyncLifetime
     {
         var repo = new Repository<Chef>(_context);
         var chef1 = new Chef { Name = "Chef One", Title = "Head", Bio = "Bio", Specialty = "Indian" };
-        var chef2 = new Chef { Name = "Chef Two", Title = "Sous", Bio = "Bio", Specialty = "Nepali" };
+        var chef2 = new Chef { Name = "Chef Two", Title = "Sous", Bio = "Bio", Specialty = "Coptic" };
 
         repo.Add(chef1);
         repo.Add(chef2);
@@ -90,7 +90,7 @@ public class TransactionAtomicityPropertyTests : IAsyncLifetime
         var chefRepo = new Repository<Chef>(_context);
         var menuRepo = new Repository<MenuItem>(_context);
 
-        chefRepo.Add(new Chef { Name = "Multi Chef", Title = "Chef", Bio = "Bio", Specialty = "Nepali" });
+        chefRepo.Add(new Chef { Name = "Multi Chef", Title = "Chef", Bio = "Bio", Specialty = "Coptic" });
         menuRepo.Add(new MenuItem { Name = "Multi Item", Description = "Desc", Price = 9.95m, Category = MenuCategory.Mains });
         await _context.SaveChangesAsync();
 

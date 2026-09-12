@@ -54,7 +54,7 @@ public class CreateStripeCheckoutSessionCommandHandlerTests : ApplicationLayerTe
     [Fact]
     public async Task Handle_WithAvailableItems_CreatesOrderAndCallsStripe()
     {
-        var menuItem = await SeedMenuItem("Dal Bhat", 14.95m);
+        var menuItem = await SeedMenuItem("Koshari", 14.95m);
         _stripeMock.Setup(s => s.CreateCheckoutSessionAsync(It.IsAny<StripeCheckoutRequest>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(new StripeCheckoutResult("sess_abc", "https://checkout.stripe.com/sess_abc"));
 
@@ -160,7 +160,7 @@ public class CreateStripeCheckoutSessionCommandHandlerTests : ApplicationLayerTe
     [Fact]
     public async Task Handle_DineInOrder_SetsCorrectOrderType()
     {
-        var menuItem = await SeedMenuItem("Kheer", 6.95m);
+        var menuItem = await SeedMenuItem("Om Ali", 6.95m);
         var capturedOrders = new List<Order>();
         var orderRepo = new MockOrderRepository(capturedOrders);
         _unitOfWorkMock.Setup(x => x.Orders).Returns(orderRepo);

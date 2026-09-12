@@ -37,10 +37,10 @@
 [
   {
     "id": 1,
-    "name": "Chef Arjun",
+    "name": "Chef Mahmoud",
     "specialty": "Indian Cuisine",
     "bio": "Expert in traditional Indian cooking with 15 years of experience",
-    "imageUrl": "/assets/chefs/arjun.jpg",
+    "imageUrl": "/assets/chefs/mahmoud.jpg",
     "createdAt": "2026-05-26T10:00:00Z"
   }
 ]

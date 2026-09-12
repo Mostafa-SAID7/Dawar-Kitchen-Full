@@ -35,7 +35,7 @@ public class CreateOrderCommandHandlerTests : IAsyncLifetime
             Type: type,
             Items: new List<OrderItemRequest>
             {
-                new(Guid.NewGuid(), "Momos", 8.95m, 2),
+                new(Guid.NewGuid(), "Hawawshi", 8.95m, 2),
                 new(Guid.NewGuid(), "Sel Roti", 4.50m, 1)
             },
             Notes: null,
@@ -121,7 +121,7 @@ public class CreateOrderCommandHandlerTests : IAsyncLifetime
 
         var items = await _dbContext.OrderItems.Where(i => i.OrderId == orderId).ToListAsync();
         items.Should().HaveCount(2);
-        items.Should().Contain(i => i.MenuItemName == "Momos");
+        items.Should().Contain(i => i.MenuItemName == "Hawawshi");
         items.Should().Contain(i => i.MenuItemName == "Sel Roti");
     }
 

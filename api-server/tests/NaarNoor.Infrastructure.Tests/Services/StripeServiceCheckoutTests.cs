@@ -146,12 +146,12 @@ public class StripeServiceCheckoutTests
     {
         var lineItems = new List<StripeLineItem>
         {
-            new("Momos", "Dumplings", 8.95m, 2),
-            new("Dal Bhat", null, 14.95m, 1)
+            new("Hawawshi", "Dumplings", 8.95m, 2),
+            new("Koshari", null, 14.95m, 1)
         };
 
         lineItems.Should().HaveCount(2);
-        lineItems[0].Name.Should().Be("Momos");
+        lineItems[0].Name.Should().Be("Hawawshi");
         lineItems[0].UnitPrice.Should().Be(8.95m);
         lineItems[0].Quantity.Should().Be(2);
         lineItems[1].Description.Should().BeNull();

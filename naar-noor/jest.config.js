@@ -19,7 +19,7 @@ module.exports = {
     ],
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(@angular|rxjs|zone.js)/)',
+    'node_modules/(?!(@angular|rxjs|zone.js|@ngx-translate)/)',
   ],
   collectCoverage: true,
   coverageDirectory: '../frontend-coverage',

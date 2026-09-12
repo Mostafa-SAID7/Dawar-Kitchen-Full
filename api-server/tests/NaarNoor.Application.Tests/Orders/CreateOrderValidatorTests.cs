@@ -18,7 +18,7 @@ public class CreateOrderValidatorTests : ApplicationLayerTestBase
             Type: type,
             DeliveryAddress: deliveryAddress,
             TableReservationName: reservationName,
-            Items: new List<OrderItemRequest> { new(Guid.NewGuid(), "Dal Bhat", 14.95m, 2) }
+            Items: new List<OrderItemRequest> { new(Guid.NewGuid(), "Koshari", 14.95m, 2) }
         );
 
     [Fact]
@@ -85,7 +85,7 @@ public class CreateOrderValidatorTests : ApplicationLayerTestBase
     [Fact]
     public async Task Item_ZeroQuantity_Fails()
     {
-        var cmd = ValidCommand() with { Items = new List<OrderItemRequest> { new(Guid.NewGuid(), "Dal Bhat", 14.95m, 0) } };
+        var cmd = ValidCommand() with { Items = new List<OrderItemRequest> { new(Guid.NewGuid(), "Koshari", 14.95m, 0) } };
         var result = await _validator.ValidateAsync(cmd);
         AssertValidationFailed(result);
     }
@@ -93,7 +93,7 @@ public class CreateOrderValidatorTests : ApplicationLayerTestBase
     [Fact]
     public async Task Item_Over20Quantity_Fails()
     {
-        var cmd = ValidCommand() with { Items = new List<OrderItemRequest> { new(Guid.NewGuid(), "Dal Bhat", 14.95m, 21) } };
+        var cmd = ValidCommand() with { Items = new List<OrderItemRequest> { new(Guid.NewGuid(), "Koshari", 14.95m, 21) } };
         var result = await _validator.ValidateAsync(cmd);
         AssertValidationFailed(result);
     }
@@ -101,7 +101,7 @@ public class CreateOrderValidatorTests : ApplicationLayerTestBase
     [Fact]
     public async Task Item_ZeroPrice_Fails()
     {
-        var cmd = ValidCommand() with { Items = new List<OrderItemRequest> { new(Guid.NewGuid(), "Dal Bhat", 0m, 1) } };
+        var cmd = ValidCommand() with { Items = new List<OrderItemRequest> { new(Guid.NewGuid(), "Koshari", 0m, 1) } };
         var result = await _validator.ValidateAsync(cmd);
         AssertValidationFailed(result);
     }

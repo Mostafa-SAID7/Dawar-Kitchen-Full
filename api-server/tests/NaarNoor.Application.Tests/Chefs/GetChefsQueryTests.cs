@@ -60,12 +60,12 @@ public class GetChefsQueryTests
     {
         var id = Guid.NewGuid();
 
-        var dto = new ChefDto(id, "Aryan Thapa", "Executive Chef", "Expert in Himalayan cuisine", null, "Grills", 1);
+        var dto = new ChefDto(id, "Mahmoud Hassan", "Executive Chef", "Expert in Egyptian cuisine", null, "Grills", 1);
 
         dto.Id.Should().Be(id);
-        dto.Name.Should().Be("Aryan Thapa");
+        dto.Name.Should().Be("Mahmoud Hassan");
         dto.Title.Should().Be("Executive Chef");
-        dto.Bio.Should().Be("Expert in Himalayan cuisine");
+        dto.Bio.Should().Be("Expert in Egyptian cuisine");
         dto.ImageUrl.Should().BeNull();
         dto.Specialty.Should().Be("Grills");
         dto.SortOrder.Should().Be(1);
@@ -84,8 +84,8 @@ public class GetChefsQueryTests
     {
         var id = Guid.NewGuid();
 
-        var dto1 = new ChefDto(id, "Rohan", "Sous Chef", "Bio", null, "Tibetan", 3);
-        var dto2 = new ChefDto(id, "Rohan", "Sous Chef", "Bio", null, "Tibetan", 3);
+        var dto1 = new ChefDto(id, "Rohan", "Sous Chef", "Bio", null, "Middle Eastern", 3);
+        var dto2 = new ChefDto(id, "Rohan", "Sous Chef", "Bio", null, "Middle Eastern", 3);
 
         dto1.Should().Be(dto2);
     }

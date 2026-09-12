@@ -27,9 +27,9 @@ public class DatabaseSeederTests : IAsyncLifetime
     public async Task MenuItems_Repository_CanStoreAndRetrieve()
     {
         var repo = new Repository<MenuItem>(_context);
-        repo.Add(new MenuItem { Name = "Dal Bhat", Description = "Lentil rice", Price = 14.95m, Category = MenuCategory.Mains, IsVegetarian = true });
+        repo.Add(new MenuItem { Name = "Koshari", Description = "Lentil rice", Price = 14.95m, Category = MenuCategory.Mains, IsVegetarian = true });
         repo.Add(new MenuItem { Name = "Sel Roti", Description = "Rice donut", Price = 4.50m, Category = MenuCategory.Starters });
-        repo.Add(new MenuItem { Name = "Momos", Description = "Dumplings", Price = 8.95m, Category = MenuCategory.Starters });
+        repo.Add(new MenuItem { Name = "Hawawshi", Description = "Dumplings", Price = 8.95m, Category = MenuCategory.Starters });
         await _context.SaveChangesAsync();
 
         var all = await _context.MenuItems.ToListAsync();
@@ -42,7 +42,7 @@ public class DatabaseSeederTests : IAsyncLifetime
     public async Task Chefs_Repository_CanStoreAndRetrieve()
     {
         var repo = new Repository<Chef>(_context);
-        repo.Add(new Chef { Name = "Chef Binod", Title = "Executive Chef", Bio = "Master of Himalayan cuisine.", Specialty = "Nepali", IsActive = true, SortOrder = 1 });
+        repo.Add(new Chef { Name = "Chef Binod", Title = "Executive Chef", Bio = "Master of Egyptian cuisine.", Specialty = "Coptic", IsActive = true, SortOrder = 1 });
         repo.Add(new Chef { Name = "Chef Priya", Title = "Sous Chef", Bio = "Expert in Indian spices.", Specialty = "Indian", IsActive = true, SortOrder = 2 });
         await _context.SaveChangesAsync();
 

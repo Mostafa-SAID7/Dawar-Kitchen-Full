@@ -14,10 +14,10 @@ public class StripeInterfaceRecordTests
     [Fact]
     public void StripeLineItem_CanBeConstructed_WithAllFields()
     {
-        var item = new StripeLineItem("Momos", "Himalayan dumplings", 8.95m, 2);
+        var item = new StripeLineItem("Hawawshi", "Egyptian dumplings", 8.95m, 2);
 
-        item.Name.Should().Be("Momos");
-        item.Description.Should().Be("Himalayan dumplings");
+        item.Name.Should().Be("Hawawshi");
+        item.Description.Should().Be("Egyptian dumplings");
         item.UnitPrice.Should().Be(8.95m);
         item.Quantity.Should().Be(2);
     }
@@ -25,10 +25,10 @@ public class StripeInterfaceRecordTests
     [Fact]
     public void StripeLineItem_Description_CanBeNull()
     {
-        var item = new StripeLineItem("Dal Bhat", null, 14.95m, 1);
+        var item = new StripeLineItem("Koshari", null, 14.95m, 1);
 
         item.Description.Should().BeNull();
-        item.Name.Should().Be("Dal Bhat");
+        item.Name.Should().Be("Koshari");
         item.UnitPrice.Should().Be(14.95m);
         item.Quantity.Should().Be(1);
     }
@@ -45,8 +45,8 @@ public class StripeInterfaceRecordTests
     [Fact]
     public void StripeLineItem_DifferentQuantities_AreNotEqual()
     {
-        var item1 = new StripeLineItem("Momos", null, 8.95m, 1);
-        var item2 = new StripeLineItem("Momos", null, 8.95m, 3);
+        var item1 = new StripeLineItem("Hawawshi", null, 8.95m, 1);
+        var item2 = new StripeLineItem("Hawawshi", null, 8.95m, 3);
 
         item1.Should().NotBe(item2);
     }
@@ -54,7 +54,7 @@ public class StripeInterfaceRecordTests
     [Fact]
     public void StripeLineItem_GetHashCode_IsConsistent()
     {
-        var item = new StripeLineItem("Kheer", "Rice pudding", 6.95m, 2);
+        var item = new StripeLineItem("Om Ali", "Rice pudding", 6.95m, 2);
 
         item.GetHashCode().Should().Be(item.GetHashCode());
     }
@@ -75,7 +75,7 @@ public class StripeInterfaceRecordTests
     public void StripeCheckoutRequest_CanBeConstructed_WithAllFields()
     {
         var orderId = Guid.NewGuid();
-        var lineItems = new List<StripeLineItem> { new("Momos", null, 8.95m, 2) };
+        var lineItems = new List<StripeLineItem> { new("Hawawshi", null, 8.95m, 2) };
 
         var request = new StripeCheckoutRequest(
             orderId,
@@ -211,10 +211,10 @@ public class StripeInterfaceRecordTests
     {
         var menuItemId = Guid.NewGuid();
 
-        var item = new CheckoutOrderItemRequest(menuItemId, "Dal Bhat", 14.95m, 2);
+        var item = new CheckoutOrderItemRequest(menuItemId, "Koshari", 14.95m, 2);
 
         item.MenuItemId.Should().Be(menuItemId);
-        item.MenuItemName.Should().Be("Dal Bhat");
+        item.MenuItemName.Should().Be("Koshari");
         item.UnitPrice.Should().Be(14.95m);
         item.Quantity.Should().Be(2);
     }
@@ -223,8 +223,8 @@ public class StripeInterfaceRecordTests
     public void CheckoutOrderItemRequest_TwoIdenticalInstances_AreEqual()
     {
         var id = Guid.NewGuid();
-        var r1 = new CheckoutOrderItemRequest(id, "Momos", 8.95m, 3);
-        var r2 = new CheckoutOrderItemRequest(id, "Momos", 8.95m, 3);
+        var r1 = new CheckoutOrderItemRequest(id, "Hawawshi", 8.95m, 3);
+        var r2 = new CheckoutOrderItemRequest(id, "Hawawshi", 8.95m, 3);
 
         r1.Should().Be(r2);
     }
@@ -233,8 +233,8 @@ public class StripeInterfaceRecordTests
     public void CheckoutOrderItemRequest_DifferentPrices_AreNotEqual()
     {
         var id = Guid.NewGuid();
-        var r1 = new CheckoutOrderItemRequest(id, "Kheer", 6.95m, 1);
-        var r2 = new CheckoutOrderItemRequest(id, "Kheer", 7.95m, 1);
+        var r1 = new CheckoutOrderItemRequest(id, "Om Ali", 6.95m, 1);
+        var r2 = new CheckoutOrderItemRequest(id, "Om Ali", 7.95m, 1);
 
         r1.Should().NotBe(r2);
     }

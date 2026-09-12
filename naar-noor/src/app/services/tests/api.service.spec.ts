@@ -151,10 +151,10 @@ describe('ApiService - HTTP Communication (Property 12)', () => {
     const mockChefs = [
       {
         id: '1',
-        name: 'Chef Arjun',
+        name: 'Chef Mahmoud',
         title: 'Head Chef',
         bio: 'Expert in Indian cuisine',
-        imageUrl: 'chef-arjun.jpg',
+        imageUrl: 'chef-Mahmoud.jpg',
         specialty: 'Tandoori',
         sortOrder: 1,
       },
@@ -162,7 +162,7 @@ describe('ApiService - HTTP Communication (Property 12)', () => {
 
     service.getChefs().subscribe((chefs) => {
       expect(chefs.length).toBeGreaterThan(0);
-      expect(chefs[0].name).toBe('Chef Arjun');
+      expect(chefs[0].name).toBe('Chef Mahmoud');
     });
 
     const req = httpMock.expectOne((r: any) => r.url.includes('/api/chefs'));

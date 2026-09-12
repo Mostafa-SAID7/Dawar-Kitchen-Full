@@ -5,8 +5,8 @@ import { RevealDirective } from '../../directives/scroll-reveal.directive';
 import { Chef, ChefView } from '../../models';
 
 const CHEF_IMAGES = [
-  'assets/chefs/chef-arjun.jpg',
-  'assets/chefs/chef-maya.jpg',
+  'assets/chefs/chef-mahmoud.jpg',
+  'assets/chefs/chef-fatima.jpg',
 ];
 
 

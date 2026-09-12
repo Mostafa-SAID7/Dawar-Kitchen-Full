@@ -15,11 +15,11 @@ public class CreateStripeCheckoutSessionValidatorTests : ApplicationLayerTestBas
         PhoneNumber: "07700900001",
         Notes: null,
         Type: "delivery",
-        DeliveryAddress: "12 Himalayan Way, London",
+        DeliveryAddress: "12 Egyptian Way, London",
         TableReservationName: null,
         Items: new List<CheckoutOrderItemRequest>
         {
-            new(Guid.NewGuid(), "Dal Bhat", 14.95m, 2)
+            new(Guid.NewGuid(), "Koshari", 14.95m, 2)
         },
         SuccessUrl: "https://example.com/success",
         CancelUrl: "https://example.com/cancel"
@@ -33,7 +33,7 @@ public class CreateStripeCheckoutSessionValidatorTests : ApplicationLayerTestBas
         Type: "collection",
         DeliveryAddress: null,
         TableReservationName: null,
-        Items: new List<CheckoutOrderItemRequest> { new(Guid.NewGuid(), "Momos", 8.95m, 1) },
+        Items: new List<CheckoutOrderItemRequest> { new(Guid.NewGuid(), "Hawawshi", 8.95m, 1) },
         SuccessUrl: "https://example.com/success",
         CancelUrl: "https://example.com/cancel"
     );
@@ -153,7 +153,7 @@ public class CreateStripeCheckoutSessionValidatorTests : ApplicationLayerTestBas
     {
         var cmd = ValidCollectionCommand() with
         {
-            Items = new List<CheckoutOrderItemRequest> { new(Guid.NewGuid(), "Dal Bhat", 14.95m, 0) }
+            Items = new List<CheckoutOrderItemRequest> { new(Guid.NewGuid(), "Koshari", 14.95m, 0) }
         };
         var result = await _validator.ValidateAsync(cmd);
         AssertValidationFailed(result);
@@ -164,7 +164,7 @@ public class CreateStripeCheckoutSessionValidatorTests : ApplicationLayerTestBas
     {
         var cmd = ValidCollectionCommand() with
         {
-            Items = new List<CheckoutOrderItemRequest> { new(Guid.NewGuid(), "Dal Bhat", 14.95m, 21) }
+            Items = new List<CheckoutOrderItemRequest> { new(Guid.NewGuid(), "Koshari", 14.95m, 21) }
         };
         var result = await _validator.ValidateAsync(cmd);
         AssertValidationFailed(result);
@@ -175,7 +175,7 @@ public class CreateStripeCheckoutSessionValidatorTests : ApplicationLayerTestBas
     {
         var cmd = ValidCollectionCommand() with
         {
-            Items = new List<CheckoutOrderItemRequest> { new(Guid.Empty, "Dal Bhat", 14.95m, 1) }
+            Items = new List<CheckoutOrderItemRequest> { new(Guid.Empty, "Koshari", 14.95m, 1) }
         };
         var result = await _validator.ValidateAsync(cmd);
         AssertValidationFailed(result);

@@ -52,9 +52,10 @@
       <!-- Language Toggle -->
       <button (click)="language.toggleLanguage()"
               aria-label="Toggle language"
-              class="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl
+              class="flex items-center justify-center gap-1 w-12 h-9 sm:w-16 sm:h-10 rounded-xl
                      border border-white/10 text-neutral-400 hover:text-white
                      hover:border-white/25 transition-all duration-200 uppercase text-xs font-bold font-sans">
+        <iconify-icon icon="solar:global-linear" width="16"></iconify-icon>
         {{ (currentLang$ | async) === 'en' ? 'AR' : 'EN' }}
       </button>
 

@@ -146,10 +146,10 @@ Stores information about restaurant chefs.
 ```sql
 INSERT INTO Chefs (Name, Specialty, Bio, ImageUrl, CreatedAt, UpdatedAt)
 VALUES 
-  ('Chef Arjun', 'Indian Cuisine', 'Expert in traditional Indian cooking', 
-   'https://example.com/chefs/arjun.jpg', GETUTCDATE(), GETUTCDATE()),
-  ('Chef Maya', 'Fusion Cuisine', 'Creative fusion chef', 
-   'https://example.com/chefs/maya.jpg', GETUTCDATE(), GETUTCDATE());
+  ('Chef Mahmoud', 'Indian Cuisine', 'Expert in traditional Indian cooking', 
+   'https://example.com/chefs/mahmoud.jpg', GETUTCDATE(), GETUTCDATE()),
+  ('Chef Fatima', 'Fusion Cuisine', 'Creative fusion chef', 
+   'https://example.com/chefs/fatima.jpg', GETUTCDATE(), GETUTCDATE());
 ```
 
 ---
@@ -315,17 +315,17 @@ public static async Task SeedAsync(ApplicationDbContext context)
         {
             new Chef 
             { 
-                Name = "Chef Arjun", 
+                Name = "Chef Mahmoud", 
                 Specialty = "Indian Cuisine",
                 Bio = "Expert in traditional Indian cooking",
-                ImageUrl = "/assets/chefs/arjun.jpg"
+                ImageUrl = "/assets/chefs/mahmoud.jpg"
             },
             new Chef 
             { 
-                Name = "Chef Maya", 
+                Name = "Chef Fatima", 
                 Specialty = "Fusion Cuisine",
                 Bio = "Creative fusion chef",
-                ImageUrl = "/assets/chefs/maya.jpg"
+                ImageUrl = "/assets/chefs/fatima.jpg"
             }
         };
         

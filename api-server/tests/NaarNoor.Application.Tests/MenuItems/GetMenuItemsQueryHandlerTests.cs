@@ -27,9 +27,9 @@ public class GetMenuItemsQueryHandlerTests : IAsyncLifetime
 
         // Seed some test data
         _context.MenuItems.AddRange(
-            new MenuItem { Name = "Momos", Description = "Dumplings", Price = 8.95m, Category = MenuCategory.Starters, IsAvailable = true },
-            new MenuItem { Name = "Dal Bhat", Description = "Lentil", Price = 14.95m, Category = MenuCategory.Mains, IsAvailable = true },
-            new MenuItem { Name = "Kheer", Description = "Pudding", Price = 6.95m, Category = MenuCategory.Desserts, IsAvailable = true },
+            new MenuItem { Name = "Hawawshi", Description = "Dumplings", Price = 8.95m, Category = MenuCategory.Starters, IsAvailable = true },
+            new MenuItem { Name = "Koshari", Description = "Lentil", Price = 14.95m, Category = MenuCategory.Mains, IsAvailable = true },
+            new MenuItem { Name = "Om Ali", Description = "Pudding", Price = 6.95m, Category = MenuCategory.Desserts, IsAvailable = true },
             new MenuItem { Name = "Hidden Item", Description = "Unavailable", Price = 9.99m, Category = MenuCategory.Mains, IsAvailable = false }
         );
         await _context.SaveChangesAsync();
@@ -75,7 +75,7 @@ public class GetMenuItemsQueryHandlerTests : IAsyncLifetime
         var result = await _handler.Handle(query, CancellationToken.None);
 
         result.Should().HaveCount(1, "Only the available Mains item should be returned");
-        result[0].Name.Should().Be("Dal Bhat");
+        result[0].Name.Should().Be("Koshari");
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class GetMenuItemsQueryHandlerTests : IAsyncLifetime
         var result = await _handler.Handle(query, CancellationToken.None);
 
         result.Should().HaveCount(1);
-        result[0].Name.Should().Be("Momos");
+        result[0].Name.Should().Be("Hawawshi");
     }
 
     [Fact]
@@ -119,7 +119,7 @@ public class GetMenuItemsQueryHandlerTests : IAsyncLifetime
 
         result.Should().HaveCount(1);
         var dto = result[0];
-        dto.Name.Should().Be("Kheer");
+        dto.Name.Should().Be("Om Ali");
         dto.Price.Should().Be(6.95m);
         dto.Category.Should().Be("Desserts");
         dto.IsAvailable.Should().BeTrue();

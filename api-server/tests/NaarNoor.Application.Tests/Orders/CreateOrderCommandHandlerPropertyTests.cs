@@ -216,7 +216,7 @@ public class CreateOrderCommandHandlerPropertyTests : ApplicationLayerTestBase
             TableReservationName: null,
             Items: new List<OrderItemRequest>
             {
-                new(Guid.NewGuid(), "Dal Bhat", 9.99m, 1)
+                new(Guid.NewGuid(), "Koshari", 9.99m, 1)
             });
 
     public static TheoryData<CreateOrderCommand> GetValidOrderCommands()
@@ -230,7 +230,7 @@ public class CreateOrderCommandHandlerPropertyTests : ApplicationLayerTestBase
             PhoneNumber: "07700900001",
             Notes: "Extra spicy please",
             Type: "delivery",
-            DeliveryAddress: "12 Himalayan Way, London, SW1A 1AA",
+            DeliveryAddress: "12 Egyptian Way, London, SW1A 1AA",
             TableReservationName: null,
             Items: new List<OrderItemRequest>
             {
