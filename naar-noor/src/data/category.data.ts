@@ -1,18 +1,18 @@
 export const CATEGORIES_DATA = [
   {
-    title: 'Starters',
+    title: 'Egyptian Starters',
     image: 'assets/categories/Starters.jpg'
   },
   {
-    title: 'Grill & BBQ',
+    title: 'Grill & Kofta',
     image: 'assets/cinematic/Grill-BBQ.jpg'
   },
   {
-    title: 'Himalayan Mains',
+    title: 'Traditional Mains',
     image: 'assets/categories/Himalayan-Mains.jpg'
   },
   {
-    title: 'Cocktails',
+    title: 'Beverages & Desserts',
     image: 'assets/categories/Cocktails.jpg'
   }
 ];

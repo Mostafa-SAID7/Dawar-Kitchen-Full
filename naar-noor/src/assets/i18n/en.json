@@ -1,8 +1,8 @@
 {
   "app": {
     "title": "Naar & Noor",
-    "tagline": "Authentic Himalayan Restaurant",
-    "description": "Experience authentic Himalayan cuisine at Naar & Noor"
+    "tagline": "Authentic Egyptian Restaurant",
+    "description": "Experience authentic Egyptian cuisine at Naar & Noor"
   },
   "nav": {
     "home": "Home",
@@ -15,12 +15,12 @@
   },
   "hero": {
     "title": "Welcome to Naar & Noor",
-    "subtitle": "Authentic Himalayan Flavors, Modern Experience",
+    "subtitle": "Authentic Egyptian Flavors, Modern Experience",
     "cta": "Explore Menu"
   },
   "menu": {
     "title": "Our Menu",
-    "description": "Discover our curated selection of traditional Himalayan dishes",
+    "description": "Discover our curated selection of traditional Egyptian dishes",
     "categories": "Categories",
     "filterByCategory": "Filter by category",
     "noItems": "No items found",

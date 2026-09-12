@@ -38,12 +38,12 @@ let dbAvailable = false;
 // Names of every item in cypress/fixtures/menu.json.
 // Used after seeding to give DB-level proof that each row was written.
 const FIXTURE_MENU_NAMES = [
-  'Lamb Rogan Josh',
-  'Chicken Momos',
-  'Dal Bhat',
-  'Mango Lassi',
-  'Gulab Jamun',
-  'Sekuwa',
+  'Hawawshi',
+  'Ta\'meya',
+  'Koshari',
+  'Hibiscus Tea (Karkadeh)',
+  'Om Ali',
+  'Shish Tawook',
 ] as const;
 
 // ─── Reference data seeding ──────────────────────────────────────────────────

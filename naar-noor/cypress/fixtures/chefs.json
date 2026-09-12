@@ -1,18 +1,18 @@
 [
   {
     "id": "chef-1",
-    "name": "Arjun Thapa",
+    "name": "Tarek Mahmoud",
     "title": "Head Chef",
-    "specialty": "Himalayan & Nepalese cuisine",
-    "bio": "Arjun brings 15 years of experience from the foothills of the Himalayas.",
+    "specialty": "Traditional Egyptian cuisine",
+    "bio": "Tarek brings 15 years of experience from the bustling streets of Cairo.",
     "isAvailable": true
   },
   {
     "id": "chef-2",
-    "name": "Priya Rai",
+    "name": "Nour El-Din",
     "title": "Sous Chef",
-    "specialty": "Vegetarian & vegan Himalayan dishes",
-    "bio": "Priya is a specialist in plant-based Himalayan cooking traditions.",
+    "specialty": "Vegetarian Egyptian dishes & Mezze",
+    "bio": "Nour is a specialist in classic Egyptian street food and plant-based traditions.",
     "isAvailable": true
   }
 ]
