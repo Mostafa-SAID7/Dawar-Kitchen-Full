@@ -83,17 +83,6 @@ public class SupabaseRealtimeServiceTests
 
     [Fact]
     public async Task SubscribeToReviewUpdatesAsync_DoesNotThrow()
-    {
-        var service = CreateService();
-
-        Func<Task> act = () => service.SubscribeToReviewUpdatesAsync(
-            "item-1",
-            _ => Task.CompletedTask,
-            _ => Task.CompletedTask);
-
-        await act.Should().NotThrowAsync();
-    }
-
     [Fact]
     public async Task SubscribeToTableAvailabilityAsync_DoesNotThrow()
     {
@@ -198,14 +187,12 @@ public class SupabaseRealtimeServiceTests
 
         await service.SubscribeToOrderUpdatesAsync("o1", _ => Task.CompletedTask, _ => Task.CompletedTask);
         await service.SubscribeToReservationUpdatesAsync("r1", _ => Task.CompletedTask, _ => Task.CompletedTask);
-        await service.SubscribeToReviewUpdatesAsync("m1", _ => Task.CompletedTask, _ => Task.CompletedTask);
         await service.SubscribeToTableAvailabilityAsync(_ => Task.CompletedTask, _ => Task.CompletedTask);
 
         Func<Task> act = async () =>
         {
             await service.UnsubscribeAsync("orders:o1");
             await service.UnsubscribeAsync("reservations:r1");
-            await service.UnsubscribeAsync("reviews:m1");
             await service.UnsubscribeAsync("table-availability");
         };
 

@@ -33,7 +33,6 @@ public class ApplicationDbContextFactoryTests
 
         context.MenuItems.Should().NotBeNull();
         context.Chefs.Should().NotBeNull();
-        context.Reviews.Should().NotBeNull();
         context.Reservations.Should().NotBeNull();
         context.Orders.Should().NotBeNull();
         context.ContactInquiries.Should().NotBeNull();

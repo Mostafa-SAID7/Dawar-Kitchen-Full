@@ -107,16 +107,16 @@ public class RepositoryCrudPropertyTests : IAsyncLifetime
     }
 
     [Fact]
-    public void Add_Review_AppearsInQuery()
+    public void Add_Chef_AppearsInQuery()
     {
-        var repo = new Repository<Review>(_context);
-        var review = new Review { CustomerName = "John Doe", Rating = 5, Comment = "Excellent!", Source = "Google" };
-        repo.Add(review);
+        var repo = new Repository<Chef>(_context);
+        var chef = new Chef { Name = "John Chef", Title = "Head Chef", Bio = "Experienced", Specialty = "Indian" };
+        repo.Add(chef);
         _context.SaveChanges();
 
-        var result = repo.Query().First(r => r.Id == review.Id);
-        result.CustomerName.Should().Be("John Doe");
-        result.Rating.Should().Be(5);
+        var result = repo.Query().First(r => r.Id == chef.Id);
+        result.Name.Should().Be("John Chef");
+        result.Title.Should().Be("Head Chef");
     }
 
     [Fact]

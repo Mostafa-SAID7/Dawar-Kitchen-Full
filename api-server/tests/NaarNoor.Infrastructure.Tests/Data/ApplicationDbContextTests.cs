@@ -76,12 +76,6 @@ public class ApplicationDbContextTests : IAsyncLifetime
     }
 
     [Fact]
-    public void DbSet_Reviews_IsAccessible()
-    {
-        _context.Reviews.Should().NotBeNull();
-    }
-
-    [Fact]
     public void DbSet_ContactInquiries_IsAccessible()
     {
         _context.ContactInquiries.Should().NotBeNull();
@@ -104,7 +98,7 @@ public class ApplicationDbContextTests : IAsyncLifetime
     {
         _context.Chefs.Add(new Chef { Name = "Multi Chef", Title = "T", Bio = "B", Specialty = "S" });
         _context.MenuItems.Add(new MenuItem { Name = "Multi Item", Description = "D", Price = 5m, Category = MenuCategory.Starters });
-        _context.Reviews.Add(new Review { CustomerName = "Reviewer", Rating = 4, Comment = "Good", Source = "Google" });
+        _context.ContactInquiries.Add(new ContactInquiry { Name = "Inquirer", Email = "i@test.com", Subject = "Q", Message = "M" });
 
         var count = await _context.SaveChangesAsync();
 
@@ -152,11 +146,11 @@ public class ApplicationDbContextTests : IAsyncLifetime
     [Fact]
     public async Task UpdatedAt_IsNotChanged_WhenEntityIsAdded_NotModified()
     {
-        var review = new Review { CustomerName = "New", Rating = 5, Comment = "Awesome", Source = "Direct" };
+        var inquiry = new ContactInquiry { Name = "Inquirer", Email = "i@test.com", Subject = "Test", Message = "Hello" };
         var before = DateTime.UtcNow;
-        _context.Reviews.Add(review);
+        _context.ContactInquiries.Add(inquiry);
         await _context.SaveChangesAsync();
 
-        review.CreatedAt.Should().BeOnOrAfter(before.AddSeconds(-1));
+        inquiry.CreatedAt.Should().BeOnOrAfter(before.AddSeconds(-1));
     }
 }

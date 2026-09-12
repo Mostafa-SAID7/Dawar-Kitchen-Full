@@ -40,15 +40,6 @@ public class DatabaseSeederIntegrationTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task SeedDataAsync_WhenDatabaseIsEmpty_SeedsReviews()
-    {
-        await DatabaseSeeder.SeedDataAsync(_context);
-
-        var count = await _context.Reviews.CountAsync();
-        count.Should().BeGreaterThan(0, "SeedDataAsync should seed reviews into an empty database");
-    }
-
-    [Fact]
     public async Task SeedDataAsync_SeededMenuItems_HaveValidPrices()
     {
         await DatabaseSeeder.SeedDataAsync(_context);
@@ -76,15 +67,6 @@ public class DatabaseSeederIntegrationTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task SeedDataAsync_SeededReviews_AreApproved()
-    {
-        await DatabaseSeeder.SeedDataAsync(_context);
-
-        var reviews = await _context.Reviews.ToListAsync();
-        reviews.Should().OnlyContain(r => r.IsApproved, "All seeded reviews should be approved");
-    }
-
-    [Fact]
     public async Task SeedDataAsync_CalledTwice_DoesNotDuplicateData()
     {
         await DatabaseSeeder.SeedDataAsync(_context);
@@ -94,16 +76,6 @@ public class DatabaseSeederIntegrationTests : IAsyncLifetime
         var countAfterSecond = await _context.MenuItems.CountAsync();
 
         countAfterSecond.Should().Be(countAfterFirst, "Calling SeedDataAsync twice should not duplicate data");
-    }
-
-    [Fact]
-    public async Task SeedDataAsync_SeededReviews_HaveValidRatings()
-    {
-        await DatabaseSeeder.SeedDataAsync(_context);
-
-        var reviews = await _context.Reviews.ToListAsync();
-        reviews.Should().OnlyContain(r => r.Rating >= 1 && r.Rating <= 5,
-            "All seeded reviews should have ratings between 1 and 5");
     }
 
     [Fact]

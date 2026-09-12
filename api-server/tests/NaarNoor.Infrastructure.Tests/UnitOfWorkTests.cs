@@ -47,13 +47,6 @@ public class UnitOfWorkTests : IAsyncLifetime
     }
 
     [Fact]
-    public void Reviews_ReturnsSameInstance_OnMultipleCalls()
-    {
-        var uow = new UnitOfWork(_context);
-        uow.Reviews.Should().BeSameAs(uow.Reviews);
-    }
-
-    [Fact]
     public void ContactInquiries_ReturnsSameInstance_OnMultipleCalls()
     {
         var uow = new UnitOfWork(_context);
@@ -103,9 +96,9 @@ public class UnitOfWorkTests : IAsyncLifetime
     public async Task SaveChangesAsync_WithCancellationToken_Works()
     {
         var uow = new UnitOfWork(_context);
-        var review = new Review { CustomerName = "Tom", Rating = 4, Comment = "Good!", Source = "Yelp" };
+        var inquiry = new ContactInquiry { Name = "Tom", Email = "tom@test.com", Subject = "Test", Message = "Hello" };
 
-        uow.Reviews.Add(review);
+        uow.ContactInquiries.Add(inquiry);
         var result = await uow.SaveChangesAsync(CancellationToken.None);
 
         result.Should().BeGreaterThan(0);
@@ -118,7 +111,6 @@ public class UnitOfWorkTests : IAsyncLifetime
 
         uow.Chefs.Add(new Chef { Name = "Chef", Title = "T", Bio = "B", Specialty = "S" });
         uow.MenuItems.Add(new MenuItem { Name = "Item", Description = "D", Price = 5.00m, Category = MenuCategory.Starters });
-        uow.Reviews.Add(new Review { CustomerName = "Customer", Rating = 5, Comment = "Great", Source = "Google" });
         uow.ContactInquiries.Add(new ContactInquiry { Name = "Inquirer", Email = "i@test.com", Subject = "Test", Message = "Hello" });
         uow.Reservations.Add(new Reservation
         {
@@ -139,7 +131,7 @@ public class UnitOfWorkTests : IAsyncLifetime
         });
 
         var saved = await uow.SaveChangesAsync();
-        saved.Should().Be(6);
+        saved.Should().Be(5);
     }
 
     [Fact]

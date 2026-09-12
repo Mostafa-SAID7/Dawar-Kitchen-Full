@@ -188,16 +188,6 @@ public class EntityConfigurationTests
 
     [Fact]
     public void Model_Review_HasExpectedProperties()
-    {
-        using var ctx = CreateContext();
-        var entityType = ctx.Model.FindEntityType(typeof(Review));
-
-        entityType.Should().NotBeNull();
-        entityType!.FindProperty(nameof(Review.CustomerName)).Should().NotBeNull();
-        entityType.FindProperty(nameof(Review.Rating)).Should().NotBeNull();
-        entityType.FindProperty(nameof(Review.IsApproved)).Should().NotBeNull();
-    }
-
     [Fact]
     public void Model_ContactInquiry_HasExpectedProperties()
     {
@@ -245,7 +235,7 @@ public class EntityConfigurationTests
         var entityTypes = new[]
         {
             typeof(Chef), typeof(MenuItem), typeof(Order), typeof(OrderItem),
-            typeof(Reservation), typeof(Review), typeof(ContactInquiry)
+            typeof(Reservation), typeof(ContactInquiry)
         };
 
         foreach (var type in entityTypes)

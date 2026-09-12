@@ -103,10 +103,10 @@ public class TransactionAtomicityPropertyTests : IAsyncLifetime
     [InlineData(7)]
     public async Task BulkAdd_AllEntitiesPresistAfterSave(int count)
     {
-        var repo = new Repository<Review>(_context);
+        var repo = new Repository<Chef>(_context);
         for (int i = 0; i < count; i++)
         {
-            repo.Add(new Review { CustomerName = $"Customer {i}", Rating = 5, Comment = "Great!", Source = "Google" });
+            repo.Add(new Chef { Name = $"Chef {i}", Title = "Chef", Bio = "Bio", Specialty = "S" });
         }
         await _context.SaveChangesAsync();
 
