@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://www.naarnooor.com/">
 
   <!-- ✅ SECURITY: Content Security Policy Meta Tag -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.iconify.design; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com; frame-ancestors 'none'; upgrade-insecure-requests; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.iconify.design; style-src 'self' 'nonce-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com; frame-ancestors 'none'; upgrade-insecure-requests; base-uri 'self'; form-action 'self'; object-src 'none'">
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
@@ -121,7 +121,7 @@
   </script>
 
   <!-- ── Splash screen styles (inline — zero network cost) ── -->
-  <style>
+  <style nonce="inline-critical-css">
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
