@@ -61,7 +61,7 @@ export class OrderPage {
 
   /** The submit button redirects to Stripe (or the stubbed payment URL). */
   static getPlaceOrderButton() {
-    return cy.get('button').contains('Pay with Stripe');
+    return cy.get('button[data-cy="pay-button"]');
   }
 
   static changeQuantity(itemIndex: number, quantity: number) {
@@ -73,7 +73,13 @@ export class OrderPage {
   }
 
   static selectOrderType(type: 'delivery' | 'pickup' | 'dine-in') {
-    this.getOrderTypeSelect().select(type);
+    // Map test terminology to component values
+    const typeMap = {
+      'pickup': 'collection',
+      'delivery': 'delivery',
+      'dine-in': 'dine-in'
+    };
+    this.getOrderTypeSelect().select(typeMap[type]);
   }
 
   static enterCustomerDetails(name: string, email: string, phone: string) {

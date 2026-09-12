@@ -169,7 +169,7 @@ import { DrawerStep } from '../../models';
               <select formControlName="type" name="orderType" data-cy="order-type-select" class="nn-input w-full mb-3">
                 <option value="dine-in">Dine-in</option>
                 <option value="delivery">Delivery</option>
-                <option value="pickup">Pickup</option>
+                <option value="collection">Pickup</option>
               </select>
               <div class="grid grid-cols-3 gap-2">
                 <label *ngFor="let t of orderTypes; trackBy: trackByType"
