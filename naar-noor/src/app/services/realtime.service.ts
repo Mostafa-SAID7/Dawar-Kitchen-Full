@@ -78,7 +78,7 @@ export class RealtimeService {
       }
     });
 
-    if (this.socket?.readyState === WebSocket.OPEN) {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.joinTopic(topic);
     }
   }
@@ -94,7 +94,7 @@ export class RealtimeService {
       }
     });
 
-    if (this.socket?.readyState === WebSocket.OPEN) {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.joinTopic(topic);
     }
   }
@@ -103,7 +103,7 @@ export class RealtimeService {
     const table = isOrder ? 'orders' : 'reservations';
     const topic = `realtime:public:${table}:id=eq.${orderIdOrReservationId}`;
     
-    if (this.socket?.readyState === WebSocket.OPEN) {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify({
         topic,
         event: 'phx_leave',
