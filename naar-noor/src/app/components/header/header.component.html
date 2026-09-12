@@ -19,12 +19,12 @@
     <nav data-cy="nav-menu" class="hidden md:flex items-center gap-6 lg:gap-8">
       <a routerLink="/"            routerLinkActive="text-white" [routerLinkActiveOptions]="{exact:true}"
          class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Home</a>
-      <a routerLink="/about"       routerLinkActive="text-white"
-         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">About</a>
       <a routerLink="/menu"        routerLinkActive="text-white"
          class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Menu</a>
       <a routerLink="/reservations" routerLinkActive="text-white"
          class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Reservations</a>
+      <a routerLink="/about"       routerLinkActive="text-white"
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">About</a>
       <a routerLink="/contact"     routerLinkActive="text-white"
          class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">Contact</a>
     </nav>
@@ -126,15 +126,15 @@
       <a routerLink="/"             (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
                 transition-colors py-2.5 px-3 rounded-lg">Home</a>
-      <a routerLink="/about"        (click)="toggleMobileMenu()"
-         class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
-                transition-colors py-2.5 px-3 rounded-lg">About</a>
       <a routerLink="/menu"         (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
                 transition-colors py-2.5 px-3 rounded-lg">Menu</a>
       <a routerLink="/reservations" (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
                 transition-colors py-2.5 px-3 rounded-lg">Reservations</a>
+      <a routerLink="/about"        (click)="toggleMobileMenu()"
+         class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
+                transition-colors py-2.5 px-3 rounded-lg">About</a>
       <a routerLink="/contact"      (click)="toggleMobileMenu()"
          class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
                 transition-colors py-2.5 px-3 rounded-lg">Contact</a>
