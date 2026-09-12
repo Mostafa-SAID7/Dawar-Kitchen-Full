@@ -1,4 +1,4 @@
-# Naar-Noor v1.0.0 Release Summary
+# Naar-Noor Release Summary
 
 **Status:** ✅ **PRODUCTION READY**
 
@@ -8,14 +8,14 @@
 
 | Component | Version | Location | Status |
 |-----------|---------|----------|--------|
-| Root Version | 1.0.0 | `VERSION` | ✅ |
-| Frontend | 1.0.0 | `naar-noor/package.json` | ✅ |
-| Backend | 1.0.0 | `api-server/src/NaarNoor.API/NaarNoor.API.csproj` | ✅ |
-| Docker | 1.0.0 | `api-server/Dockerfile` (labels) | ✅ |
-| Release Metadata | 1.0.0 | `.release-metadata.json` | ✅ |
-| Changelog | 1.0.0 | `docs/CHANGELOG.md` | ✅ |
+| Root Version | 1.1.1 | `VERSION` | ✅ |
+| Frontend | 1.1.0 | `naar-noor/package.json` | ✅ |
+| Backend | 1.1.0 | `api-server/src/NaarNoor.API/NaarNoor.API.csproj` | ✅ |
+| Docker | 1.1.0 | `api-server/Dockerfile` (labels) | ✅ |
+| Release Metadata | 1.1.1 | `.release-metadata.json` | ✅ |
+| Changelog | 1.1.1 | `CHANGELOG.md` (root) | ✅ |
 
-**All versions consistent: 1.0.0 ✅**
+**All versions consistent: 1.1.1 ✅**
 
 ---
 
@@ -44,7 +44,7 @@
 ### Infrastructure
 - ✅ Docker containerized (multi-stage)
 - ✅ Kubernetes ready (8 manifests)
-- ✅ CI/CD automated (7 workflows)
+- ✅ CI/CD automated (9 workflows)
 - ✅ Secret management (env-based)
 - ✅ Vercel + Azure deployment ready
 
@@ -81,7 +81,7 @@
 2. **Create GitHub Release:**
    - Go to Releases page
    - Create from tag v1.0.0
-   - Add release notes from `docs/CHANGELOG.md`
+   - Add release notes from `CHANGELOG.md` (root)
 
 3. **Deploy:**
    - Follow `docs/DEPLOYMENT.md`
@@ -99,7 +99,7 @@
 | `naar-noor/package.json` | Updated version to 1.0.0 |
 | `api-server/Dockerfile` | Enhanced labels + version |
 | `api-server/src/NaarNoor.API/NaarNoor.API.csproj` | Added Version/AssemblyVersion/FileVersion |
-| `docs/CHANGELOG.md` | Already correct |
+| `CHANGELOG.md` (root) | Canonical changelog — docs/CHANGELOG.md removed (was duplicate) |
 | `README.md` | Already correct |
 
 ---

@@ -3,17 +3,19 @@
 ## System Overview
 
 ```
-Browser (Angular 18)
-       │ HTTP/REST
+Browser (Angular 18 SPA)
+       │ HTTPS / REST + WebSocket (Supabase Realtime)
        ▼
 ASP.NET Core 8 API
-  ├── API Layer (Controllers)
-  ├── Application Layer (CQRS / MediatR)
-  ├── Domain Layer (Entities, Enums)
-  └── Infrastructure Layer (EF Core)
-       │ SQL
+  ├── API Layer         (Controllers, Middleware, DTOs)
+  ├── Application Layer (CQRS / MediatR / Validators)
+  ├── Domain Layer      (Entities, Value Objects, Enums)
+  └── Infrastructure    (EF Core, Repositories, Services)
+       │ PostgreSQL (via Supabase)
        ▼
-  SQL Server Database
+   Supabase (PostgreSQL + Auth + Storage + Realtime)
+
+External:  Stripe (payments) · Supabase Auth (JWT)
 ```
 
 ---
@@ -22,20 +24,20 @@ ASP.NET Core 8 API
 
 | Layer | Project | Responsibility |
 |-------|---------|---------------|
-| **API** | `NaarNoor.API` | HTTP controllers, middleware, config |
-| **Application** | `NaarNoor.Application` | CQRS commands/queries, validators |
-| **Domain** | `NaarNoor.Domain` | Entities, enums, business rules (no deps) |
-| **Infrastructure** | `NaarNoor.Infrastructure` | EF Core DbContext, migrations, seeding |
+| **API** | `NaarNoor.API` | HTTP controllers, middleware, DTOs, config |
+| **Application** | `NaarNoor.Application` | CQRS commands/queries, validators, cache |
+| **Domain** | `NaarNoor.Domain` | Entities, enums, value objects, base entity |
+| **Infrastructure** | `NaarNoor.Infrastructure` | EF Core DbContext, repositories, external services |
 
 ### CQRS Pattern
 
 ```
-Request
-  ├── Command (write) → Handler → Database
-  └── Query  (read)  → Handler → Response
+HTTP Request
+  ├── Command (write) → Validator → Handler → EF Core → DB
+  └── Query  (read)  → Cache? → Handler → EF Core → Response
 ```
 
-**Data flow:** Controller → Validator → Handler → EF Core → JSON response
+**Data flow:** Controller → FluentValidation → MediatR Handler → EF Core → JSON
 
 ---
 
@@ -45,12 +47,21 @@ Request
 
 ```
 AppComponent
-├── HeaderComponent
-├── Pages/
-│   ├── HomeComponent (Hero, About, Menu, Chefs, Reviews, Locations)
+├── HeaderComponent       (nav, cart trigger, auth, language toggle)
+├── Pages (routed)
+│   ├── HomeComponent     (Hero, About, Menu, Chefs, Reservation, Blog sections)
+│   ├── AboutComponent
+│   ├── MenuComponent
 │   ├── ReservationsComponent
-│   ├── ReviewsComponent
-│   └── CartComponent / CheckoutComponent
+│   ├── CheckoutComponent
+│   ├── LoginComponent / RegisterComponent
+│   ├── ContactComponent
+│   ├── PaymentSuccess / PaymentCancelled / OrderConfirmed
+│   ├── Privacy / Terms
+│   └── NotFoundComponent
+├── CartDrawerComponent   (slide-in cart + order form)
+├── AuthModalComponent    (login/register modal)
+├── ToastComponent        (notification system)
 └── FooterComponent
 ```
 
@@ -59,8 +70,13 @@ AppComponent
 | Service | Purpose |
 |---------|---------|
 | `ApiService` | All HTTP calls to backend (`/api/*`) |
-| `AuthService` | Login, logout, JWT token management |
-| `CartService` | Cart state management |
+| `AuthService` | Login, register, JWT token, Supabase Auth |
+| `CartService` | Cart state + localStorage persistence |
+| `RealtimeService` | Supabase Realtime subscriptions |
+| `LanguageService` | EN/AR bilingual switching (i18n) |
+| `ThemeService` | Dark/light mode |
+| `SeoService` | Meta tags + structured data |
+| `ToastService` | Toast notification queue |
 | `DropdownManagerService` | Global dropdown open/close state |
 
 ---
@@ -77,8 +93,10 @@ AppComponent
 | | Entity Framework Core | 8.0 |
 | | MediatR | 12.0 |
 | | FluentValidation | 11.0 |
-| **Database** | SQL Server | 2019+ |
-| **Docs** | Swagger/OpenAPI | 3.0 |
+| **Database** | PostgreSQL (Supabase) | 14+ |
+| **Auth** | Supabase Auth + JWT | — |
+| **Payments** | Stripe | — |
+| **Docs** | Swagger / OpenAPI | 3.0 |
 
 ---
 

@@ -4,23 +4,29 @@
 - Dev: `http://localhost:8080/api`
 - Prod: `https://naar-noor-api.vercel.app/api`
 
-**Auth:** None required currently (JWT planned for v2)  
+**Auth:** JWT Bearer token required for protected routes  
 **Interactive docs:** `http://localhost:8080/swagger`
 
 ---
 
 ## Endpoints Summary
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/chefs` | All chefs |
-| GET | `/api/menu` | All menu items (filterable) |
-| GET | `/api/reservations` | All reservations |
-| POST | `/api/reservations` | Create reservation |
-| GET | `/api/reviews` | Approved reviews |
-| POST | `/api/reviews` | Submit review |
-| POST | `/api/contact` | Submit contact inquiry |
-| GET | `/health` | API health check |
+| Method | Path | Description | Auth |
+|--------|------|-------------|------|
+| POST | `/api/auth/login` | Login, returns JWT | Public |
+| POST | `/api/auth/register` | Register new user | Public |
+| GET | `/api/chefs` | All chef profiles | Public |
+| GET | `/api/menu` | Menu items (filterable) | Public |
+| GET | `/api/menu/{id}` | Single menu item | Public |
+| GET | `/api/reservations` | User's reservations | 🔒 JWT |
+| POST | `/api/reservations` | Create reservation | 🔒 JWT |
+| PUT | `/api/reservations/{id}` | Update reservation | 🔒 JWT |
+| DELETE | `/api/reservations/{id}` | Delete reservation | 🔒 JWT |
+| POST | `/api/orders` | Create order | 🔒 JWT |
+| POST | `/api/payments/checkout` | Create Stripe session | 🔒 JWT |
+| POST | `/api/payments/webhook` | Stripe webhook handler | Public |
+| POST | `/api/contact` | Submit contact inquiry | Public |
+| GET | `/health` | API health check | Public |
 
 ---
 

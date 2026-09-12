@@ -5,7 +5,7 @@
 ```bash
 cd naar-noor
 npm install
-npm run dev        # Dev server → http://localhost:5000
+npm run dev        # Dev server → http://localhost:4200
 npm run build      # Production → dist/naar-noor/browser/
 npm run test:ci    # Unit tests (single run)
 npx cypress open   # E2E tests (interactive)
@@ -18,7 +18,9 @@ npx cypress open   # E2E tests (interactive)
 ```
 naar-noor/src/app/
 ├── components/          # Shared UI components (header, footer, cart, etc.)
-├── pages/               # Page-level components (home, reviews, checkout, etc.)
+├── pages/               # Page-level components (home, menu, about, checkout,
+│   │                    # reservations, contact, login, register, privacy,
+│   │                    # terms, order-confirmed, payment-success, not-found)
 ├── services/            # API, auth, cart, dropdown services
 ├── models/              # TypeScript interfaces (MenuItem, Chef, Reservation, etc.)
 └── environments/        # environment.ts (apiUrl config)

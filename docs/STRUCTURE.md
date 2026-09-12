@@ -3,11 +3,26 @@
 ## Root
 
 ```
-Naar-Noor/
-├── api-server/      # .NET 8 Backend
-├── naar-noor/       # Angular 18 Frontend
-├── docs/            # Documentation
-└── .git/
+Naar-Noor-Full/
+├── api-server/                    # ASP.NET Core 8 backend
+├── naar-noor/                     # Angular 18 frontend
+├── docs/                          # Documentation
+├── scripts/                       # CI/CD helper scripts (Python)
+├── .github/
+│   └── workflows/                 # 9 GitHub Actions CI/CD pipelines
+├── .agent/                        # AI agent context files
+├── .husky/                        # Git hooks
+├── docker-compose.yml             # Production Docker stack
+├── docker-compose.dev.yml         # Development Docker stack
+├── Makefile                       # Common dev commands
+├── vercel.json                    # Vercel monorepo deploy config
+├── dependency-check-suppression.xml # OWASP suppression rules
+├── .env / .env.example            # Environment variables
+├── .release-metadata.json         # Version metadata
+├── VERSION                        # Current version (semver)
+├── CHANGELOG.md                   # Release history
+├── README.md                      # Project entry point
+└── LICENSE                        # MIT License
 ```
 
 ---
@@ -15,33 +30,66 @@ Naar-Noor/
 ## Backend (`api-server/`)
 
 ```
-api-server/src/
-├── NaarNoor.API/
-│   ├── Controllers/         # ChefsController, MenuController, ReservationsController,
-│   │                        # ReviewsController, ContactController, HealthController
-│   ├── Program.cs
-│   └── appsettings.json
+api-server/
+├── NaarNoor.sln
+├── Dockerfile
+├── coverlet.runsettings
+├── src/
+│   ├── NaarNoor.API/
+│   │   ├── Controllers/         # Auth, Chefs, Contact, Health,
+│   │   │                        # Menu, Orders, Payments, Reports,
+│   │   │                        # Reservations, Staff
+│   │   ├── Configuration/       # CORS, Swagger, Health, Service configs
+│   │   ├── DTOs/                # AuthDtos.cs
+│   │   ├── Middleware/          # ExceptionHandling, Security, Audit,
+│   │   │                        # CORS, Swagger, Controllers, Seeding
+│   │   ├── Program.cs
+│   │   └── appsettings.json
+│   │
+│   ├── NaarNoor.Application/
+│   │   ├── Caching/             # CacheService
+│   │   ├── Chefs/               # GetChefsQuery + Handler
+│   │   ├── Contact/             # SubmitInquiryCommand + Handler + Validator
+│   │   ├── MenuItems/           # GetMenuItems, GetById, Create, Update, Delete
+│   │   ├── Orders/              # CreateOrder, CreateStripeCheckoutSession,
+│   │   │                        # HandleStripeWebhook
+│   │   ├── Reservations/        # Create, Update, Delete, GetById, GetAll
+│   │   ├── Services/            # IUserService
+│   │   ├── Common/              # IApplicationDbContext, IRepository,
+│   │   │                        # IStripeService, IUnitOfWork,
+│   │   │                        # ISupabaseAuthService, ISupabaseRealtimeService,
+│   │   │                        # ISupabaseStorageService, PagedResult,
+│   │   │                        # ValidationBehaviour
+│   │   └── DependencyInjection.cs
+│   │
+│   ├── NaarNoor.Domain/
+│   │   ├── Entities/            # Chef, ContactInquiry, MenuItem,
+│   │   │                        # Order, OrderItem, Reservation, User
+│   │   ├── Enums/               # MenuCategory, OrderStatus, OrderType,
+│   │   │                        # PaymentStatus, ReservationStatus
+│   │   ├── ValueObjects/        # Money, TimeSlot
+│   │   └── Common/BaseEntity.cs
+│   │
+│   └── NaarNoor.Infrastructure/
+│       ├── Data/
+│       │   ├── ApplicationDbContext.cs
+│       │   ├── ApplicationDbContextFactory.cs
+│       │   ├── Configurations/  # EF Core entity configs (6 files)
+│       │   └── Seeds/DatabaseSeeder.cs
+│       ├── Migrations/          # EF Core migrations
+│       ├── Repositories/        # Repository.cs, UnitOfWork.cs
+│       ├── Services/            # JwtService, StripeService,
+│       │                        # SupabaseAuthService, SupabaseRealtimeService,
+│       │                        # SupabaseService, SupabaseStorageService,
+│       │                        # UserService
+│       └── DependencyInjection.cs
 │
-├── NaarNoor.Application/
-│   ├── Chefs/Queries/GetChefs/
-│   ├── MenuItems/Queries/GetMenuItems/
-│   ├── Reservations/Commands/CreateReservation/
-│   ├── Reservations/Queries/GetReservations/
-│   ├── Reviews/Queries/GetApprovedReviews/
-│   ├── Contact/Commands/SubmitInquiry/
-│   └── Common/Behaviours/ + Interfaces/
-│
-├── NaarNoor.Domain/
-│   ├── Entities/            # Chef, MenuItem, Reservation, Review, ContactInquiry
-│   ├── Enums/               # MenuCategory, ReservationStatus
-│   └── Common/BaseEntity.cs
-│
-└── NaarNoor.Infrastructure/
-    └── Data/
-        ├── ApplicationDbContext.cs
-        ├── Configurations/  # Entity EF Core configs
-        ├── Seeds/DatabaseSeeder.cs
-        └── Migrations/
+└── tests/
+    ├── NaarNoor.API.Tests/          # Integration: auth, performance, security
+    ├── NaarNoor.Application.Tests/  # Chefs, Contact, MenuItems, Orders,
+    │                                # Reservations, validation, DI
+    ├── NaarNoor.Domain.Tests/       # Entity state validation
+    └── NaarNoor.Infrastructure.Tests/ # DB, services, persistence, DI
 ```
 
 **File naming:**
@@ -57,28 +105,58 @@ api-server/src/
 ```
 naar-noor/src/
 ├── app/
-│   ├── components/          # header, footer, animated-background,
-│   │                        # custom-calendar, custom-dropdown, cart
-│   ├── pages/               # home, reviews, checkout, not-found
-│   ├── sections/            # hero, about, menu, chefs, reservations,
-│   │                        # reviews, locations, blog, category
-│   ├── services/            # api.service.ts, auth.service.ts,
-│   │                        # cart.service.ts, dropdown-manager.service.ts
-│   ├── models/              # TypeScript interfaces
-│   ├── app.routes.ts
-│   └── app.config.ts
+│   ├── components/          # animated-background, auth-modal, cart-drawer,
+│   │   │                    # custom-calendar, custom-dropdown, footer,
+│   │   │                    # header, language-toggle, toast
+│   │   └── tests/           # Component spec files
+│   │
+│   ├── pages/               # about, checkout, contact, home, login, menu,
+│   │   │                    # not-found, order-confirmed, payment-cancelled,
+│   │   │                    # payment-success, privacy, register,
+│   │   │                    # reservations, terms
+│   │
+│   ├── sections/            # about, blog, category, chefs, cinematic-banner,
+│   │   │                    # hero, locations, menu, reservation
+│   │
+│   ├── services/            # api, auth, cart, dropdown-manager, language,
+│   │   │                    # realtime, seo, theme, toast
+│   │   └── tests/           # Service spec files
+│   │
+│   ├── models/              # auth, cart, chef, contact, menu, order,
+│   │   │                    # reservation, seo, toast + index.ts
+│   │
+│   ├── directives/          # image-optimization, scroll-reveal
+│   ├── guards/              # auth.guard.ts
+│   ├── interceptors/        # auth.interceptor.ts
+│   ├── app.component.ts
+│   ├── app.config.ts
+│   └── app.routes.ts
 │
-├── assets/                  # images, icons (blog/, chefs/, hero/, etc.)
-├── data/                    # blog.data.ts, chefs.data.ts, menu.data.ts, etc.
+├── assets/
+│   ├── i18n/                # ar.json, en.json
+│   ├── icons/               # favicon.ico, favicon.svg
+│   ├── blog/  chefs/  cinematic/  hero/  locations/  categories/
+│   ├── manifest.json        # PWA manifest
+│   ├── ngsw-config.json     # Service worker config
+│   ├── robots.txt
+│   ├── sitemap.xml
+│   └── .htaccess
+│
+├── data/                    # blog.data.ts, category.data.ts,
+│   │                        # chefs.data.ts, menu.data.ts
 ├── environments/            # environment.ts, environment.prod.ts
 ├── index.html
-└── styles.css
+├── main.ts
+├── styles.css
+└── manifest.json            # PWA manifest (root copy)
 ```
 
 **File naming:**
 - Component: `{name}.component.ts / .html / .css`
 - Service: `{name}.service.ts`
 - Model: `{name}.model.ts`
+- Guard: `{name}.guard.ts`
+- Directive: `{name}.directive.ts`
 
 ---
 
@@ -86,7 +164,14 @@ naar-noor/src/
 
 ```
 cypress/
-├── e2e/         # Test specs (auth, cart, checkout, menu, reviews, etc.)
-├── fixtures/    # JSON mock data (menu.json, chefs.json, reviews.json, etc.)
-└── support/     # commands.ts, db-isolation.ts, e2e.ts
+├── e2e/                 # auth, browse-menu, cart-flow, checkout-flow,
+│   │                    # menu-search, navigation, orders,
+│   │                    # reservation-flow, reservation-workflow
+├── fixtures/            # auth-login, chefs, menu, order-response,
+│   │                    # payment-session, reservation (JSON mocks)
+└── support/
+    ├── commands.ts
+    ├── db-isolation.ts
+    ├── e2e.ts
+    └── page-objects/    # LoginPage, MenuPage, OrderPage, ReservationPage
 ```

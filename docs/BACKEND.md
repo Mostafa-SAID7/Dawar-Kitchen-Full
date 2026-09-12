@@ -11,7 +11,7 @@ dotnet run --project src/NaarNoor.API/NaarNoor.API.csproj
 ✅ API: `http://localhost:8080`  
 ✅ Swagger: `http://localhost:8080/swagger`
 
-**Prerequisites:** .NET SDK 8.0+, SQL Server 2019+
+**Prerequisites:** .NET SDK 8.0+, PostgreSQL (via Supabase) or local Docker
 
 ---
 
