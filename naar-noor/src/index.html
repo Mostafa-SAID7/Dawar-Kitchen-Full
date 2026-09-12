@@ -12,8 +12,8 @@
   <!-- Canonical -->
   <link rel="canonical" href="https://www.naarnooor.com/">
 
-  <!-- ✅ SECURITY: Content Security Policy Meta Tag -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.iconify.design; style-src 'self' 'nonce-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.iconify.design https://api.simplesvg.com https://api.unisvg.com; frame-ancestors 'none'; upgrade-insecure-requests; base-uri 'self'; form-action 'self'; object-src 'none'">
+  <!-- CSP is delivered as an HTTP header in vercel.json (frame-ancestors
+       and nonce-based rules require HTTP headers, not meta tags). -->
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
@@ -51,13 +51,12 @@
   <!-- ── Critical asset preloads ──────────────────────── -->
   <link rel="preload" href="assets/hero/hero.webp" as="image" type="image/webp" fetchpriority="high">
 
-  <!-- ── Fonts — non-render-blocking ──────────────────── -->
-  <link rel="preload" as="style"
+  <!-- ── Fonts ─────────────────────────────────────────── -->
+  <!-- Direct stylesheet link: the onload trick used an inline event handler
+       which is blocked by script-src CSP. A regular link tag is CSP-safe. -->
+  <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Forum&family=Open+Sans:wght@300;400;500;600&display=swap"
-        onload="this.rel='stylesheet'">
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  </noscript>
+        crossorigin>
 
   <!-- ── Iconify — deferred ───────────────────────────── -->
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
@@ -224,20 +223,8 @@
   </style>
 </head>
 <body>
-  <script>
-    // Prevent browser scroll restoration flicker BEFORE Angular boots
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
-    // Apply saved theme immediately to prevent flash of wrong theme
-    (function() {
-      try {
-        var t = localStorage.getItem('nn_theme');
-        var dark = t ? t === 'dark' : true;
-        document.documentElement.classList.add(dark ? 'theme-dark' : 'theme-light');
-        if (!dark) document.documentElement.style.background = '#f5efe8';
-      } catch(e) {}
-    })();
-  </script>
+  <!-- Theme + scroll-restoration init — external file satisfies script-src 'self' -->
+  <script src="assets/init.js"></script>
 
   <!-- Splash screen — removed by AppComponent after first navigation -->
   <div id="nn-splash" aria-hidden="true">

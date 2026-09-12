@@ -10,44 +10,17 @@
   "lang": "en-GB",
   "dir": "ltr",
   "categories": ["food", "lifestyle", "shopping"],
-  "screenshots": [
-    {
-      "src": "assets/icons/screenshot-narrow.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "assets/icons/screenshot-wide.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ],
   "icons": [
     {
-      "src": "assets/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "src": "assets/icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/icon-192-maskable.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "assets/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "assets/icons/icon-512-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "src": "assets/icons/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
     }
   ],
   "shortcuts": [
@@ -55,40 +28,19 @@
       "name": "View Menu",
       "short_name": "Menu",
       "description": "Browse our full menu",
-      "url": "/menu",
-      "icons": [
-        {
-          "src": "assets/icons/menu-icon.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "url": "/menu"
     },
     {
       "name": "Make a Reservation",
       "short_name": "Book",
       "description": "Reserve a table",
-      "url": "/reservations",
-      "icons": [
-        {
-          "src": "assets/icons/reservation-icon.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "url": "/reservations"
     },
     {
       "name": "Place an Order",
       "short_name": "Order",
       "description": "Order for delivery or pickup",
-      "url": "/menu",
-      "icons": [
-        {
-          "src": "assets/icons/order-icon.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "url": "/menu"
     }
   ]
 }
