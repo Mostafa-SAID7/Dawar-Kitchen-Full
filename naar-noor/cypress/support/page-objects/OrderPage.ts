@@ -65,7 +65,12 @@ export class OrderPage {
   }
 
   static changeQuantity(itemIndex: number, quantity: number) {
-    this.getQuantityInput(itemIndex).clear().type(quantity.toString());
+    // Re-query to avoid detached DOM issues when form re-renders
+    cy.get('[data-cy="cart-item"]').eq(itemIndex).find('input[type="number"]')
+      .clear()
+      .type(quantity.toString(), { force: true });
+    // Wait for the form to re-render after input
+    cy.get('[data-cy="order-total"]').should('be.visible');
   }
 
   static removeItem(itemIndex: number) {
@@ -75,7 +80,7 @@ export class OrderPage {
   static selectOrderType(type: 'delivery' | 'pickup' | 'dine-in') {
     // Map test terminology to component values
     const typeMap = {
-      'pickup': 'collection',
+      'pickup': 'pickup',
       'delivery': 'delivery',
       'dine-in': 'dine-in'
     };
