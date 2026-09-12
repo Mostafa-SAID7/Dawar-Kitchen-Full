@@ -1,0 +1,94 @@
+{
+  "name": "Naar & Noor — Authentic Himalayan Restaurant",
+  "short_name": "Naar & Noor",
+  "description": "Experience authentic Himalayan recipes, flame-grilled specialties, and modern dining. Reserve your table or order online.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#C65A1E",
+  "scope": "/",
+  "lang": "en-GB",
+  "dir": "ltr",
+  "categories": ["food", "lifestyle", "shopping"],
+  "screenshots": [
+    {
+      "src": "assets/icons/screenshot-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "assets/icons/screenshot-wide.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Menu",
+      "short_name": "Menu",
+      "description": "Browse our full menu",
+      "url": "/menu",
+      "icons": [
+        {
+          "src": "assets/icons/menu-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Make a Reservation",
+      "short_name": "Book",
+      "description": "Reserve a table",
+      "url": "/reservations",
+      "icons": [
+        {
+          "src": "assets/icons/reservation-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Place an Order",
+      "short_name": "Order",
+      "description": "Order for delivery or pickup",
+      "url": "/menu",
+      "icons": [
+        {
+          "src": "assets/icons/order-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
