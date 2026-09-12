@@ -9,7 +9,6 @@ public interface IUnitOfWork
     IRepository<Reservation> Reservations { get; }
     IRepository<MenuItem> MenuItems { get; }
     IRepository<Chef> Chefs { get; }
-    IRepository<Review> Reviews { get; }
     IRepository<ContactInquiry> ContactInquiries { get; }
     IRepository<Order> Orders { get; }
     IRepository<OrderItem> OrderItems { get; }

@@ -84,10 +84,6 @@ public static class CacheKeys
     public const string ChefById = "chef_{0}";
     private const int ChefsCacheDuration = 600;
 
-    // Reviews (5-minute TTL)
-    public const string ApprovedReviews = "reviews_approved";
-    private const int ReviewsCacheDuration = 300;
-
     /// <summary>
     /// Get cache expiration duration based on cache type
     /// </summary>
@@ -96,7 +92,6 @@ public static class CacheKeys
         _ when cacheKeyPrefix.StartsWith("menu_items") => TimeSpan.FromSeconds(MenuItemsCacheDuration),
         _ when cacheKeyPrefix.StartsWith("reservation_slots") => TimeSpan.FromSeconds(ReservationSlotsCacheDuration),
         _ when cacheKeyPrefix.StartsWith("chef") => TimeSpan.FromSeconds(ChefsCacheDuration),
-        _ when cacheKeyPrefix.StartsWith("reviews") => TimeSpan.FromSeconds(ReviewsCacheDuration),
         _ => TimeSpan.FromHours(1) // Default
     };
 }

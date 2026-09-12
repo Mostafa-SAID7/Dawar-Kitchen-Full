@@ -7,7 +7,7 @@ namespace NaarNoor.Infrastructure.Services;
 
 /// <summary>
 /// Implements Supabase Realtime Service using WebSocket
-/// Provides real-time subscriptions for order status, reservations, and reviews
+/// Provides real-time subscriptions for order status and reservations
 /// </summary>
 public class SupabaseRealtimeService : ISupabaseRealtimeService
 {
@@ -50,20 +50,6 @@ public class SupabaseRealtimeService : ISupabaseRealtimeService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error subscribing to reservation updates for reservation: {ReservationId}", reservationId);
-            await onError(ex);
-        }
-    }
-
-    public async Task SubscribeToReviewUpdatesAsync(string menuItemId, Func<dynamic, Task> onUpdate, Func<Exception, Task> onError)
-    {
-        try
-        {
-            _logger.LogInformation("Subscribing to review updates for menu item: {MenuItemId}", menuItemId);
-            await SubscribeToChannelAsync($"reviews:{menuItemId}", onUpdate, onError);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error subscribing to review updates for menu item: {MenuItemId}", menuItemId);
             await onError(ex);
         }
     }

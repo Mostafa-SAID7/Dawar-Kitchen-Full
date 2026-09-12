@@ -25,7 +25,6 @@ public static class AuditLoggingMiddleware
             { 
                 "/api/reservations",
                 "/api/orders",
-                "/api/reviews",
                 "/api/menu",
                 "/api/auth",
                 "/api/contact"

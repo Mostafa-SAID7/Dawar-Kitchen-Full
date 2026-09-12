@@ -20,9 +20,6 @@ public static class DatabaseSeeder
         if (!await context.Chefs.AnyAsync())
             await SeedChefsAsync(context);
 
-        if (!await context.Reviews.AnyAsync())
-            await SeedReviewsAsync(context);
-
         await context.SaveChangesAsync();
     }
 
@@ -57,17 +54,5 @@ public static class DatabaseSeeder
             new() { Name = "Rohan Shrestha", Title = "Sous Chef", Bio = "Rohan's deep knowledge of Tibetan and Sherpa cuisines brings the high-altitude flavours of the mountain communities to every plate.", Specialty = "Tibetan Cuisine & Noodles", IsActive = true, SortOrder = 3 },
         };
         await context.Chefs.AddRangeAsync(chefs);
-    }
-
-    private static async Task SeedReviewsAsync(ApplicationDbContext context)
-    {
-        var reviews = new List<Review>
-        {
-            new() { CustomerName = "Sarah M.", Rating = 5, Comment = "The momos were absolutely divine — light, perfectly seasoned and the chutney had just the right amount of heat. Naar & Noor is now my favourite restaurant in London.", Source = "Google", IsApproved = true, CreatedAt = DateTime.UtcNow.AddDays(-30) },
-            new() { CustomerName = "James T.", Rating = 5, Comment = "An extraordinary culinary journey. The lamb sekuwa was cooked to perfection over flame, and the butter tea was a revelation. We'll be back.", Source = "TripAdvisor", IsApproved = true, CreatedAt = DateTime.UtcNow.AddDays(-21) },
-            new() { CustomerName = "Priya K.", Rating = 5, Comment = "Dal Bhat like my grandmother used to make, but elevated. The atmosphere is warm and intimate. The staff are incredibly knowledgeable about every dish.", Source = "Google", IsApproved = true, CreatedAt = DateTime.UtcNow.AddDays(-14) },
-            new() { CustomerName = "Oliver W.", Rating = 4, Comment = "Stunning food and a beautifully designed space. The tasting menu is a must — seven courses of pure Himalayan magic.", Source = "Direct", IsApproved = true, CreatedAt = DateTime.UtcNow.AddDays(-7) },
-        };
-        await context.Reviews.AddRangeAsync(reviews);
     }
 }

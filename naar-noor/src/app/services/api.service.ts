@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment';
 import {
   MenuItem,
   Chef,
-  Review,
   CreateReservationRequest,
   CreateReservationResponse,
   CreateContactRequest,
@@ -20,7 +19,6 @@ import {
 export type {
   MenuItem,
   Chef,
-  Review,
   CreateReservationRequest,
   CreateReservationResponse,
   CreateContactRequest,
@@ -47,11 +45,6 @@ export class ApiService {
 
   private readonly mockChefs: Chef[] = [
     { id: 'c1', name: 'Chef Ahmed', title: 'Executive Chef', bio: 'Over 15 years of experience in fine dining.', imageUrl: null, specialty: 'Mughlai Cuisine', sortOrder: 1 }
-  ];
-
-  private readonly mockReviews: Review[] = [
-    { id: 'r1', customerName: 'John Doe', rating: 5, comment: 'Great food and excellent service!', source: 'Google', createdAt: new Date().toISOString() },
-    { id: 'r2', customerName: 'Jane Smith', rating: 4, comment: 'Very nice ambiance and friendly staff.', source: 'TripAdvisor', createdAt: new Date().toISOString() }
   ];
 
   getPublicImageUrl(bucket: string, path: string | null): string | null {
@@ -90,12 +83,6 @@ export class ApiService {
         imageUrl: this.getPublicImageUrl('chef-images', chef.imageUrl)
       }))),
       catchError(() => of(this.mockChefs))
-    );
-  }
-
-  getReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.baseUrl}/reviews`).pipe(
-      catchError(() => of(this.mockReviews))
     );
   }
 

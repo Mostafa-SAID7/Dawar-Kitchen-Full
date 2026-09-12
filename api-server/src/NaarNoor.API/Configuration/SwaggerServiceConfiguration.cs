@@ -16,7 +16,7 @@ public static class SwaggerServiceConfiguration
             {
                 Title = "Naar & Noor API",
                 Version = "v1",
-                Description = "Restaurant management API with menu, chefs, reservations, orders, reviews, and contact endpoints",
+                Description = "Restaurant management API with menu, chefs, reservations, orders, and contact endpoints",
                 Contact = new OpenApiContact
                 {
                     Name = "Naar & Noor",

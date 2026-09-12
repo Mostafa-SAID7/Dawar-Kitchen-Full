@@ -2,7 +2,7 @@ namespace NaarNoor.Application.Common.Interfaces;
 
 /// <summary>
 /// Supabase Realtime Service Interface
-/// Manages real-time subscriptions for order status updates, reservations, and reviews
+/// Manages real-time subscriptions for order status updates and reservations
 /// </summary>
 public interface ISupabaseRealtimeService
 {
@@ -15,11 +15,6 @@ public interface ISupabaseRealtimeService
     /// Subscribe to reservation changes
     /// </summary>
     Task SubscribeToReservationUpdatesAsync(string reservationId, Func<dynamic, Task> onUpdate, Func<Exception, Task> onError);
-
-    /// <summary>
-    /// Subscribe to new reviews for a menu item
-    /// </summary>
-    Task SubscribeToReviewUpdatesAsync(string menuItemId, Func<dynamic, Task> onUpdate, Func<Exception, Task> onError);
 
     /// <summary>
     /// Subscribe to table availability changes

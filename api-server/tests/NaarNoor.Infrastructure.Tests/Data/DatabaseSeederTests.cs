@@ -52,24 +52,10 @@ public class DatabaseSeederTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Reviews_Repository_CanStoreAndRetrieve()
-    {
-        var repo = new Repository<Review>(_context);
-        repo.Add(new Review { CustomerName = "John Smith", Rating = 5, Comment = "Excellent!", Source = "Google", IsApproved = true });
-        repo.Add(new Review { CustomerName = "Jane Doe", Rating = 4, Comment = "Very good", Source = "TripAdvisor", IsApproved = true });
-        await _context.SaveChangesAsync();
-
-        var all = await _context.Reviews.ToListAsync();
-        all.Should().HaveCount(2);
-        all.Should().OnlyContain(r => r.Rating >= 1 && r.Rating <= 5);
-    }
-
-    [Fact]
     public async Task AllEntityTypes_CanBeQueriedTogether()
     {
         _context.MenuItems.Add(new MenuItem { Name = "Item", Description = "D", Price = 5m, Category = MenuCategory.Starters });
         _context.Chefs.Add(new Chef { Name = "Chef", Title = "T", Bio = "B", Specialty = "S" });
-        _context.Reviews.Add(new Review { CustomerName = "Customer", Rating = 5, Comment = "Great", Source = "Google" });
         _context.Reservations.Add(new Reservation
         {
             CustomerName = "Guest",
@@ -84,7 +70,6 @@ public class DatabaseSeederTests : IAsyncLifetime
 
         (await _context.MenuItems.CountAsync()).Should().BeGreaterThan(0);
         (await _context.Chefs.CountAsync()).Should().BeGreaterThan(0);
-        (await _context.Reviews.CountAsync()).Should().BeGreaterThan(0);
         (await _context.Reservations.CountAsync()).Should().BeGreaterThan(0);
         (await _context.ContactInquiries.CountAsync()).Should().BeGreaterThan(0);
     }
@@ -97,17 +82,6 @@ public class DatabaseSeederTests : IAsyncLifetime
 
         var item = await _context.MenuItems.FirstAsync();
         item.IsAvailable.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task Review_IsApproved_CanBeSet()
-    {
-        _context.Reviews.Add(new Review { CustomerName = "Test", Rating = 5, Comment = "Great", Source = "Google", IsApproved = true });
-        _context.Reviews.Add(new Review { CustomerName = "Other", Rating = 3, Comment = "Ok", Source = "Yelp", IsApproved = false });
-        await _context.SaveChangesAsync();
-
-        var approved = await _context.Reviews.Where(r => r.IsApproved).ToListAsync();
-        approved.Should().HaveCount(1);
     }
 
     [Fact]

@@ -171,32 +171,7 @@ describe('ApiService - HTTP Communication (Property 12)', () => {
   });
 
   /**
-   * Test 6: GET reviews endpoint works correctly
-   */
-  it('should get reviews from correct endpoint', () => {
-    const mockReviews = [
-      {
-        id: '1',
-        customerName: 'Ali Mohammed',
-        rating: 5,
-        comment: 'Excellent food and service',
-        source: 'Google',
-        createdAt: '2024-12-20',
-      },
-    ];
-
-    service.getReviews().subscribe((reviews) => {
-      expect(reviews.length).toBeGreaterThan(0);
-      expect(reviews[0].rating).toBe(5);
-    });
-
-    const req = httpMock.expectOne((r: any) => r.url.includes('/api/reviews'));
-    expect(req.request.method).toBe('GET');
-    req.flush(mockReviews);
-  });
-
-  /**
-   * Test 7: POST contact sends email inquiry
+   * Test 6: POST contact sends email inquiry
    */
   it('should POST contact form with correct data', () => {
     const contactData = {
@@ -220,25 +195,20 @@ describe('ApiService - HTTP Communication (Property 12)', () => {
   });
 
   /**
-   * Test 8: Multiple GET requests work independently
+   * Test 7: Multiple GET requests work independently
    */
   it('should handle multiple concurrent GET requests', () => {
     const mockMenu = [{ id: '1', name: 'Dish 1' } as any];
     const mockChefs = [{ id: '1', name: 'Chef 1' } as any];
-    const mockReviews = [{ id: '1', customerName: 'Customer 1' } as any];
 
     service.getMenu().subscribe();
     service.getChefs().subscribe();
-    service.getReviews().subscribe();
 
     const menuReq = httpMock.expectOne((r: any) => r.url.includes('/api/menu'));
     menuReq.flush(mockMenu);
 
     const chefReq = httpMock.expectOne((r: any) => r.url.includes('/api/chefs'));
     chefReq.flush(mockChefs);
-
-    const reviewReq = httpMock.expectOne((r: any) => r.url.includes('/api/reviews'));
-    reviewReq.flush(mockReviews);
   });
 
   /**

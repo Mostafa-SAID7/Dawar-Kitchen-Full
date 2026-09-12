@@ -13,7 +13,6 @@ public class UnitOfWork : IUnitOfWork
     private IRepository<Reservation>? _reservations;
     private IRepository<MenuItem>? _menuItems;
     private IRepository<Chef>? _chefs;
-    private IRepository<Review>? _reviews;
     private IRepository<ContactInquiry>? _contactInquiries;
     private IRepository<Order>? _orders;
     private IRepository<OrderItem>? _orderItems;
@@ -26,7 +25,6 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<Reservation> Reservations => _reservations ??= new Repository<Reservation>(_context);
     public IRepository<MenuItem> MenuItems => _menuItems ??= new Repository<MenuItem>(_context);
     public IRepository<Chef> Chefs => _chefs ??= new Repository<Chef>(_context);
-    public IRepository<Review> Reviews => _reviews ??= new Repository<Review>(_context);
     public IRepository<ContactInquiry> ContactInquiries => _contactInquiries ??= new Repository<ContactInquiry>(_context);
     public IRepository<Order> Orders => _orders ??= new Repository<Order>(_context);
     public IRepository<OrderItem> OrderItems => _orderItems ??= new Repository<OrderItem>(_context);

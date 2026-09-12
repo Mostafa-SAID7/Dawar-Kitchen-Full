@@ -56,10 +56,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/terms/terms.component').then(m => m.TermsPageComponent)
   },
   {
-    path: 'reviews',
-    loadComponent: () => import('./pages/reviews/reviews.component').then(m => m.ReviewsPageComponent)
-  },
-  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
   }

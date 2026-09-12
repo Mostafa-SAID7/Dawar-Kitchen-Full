@@ -8,7 +8,6 @@ public interface IApplicationDbContext
     DbSet<Reservation> Reservations { get; }
     DbSet<MenuItem> MenuItems { get; }
     DbSet<Chef> Chefs { get; }
-    DbSet<Review> Reviews { get; }
     DbSet<ContactInquiry> ContactInquiries { get; }
     DbSet<Order> Orders { get; }
     DbSet<OrderItem> OrderItems { get; }
