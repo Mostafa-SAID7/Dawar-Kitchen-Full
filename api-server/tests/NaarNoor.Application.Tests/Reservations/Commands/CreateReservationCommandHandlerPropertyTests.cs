@@ -314,10 +314,12 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
     /// </summary>
     private class MockReservationRepository : IRepository<Reservation>
     {
+        private readonly List<Reservation> _entities = new();
         public Action<Reservation>? OnAdd { get; set; }
 
         public void Add(Reservation entity)
         {
+            _entities.Add(entity);
             OnAdd?.Invoke(entity);
         }
 
@@ -333,13 +335,19 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
 
         public IQueryable<Reservation> Query()
         {
-            return Enumerable.Empty<Reservation>().AsQueryable();
+            return _entities.AsQueryable();
         }
 
         public Task<Reservation?> FindAsync(
             System.Linq.Expressions.Expression<Func<Reservation, bool>> predicate,
             CancellationToken cancellationToken = default) =>
             Task.FromResult<Reservation?>(null);
+
+        public Task<Reservation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(_entities.FirstOrDefault(e => e.Id == id));
+
+        public Task<List<Reservation>> GetAllAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(_entities.ToList());
     }
 
     #endregion

@@ -293,21 +293,32 @@ public class CreateOrderCommandHandlerPropertyTests : ApplicationLayerTestBase
 
     private class MockOrderRepository : IRepository<Order>
     {
+        private readonly List<Order> _entities = new();
         public Action<Order>? OnAdd { get; set; }
 
-        public void Add(Order entity) => OnAdd?.Invoke(entity);
+        public void Add(Order entity)
+        {
+            _entities.Add(entity);
+            OnAdd?.Invoke(entity);
+        }
 
         public void Remove(Order entity) => throw new NotImplementedException();
 
         public void Update(Order entity) => throw new NotImplementedException();
 
         public IQueryable<Order> Query() =>
-            Enumerable.Empty<Order>().AsQueryable();
+            _entities.AsQueryable();
 
         public Task<Order?> FindAsync(
             System.Linq.Expressions.Expression<Func<Order, bool>> predicate,
             CancellationToken cancellationToken = default) =>
             Task.FromResult<Order?>(null);
+
+        public Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(_entities.FirstOrDefault(e => e.Id == id));
+
+        public Task<List<Order>> GetAllAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(_entities.ToList());
     }
 
     #endregion

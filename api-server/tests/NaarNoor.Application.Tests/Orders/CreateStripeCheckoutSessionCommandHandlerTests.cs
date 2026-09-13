@@ -40,7 +40,7 @@ public class CreateStripeCheckoutSessionCommandHandlerTests : ApplicationLayerTe
         var orderRepo = new MockOrderRepository(capturedOrders);
         _unitOfWorkMock.Setup(x => x.Orders).Returns(orderRepo);
         _unitOfWorkMock.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
-        return new CreateStripeCheckoutSessionCommandHandler(_unitOfWorkMock.Object, _dbContext, _stripeMock.Object);
+        return new CreateStripeCheckoutSessionCommandHandler(_unitOfWorkMock.Object, _stripeMock.Object);
     }
 
     private async Task<MenuItem> SeedMenuItem(string name, decimal price, bool isAvailable = true)
@@ -138,7 +138,7 @@ public class CreateStripeCheckoutSessionCommandHandlerTests : ApplicationLayerTe
         _stripeMock.Setup(s => s.CreateCheckoutSessionAsync(It.IsAny<StripeCheckoutRequest>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(new StripeCheckoutResult("sess_def", "https://checkout.stripe.com/sess_def"));
 
-        var handler = new CreateStripeCheckoutSessionCommandHandler(_unitOfWorkMock.Object, _dbContext, _stripeMock.Object);
+        var handler = new CreateStripeCheckoutSessionCommandHandler(_unitOfWorkMock.Object, _stripeMock.Object);
         var command = new CreateStripeCheckoutSessionCommand(
             CustomerName: "Ali",
             Email: "ali@test.com",
@@ -168,7 +168,7 @@ public class CreateStripeCheckoutSessionCommandHandlerTests : ApplicationLayerTe
         _stripeMock.Setup(s => s.CreateCheckoutSessionAsync(It.IsAny<StripeCheckoutRequest>(), It.IsAny<CancellationToken>()))
                    .ReturnsAsync(new StripeCheckoutResult("sess_ghi", "https://checkout.stripe.com/sess_ghi"));
 
-        var handler = new CreateStripeCheckoutSessionCommandHandler(_unitOfWorkMock.Object, _dbContext, _stripeMock.Object);
+        var handler = new CreateStripeCheckoutSessionCommandHandler(_unitOfWorkMock.Object, _stripeMock.Object);
         var command = new CreateStripeCheckoutSessionCommand(
             CustomerName: "Sara",
             Email: "sara@test.com",

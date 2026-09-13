@@ -198,21 +198,32 @@ public class SubmitInquiryCommandHandlerPropertyTests : ApplicationLayerTestBase
 
     private class MockContactInquiryRepository : IRepository<ContactInquiry>
     {
+        private readonly List<ContactInquiry> _entities = new();
         public Action<ContactInquiry>? OnAdd { get; set; }
 
-        public void Add(ContactInquiry entity) => OnAdd?.Invoke(entity);
+        public void Add(ContactInquiry entity)
+        {
+            _entities.Add(entity);
+            OnAdd?.Invoke(entity);
+        }
 
         public void Remove(ContactInquiry entity) => throw new NotImplementedException();
 
         public void Update(ContactInquiry entity) => throw new NotImplementedException();
 
         public IQueryable<ContactInquiry> Query() =>
-            Enumerable.Empty<ContactInquiry>().AsQueryable();
+            _entities.AsQueryable();
 
         public Task<ContactInquiry?> FindAsync(
             System.Linq.Expressions.Expression<Func<ContactInquiry, bool>> predicate,
             CancellationToken cancellationToken = default) =>
             Task.FromResult<ContactInquiry?>(null);
+
+        public Task<ContactInquiry?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(_entities.FirstOrDefault(e => e.Id == id));
+
+        public Task<List<ContactInquiry>> GetAllAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(_entities.ToList());
     }
 
     #endregion
