@@ -1,13 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { filter, take } from 'rxjs/operators';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { AnimatedBackgroundComponent } from './components/animated-background/animated-background.component';
-import { ToastComponent } from './components/toast/toast.component';
+import { HeaderComponent, FooterComponent } from './layout';
+import { AnimatedBackgroundComponent, ToastComponent } from './shared/components';
 import { CartDrawerComponent } from './components/cart-drawer/cart-drawer.component';
 import { CommonModule } from '@angular/common';
-import { LanguageService } from './services/language.service';
+import { LanguageService } from './shared/services';
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,193 @@
+<header data-cy="header"
+        class="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
+
+    <!-- ── Logo ─────────────────────────────────────────── -->
+    <a routerLink="/" data-cy="logo"
+       class="flex items-center gap-2.5 group shrink-0">
+      <img src="assets/Dawar-logo.png" alt="Dawar Kitchen Logo" 
+           class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-contain">
+      <span class="font-['Forum'] text-lg sm:text-xl text-white tracking-tight
+                   group-hover:text-[#C65A1E] transition-colors duration-300 hidden sm:block">
+        Dawar Kitchen
+      </span>
+    </a>
+
+    <!-- ── Desktop Nav ───────────────────────────────────── -->
+    <nav data-cy="nav-menu" class="hidden md:flex items-center gap-6 lg:gap-8">
+      <a routerLink="/"            routerLinkActive="text-white" [routerLinkActiveOptions]="{exact:true}"
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.home' | translate }}</a>
+      <a routerLink="/menu"        routerLinkActive="text-white"
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.menu' | translate }}</a>
+      <a routerLink="/reservations" routerLinkActive="text-white"
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.reservations' | translate }}</a>
+      <a routerLink="/about"       routerLinkActive="text-white"
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.about' | translate }}</a>
+      <a routerLink="/contact"     routerLinkActive="text-white"
+         class="text-sm text-neutral-400 hover:text-white transition-colors duration-200">{{ 'nav.contact' | translate }}</a>
+    </nav>
+
+    <!-- ── Right Actions ─────────────────────────────────── -->
+    <div class="flex items-center gap-1.5 sm:gap-2">
+
+      <!-- Cart -->
+      <button (click)="cart.toggle()"
+              data-cy="cart-icon"
+              aria-label="Open cart"
+              class="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl
+                     border border-white/10 text-neutral-400 hover:text-white
+                     hover:border-white/25 transition-all duration-200">
+        <iconify-icon icon="solar:cart-large-2-linear" width="19"></iconify-icon>
+        <span *ngIf="cart.count() > 0"
+              data-cy="cart-badge"
+              class="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center
+                     justify-center text-[10px] font-bold text-white bg-[#C65A1E] rounded-full
+                     px-1 shadow-[0_0_8px_rgba(198,90,30,0.5)]">
+          {{ cart.count() > 9 ? '9+' : cart.count() }}
+        </span>
+      </button>
+
+      <!-- Language Toggle -->
+      <button (click)="language.toggleLanguage()"
+              aria-label="Toggle language"
+              class="flex items-center justify-center gap-1 w-12 h-9 sm:w-16 sm:h-10 rounded-xl
+                     border border-white/10 text-neutral-400 hover:text-white
+                     hover:border-white/25 transition-all duration-200 uppercase text-xs font-bold font-sans">
+        <iconify-icon icon="solar:global-linear" width="16"></iconify-icon>
+        {{ (currentLang$ | async) === 'en' ? 'AR' : 'EN' }}
+      </button>
+
+      <!-- Theme Toggle -->
+      <button (click)="theme.toggle()"
+              [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+              class="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl
+                     border border-white/10 text-neutral-400 hover:text-white
+                     hover:border-white/25 transition-all duration-200 group">
+        <iconify-icon [icon]="theme.isDark() ? 'solar:sun-2-linear' : 'solar:moon-linear'"
+                      width="19"
+                      class="transition-transform duration-300 group-hover:rotate-12"></iconify-icon>
+      </button>
+
+      <!-- ── User Avatar / Auth ──────────────────────────── -->
+      <!-- NOT logged in -->
+      <button *ngIf="!auth.isLoggedIn()"
+              (click)="openAuthModal()"
+              aria-label="Sign in"
+              class="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl
+                     border border-white/10 text-neutral-400 hover:text-white
+                     hover:border-white/25 transition-all duration-200">
+        <iconify-icon icon="solar:user-circle-linear" width="20"></iconify-icon>
+      </button>
+
+      <!-- Logged in: avatar + dropdown -->
+      <div *ngIf="auth.isLoggedIn()" class="relative" data-user-menu>
+        <button (click)="toggleUserMenu()"
+                [attr.aria-expanded]="userMenuOpen()"
+                aria-label="User menu"
+                class="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl
+                       bg-gradient-to-br from-[#C65A1E] to-[#8B4513] text-white font-medium
+                       text-sm hover:shadow-[0_0_16px_rgba(198,90,30,0.45)]
+                       transition-all duration-200 select-none">
+          {{ userInitial }}
+        </button>
+
+        <!-- Dropdown -->
+        <div *ngIf="userMenuOpen()"
+             class="absolute right-0 top-[calc(100%+10px)] w-56 rounded-xl
+                    bg-[#111] border border-white/10 shadow-[0_16px_48px_rgba(0,0,0,0.5)]
+                    overflow-hidden animate-fade-in z-10">
+          <div class="px-4 py-3 border-b border-white/5">
+            <p class="text-[10px] text-neutral-600 uppercase tracking-wider">{{ 'auth.signedinAs' | translate }}</p>
+            <p class="text-sm text-white truncate mt-0.5">{{ auth.userEmail() }}</p>
+          </div>
+          <a routerLink="/reservations"
+             (click)="userMenuOpen.set(false)"
+             class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-neutral-300
+                    hover:text-white hover:bg-white/5 transition-colors">
+            <iconify-icon icon="solar:calendar-linear" width="16"></iconify-icon>
+            {{ 'nav.reservations' | translate }}
+          </a>
+          <button (click)="logout()"
+                  class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-neutral-300
+                         hover:text-white hover:bg-white/5 transition-colors border-t border-white/5">
+            <iconify-icon icon="solar:logout-linear" width="16"></iconify-icon>
+            {{ 'auth.logout' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button (click)="toggleMobileMenu()"
+              class="md:hidden flex items-center justify-center w-9 h-9 text-neutral-400
+                     hover:text-white transition-colors rounded-xl hover:bg-white/5 ml-0.5">
+        <iconify-icon [icon]="mobileMenuOpen ? 'solar:close-circle-linear' : 'solar:hamburger-menu-linear'"
+                      width="24"></iconify-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Mobile Menu ───────────────────────────────────── -->
+  <div *ngIf="mobileMenuOpen"
+       class="md:hidden absolute top-full left-0 w-full bg-[#0a0a0a]/95 backdrop-blur-lg
+              border-b border-white/5 animate-fadeIn shadow-xl">
+    <nav class="flex flex-col px-5 py-5 space-y-1">
+      <a routerLink="/"             (click)="toggleMobileMenu()"
+         class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.home' | translate }}</a>
+      <a routerLink="/menu"         (click)="toggleMobileMenu()"
+         class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.menu' | translate }}</a>
+      <a routerLink="/reservations" (click)="toggleMobileMenu()"
+         class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.reservations' | translate }}</a>
+      <a routerLink="/about"        (click)="toggleMobileMenu()"
+         class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.about' | translate }}</a>
+      <a routerLink="/contact"      (click)="toggleMobileMenu()"
+         class="text-sm text-neutral-300 hover:text-white hover:bg-white/5
+                transition-colors py-2.5 px-3 rounded-lg">{{ 'nav.contact' | translate }}</a>
+
+      <!-- Auth divider -->
+      <div class="border-t border-white/8 pt-3 mt-2 space-y-1">
+        <!-- Language toggle for mobile -->
+        <button (click)="language.toggleLanguage(); toggleMobileMenu()"
+                class="flex items-center gap-2.5 w-full text-sm text-neutral-300
+                       hover:text-white hover:bg-white/5 transition-colors
+                       py-2.5 px-3 rounded-lg">
+          <iconify-icon icon="solar:global-linear" width="18"></iconify-icon>
+          {{ (currentLang$ | async) === 'en' ? 'العربية' : 'English' }}
+        </button>
+        <!-- Not logged in -->
+        <button *ngIf="!auth.isLoggedIn()"
+                (click)="openAuthModal()"
+                class="flex items-center gap-2.5 w-full text-sm text-neutral-300
+                       hover:text-white hover:bg-white/5 transition-colors
+                       py-2.5 px-3 rounded-lg">
+          <iconify-icon icon="solar:user-circle-linear" width="18"></iconify-icon>
+          {{ 'auth.loginRegister' | translate }}
+        </button>
+
+        <!-- Logged in -->
+        <ng-container *ngIf="auth.isLoggedIn()">
+          <div class="flex items-center gap-3 px-3 py-2.5">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#C65A1E] to-[#8B4513]
+                        flex items-center justify-center text-white text-xs font-medium shrink-0">
+              {{ userInitial }}
+            </div>
+            <span class="text-xs text-neutral-400 truncate">{{ auth.userEmail() }}</span>
+          </div>
+          <button (click)="logout(); toggleMobileMenu()"
+                  class="flex items-center gap-2.5 w-full text-sm text-neutral-300
+                         hover:text-white hover:bg-white/5 transition-colors
+                         py-2.5 px-3 rounded-lg">
+            <iconify-icon icon="solar:logout-linear" width="18"></iconify-icon>
+            {{ 'auth.logout' | translate }}
+          </button>
+        </ng-container>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Auth Modal (portal-style — outside header stacking context) -->
+<app-auth-modal [open]="authModalOpen()" (closeModal)="closeAuthModal()"></app-auth-modal>
