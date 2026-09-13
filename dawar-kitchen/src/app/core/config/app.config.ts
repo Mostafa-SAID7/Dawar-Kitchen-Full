@@ -14,7 +14,7 @@ import { authInterceptor, errorInterceptor, languageInterceptor } from '../inter
 export class MultiTranslateHttpLoader implements TranslateLoader {
   private readonly files = ['common', 'home', 'menu', 'reservations', 'auth', 'contact', 'payment'];
 
-  constructor(private readonly http: HttpClient, private readonly prefix = './assets/i18n/') {}
+  constructor(private readonly http: HttpClient, private readonly prefix = '/assets/i18n/') {}
 
   public getTranslation(lang: string): Observable<any> {
     const requests = this.files.map(file =>
@@ -30,7 +30,7 @@ export class MultiTranslateHttpLoader implements TranslateLoader {
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new MultiTranslateHttpLoader(http, './assets/i18n/');
+  return new MultiTranslateHttpLoader(http, '/assets/i18n/');
 }
 
 export const appConfig: ApplicationConfig = {
