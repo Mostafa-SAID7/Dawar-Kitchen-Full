@@ -15,16 +15,16 @@ public class CreateReservationCommandHandler : IRequestHandler<CreateReservation
 
     public async Task<Guid> Handle(CreateReservationCommand request, CancellationToken cancellationToken)
     {
-        var reservation = new Reservation
-        {
-            CustomerName = request.CustomerName,
-            Email = request.Email,
-            PhoneNumber = request.PhoneNumber,
-            ReservationDate = request.ReservationDate,
-            ReservationTime = TimeOnly.Parse(request.ReservationTime),
-            PartySize = request.PartySize,
-            SpecialRequests = request.SpecialRequests
-        };
+        // ✅ Use Reservation aggregate factory method (domain-driven)
+        var reservation = Reservation.Create(
+            customerName: request.CustomerName,
+            email: request.Email,
+            phoneNumber: request.PhoneNumber,
+            reservationDate: request.ReservationDate,
+            reservationTime: TimeOnly.Parse(request.ReservationTime),
+            partySize: request.PartySize,
+            specialRequests: request.SpecialRequests
+        );
 
         _unitOfWork.Reservations.Add(reservation);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

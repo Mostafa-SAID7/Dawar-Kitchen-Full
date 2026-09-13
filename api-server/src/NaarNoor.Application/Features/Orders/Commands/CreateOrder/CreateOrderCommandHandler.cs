@@ -8,6 +8,7 @@ namespace NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 /// <summary>
 /// Handler for CreateOrderCommand
 /// Validates menu items, recomputes prices server-side, creates Order + OrderItems in a SINGLE transaction
+/// ✅ Uses Order aggregate factory method (Order.Create) for domain-driven order creation
 /// ✅ Fixed: Consolidated to single SaveChangesAsync (atomic operation)
 /// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
 /// </summary>
@@ -53,23 +54,19 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
             validatedItems.Add((requestItem, menuItem, serverPrice));
         }
 
-        // ✅ Step 3: Create Order entity
-        var order = new Order
-        {
-            CustomerName = request.CustomerName,
-            Email = request.Email,
-            PhoneNumber = request.PhoneNumber,
-            Type = Enum.Parse<OrderType>(request.Type, ignoreCase: true),
-            DeliveryAddress = request.DeliveryAddress,
-            Notes = request.Notes,
-            TableReservationName = request.TableReservationName,
-            TotalAmount = orderTotal,
-            Status = OrderStatus.Pending
-        };
+        // ✅ Step 3: Create Order aggregate using factory method (domain-driven)
+        var orderType = Enum.Parse<OrderType>(request.Type, ignoreCase: true);
+        var order = Order.Create(
+            customerName: request.CustomerName,
+            email: request.Email,
+            phoneNumber: request.PhoneNumber,
+            type: orderType,
+            deliveryAddress: request.DeliveryAddress,
+            tableReservationName: request.TableReservationName,
+            notes: request.Notes
+        );
 
-        _unitOfWork.Orders.Add(order);
-
-        // ✅ Step 4: Create OrderItems (one per menu item) — BEFORE SaveChangesAsync
+        // ✅ Step 4: Add validated items to order aggregate
         foreach (var (requestItem, menuItem, serverPrice) in validatedItems)
         {
             var orderItem = new OrderItem
@@ -81,8 +78,10 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
                 Quantity = requestItem.Quantity
             };
 
-            _unitOfWork.OrderItems.Add(orderItem);
+            order.AddItem(orderItem);
         }
+
+        _unitOfWork.Orders.Add(order);
 
         // ✅ Step 5: SINGLE SaveChangesAsync — atomic transaction (FIXED from two separate calls)
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -67,21 +67,22 @@ public class CreateStripeCheckoutSessionCommandHandler
             };
         }).ToList();
 
-        var order = new Order
+        // ✅ Create Order aggregate using factory method (domain-driven)
+        var order = Order.Create(
+            customerName: request.CustomerName,
+            email: request.Email,
+            phoneNumber: request.PhoneNumber,
+            type: orderType,
+            deliveryAddress: request.DeliveryAddress,
+            tableReservationName: request.TableReservationName,
+            notes: request.Notes
+        );
+
+        // ✅ Add validated items to order aggregate
+        foreach (var item in items)
         {
-            CustomerName         = request.CustomerName,
-            Email                = request.Email,
-            PhoneNumber          = request.PhoneNumber,
-            Notes                = request.Notes,
-            Type                 = orderType,
-            DeliveryAddress      = request.DeliveryAddress,
-            TableReservationName = request.TableReservationName,
-            TotalAmount          = items.Sum(i => i.UnitPrice * i.Quantity),
-            Items                = items,
-            Status               = OrderStatus.Pending,
-            PaymentStatus        = PaymentStatus.Pending,
-            // Note: StripeSessionId will be set before SaveChangesAsync
-        };
+            order.AddItem(item);
+        }
 
         // Build Stripe line items using authoritative server-side prices
         var stripeLineItems = items.Select(i => new StripeLineItem(
@@ -105,14 +106,10 @@ public class CreateStripeCheckoutSessionCommandHandler
         );
 
         // Set Stripe session ID on order
-        order.StripeSessionId = checkoutResult.SessionId;
+        order.SetStripeSessionId(checkoutResult.SessionId);
 
         // Add order and items
         _unitOfWork.Orders.Add(order);
-        foreach (var item in items)
-        {
-            _unitOfWork.OrderItems.Add(item);
-        }
 
         // ✅ SINGLE SaveChangesAsync — atomic transaction (FIXED from two separate calls)
         await _unitOfWork.SaveChangesAsync(cancellationToken);
