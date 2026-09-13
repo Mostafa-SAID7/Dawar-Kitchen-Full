@@ -30,7 +30,7 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
 
             <!-- Address -->
             <div class="p-6 rounded-2xl bg-[#0d0d0d] border border-white/5 space-y-3">
-              <div class="flex items-center gap-2 text-[#C65A1E]">
+              <div class="flex items-center gap-2 text-[#C65A1E] rtl:flex-row-reverse">
                 <iconify-icon icon="solar:map-point-bold" width="18"></iconify-icon>
                 <span class="text-[10px] font-medium tracking-widest uppercase text-neutral-400">{{ 'footer.address' | translate }}</span>
               </div>
@@ -41,7 +41,7 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
 
             <!-- Hours -->
             <div class="p-6 rounded-2xl bg-[#0d0d0d] border border-white/5 space-y-3">
-              <div class="flex items-center gap-2 text-[#C65A1E]">
+              <div class="flex items-center gap-2 text-[#C65A1E] rtl:flex-row-reverse">
                 <iconify-icon icon="solar:clock-circle-bold" width="18"></iconify-icon>
                 <span class="text-[10px] font-medium tracking-widest uppercase text-neutral-400">{{ 'contact.openingHours' | translate }}</span>
               </div>
@@ -54,11 +54,11 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
 
             <!-- Phone & Email -->
             <div class="p-6 rounded-2xl bg-[#0d0d0d] border border-white/5 space-y-4">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 rtl:flex-row-reverse">
                 <iconify-icon icon="solar:phone-bold" width="18" class="text-[#C65A1E] shrink-0"></iconify-icon>
                 <span class="text-sm text-neutral-300 font-light">+20 10 33737764</span>
               </div>
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 rtl:flex-row-reverse">
                 <iconify-icon icon="solar:letter-bold" width="18" class="text-[#C65A1E] shrink-0"></iconify-icon>
                 <span class="text-sm text-neutral-300 font-light">info&#64;dawarkitchen.com</span>
               </div>
@@ -82,9 +82,9 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
             <form *ngIf="!sent" (ngSubmit)="submit()" class="space-y-5" #contactForm="ngForm">
               <h2 class="font-['Forum'] text-2xl text-white mb-6">{{ 'contact.sendMessage' | translate }}</h2>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 rtl:text-right">
                 <div class="space-y-1.5">
-                  <label class="text-xs font-medium text-neutral-400 uppercase">{{ 'contact.name' | translate }}</label>
+                  <label class="text-xs font-medium text-neutral-400 uppercase text-start">{{ 'contact.name' | translate }}</label>
                   <input
                     type="text"
                     name="name"
@@ -95,7 +95,7 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
                   />
                 </div>
                 <div class="space-y-1.5">
-                  <label class="text-xs font-medium text-neutral-400 uppercase">{{ 'contact.email' | translate }}</label>
+                  <label class="text-xs font-medium text-neutral-400 uppercase text-start">{{ 'contact.email' | translate }}</label>
                   <input
                     type="email"
                     name="email"
@@ -108,7 +108,7 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
               </div>
 
               <div class="space-y-1.5">
-                <label class="text-xs font-medium text-neutral-400 uppercase">{{ 'contact.subject' | translate }}</label>
+                <label class="text-xs font-medium text-neutral-400 uppercase text-start">{{ 'contact.subject' | translate }}</label>
                 <app-custom-dropdown
                   [options]="subjectOptions"
                   [selectedValue]="subjectDisplay"
@@ -119,7 +119,7 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
               </div>
 
               <div class="space-y-1.5">
-                <label class="text-xs font-medium text-neutral-400 uppercase">{{ 'contact.message' | translate }}</label>
+                <label class="text-xs font-medium text-neutral-400 uppercase text-start">{{ 'contact.message' | translate }}</label>
                 <textarea
                   name="message"
                   [(ngModel)]="form.message"

@@ -35,7 +35,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
 
       <!-- Tag line -->
-      <div class="hero-tag inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-[#C65A1E]/25 bg-[#C65A1E]/8 text-[#C65A1E] text-xs font-medium tracking-[0.22em] uppercase">
+      <div class="hero-tag inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-[#C65A1E]/25 bg-[#C65A1E]/8 text-[#C65A1E] text-xs font-medium tracking-[0.22em] uppercase rtl:flex-row-reverse">
         <span class="w-1.5 h-1.5 rounded-full bg-[#C65A1E] animate-pulse"></span>
         {{ 'hero.tagline' | translate }}
       </div>
@@ -52,10 +52,10 @@
       </p>
 
       <!-- CTAs -->
-      <div reveal [revealFrom]="'bottom'" [revealDelay]="300" class="hero-cta flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10">
-        <a href="#menu" class="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_28px_rgba(198,90,30,0.55)] transition-all duration-300 flex items-center justify-center gap-2">
+      <div reveal [revealFrom]="'bottom'" [revealDelay]="300" class="hero-cta flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 rtl:flex-row-reverse">
+        <a href="#menu" class="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_28px_rgba(198,90,30,0.55)] transition-all duration-300 flex items-center justify-center gap-2 rtl:flex-row-reverse">
           {{ 'hero.exploreMenu' | translate }}
-          <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon>
+          <iconify-icon icon="solar:arrow-right-linear" width="18" class="rtl:rotate-180"></iconify-icon>
         </a>
         <a routerLink="/reservations" class="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-white border border-white/20 rounded-xl hover:bg-white/5 hover:border-white/40 transition-all duration-300 flex items-center justify-center">
           {{ 'hero.orderDelivery' | translate }}

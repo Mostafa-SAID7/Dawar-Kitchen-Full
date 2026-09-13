@@ -49,14 +49,14 @@ import { PricePipe } from '@shared/pipes';
 
       <!-- Drawer panel -->
       <div @drawer data-cy="cart-drawer"
-           class="fixed right-0 top-0 h-full w-full max-w-sm sm:max-w-md bg-[#0f0f0f] border-l border-white/5 z-[201] flex flex-col shadow-2xl">
+           class="fixed end-0 top-0 h-full w-full max-w-sm sm:max-w-md bg-[#0f0f0f] border-s border-white/5 z-[201] flex flex-col shadow-2xl rtl:border-e rtl:border-s-0">
 
         <!-- ── Header ── -->
         <div class="flex items-center justify-between px-6 py-5 border-b border-white/5 shrink-0">
           <div class="flex items-center gap-3">
             <button *ngIf="step() === 2" (click)="goBack()"
                     class="text-neutral-500 hover:text-white transition-colors p-1 -ml-1">
-              <iconify-icon icon="solar:arrow-left-linear" width="20"></iconify-icon>
+              <iconify-icon icon="solar:arrow-left-linear" width="20" class="rtl:rotate-180"></iconify-icon>
             </button>
             <iconify-icon
               [attr.icon]="step() === 3 ? 'solar:check-circle-bold' : 'solar:cart-large-2-bold'"
@@ -144,9 +144,9 @@ import { PricePipe } from '@shared/pipes';
             </div>
             <p class="text-xs text-neutral-600">{{ 'cartDrawer.deliveryFeeNextStep' | translate }}</p>
             <button (click)="goToStep2()"
-                    class="w-full py-3.5 text-sm font-medium text-[#0a0a0a] bg-white rounded-xl hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300 flex items-center justify-center gap-2">
+                    class="w-full py-3.5 text-sm font-medium text-[#0a0a0a] bg-white rounded-xl hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300 flex items-center justify-center gap-2 rtl:flex-row-reverse">
               {{ 'cartDrawer.continueCheckout' | translate }}
-              <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon>
+              <iconify-icon icon="solar:arrow-right-linear" width="16" class="rtl:rotate-180"></iconify-icon>
             </button>
           </div>
 

@@ -21,19 +21,19 @@ import { CustomDropdownComponent } from '@shared/components';
       <div class="max-w-7xl mx-auto">
 
         <!-- Breadcrumb -->
-        <nav data-cy="breadcrumb" class="flex items-center gap-2 text-xs text-neutral-500 mb-8">
+        <nav data-cy="breadcrumb" class="flex items-center gap-2 text-xs text-neutral-500 mb-8 rtl:flex-row-reverse">
           <a routerLink="/" class="hover:text-white transition-colors">{{ 'nav.home' | translate }}</a>
           <span>/</span>
           <span class="text-neutral-300">{{ 'nav.menu' | translate }}</span>
         </nav>
 
         <!-- Mobile filter toggle -->
-        <div class="lg:hidden flex items-center justify-between mb-4">
+        <div class="lg:hidden flex items-center justify-between mb-4 rtl:flex-row-reverse">
           <span class="text-sm text-neutral-400">
             {{ filteredItems.length }} {{ filteredItems.length === 1 ? ('checkout.item' | translate) : ('checkout.items' | translate) }}
           </span>
           <button (click)="filtersOpen = !filtersOpen"
-                  class="flex items-center gap-2 px-4 py-2 text-sm text-white border border-white/15 rounded-xl hover:bg-white/5 transition-all">
+                  class="flex items-center gap-2 px-4 py-2 text-sm text-white border border-white/15 rounded-xl hover:bg-white/5 transition-all rtl:flex-row-reverse">
             <iconify-icon [icon]="filtersOpen ? 'solar:close-linear' : 'solar:filter-linear'" width="16"></iconify-icon>
             {{ filtersOpen ? ('common.close' | translate) : ('menu.filters' | translate) }}
           </button>
@@ -101,11 +101,11 @@ import { CustomDropdownComponent } from '@shared/components';
             <!-- Price Range -->
             <div class="space-y-2 pt-2">
               <label class="text-xs font-medium text-neutral-400 uppercase tracking-wider block">{{ 'menu.priceRange' | translate }}</label>
-              <div class="grid grid-cols-2 gap-2">
+              <div class="grid grid-cols-2 gap-2 rtl:text-right">
                 <input type="number" name="minPrice" [(ngModel)]="minPrice" (input)="applyFilters()"
-                       [placeholder]="'menu.min' | translate" class="nn-input" />
+                       [placeholder]="'menu.min' | translate" class="nn-input text-start" />
                 <input type="number" name="maxPrice" [(ngModel)]="maxPrice" (input)="applyFilters()"
-                       [placeholder]="'menu.max' | translate" class="nn-input" />
+                       [placeholder]="'menu.max' | translate" class="nn-input text-start" />
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@ import { CustomDropdownComponent } from '@shared/components';
                    data-cy="menu-item"
                    class="p-6 rounded-2xl bg-[#0d0d0d] border border-white/5 flex flex-col justify-between hover:border-white/10 transition-all duration-300 group">
                 <div>
-                  <div class="flex justify-between items-start gap-4 mb-2">
+                  <div class="flex justify-between items-start gap-4 mb-2 rtl:flex-row-reverse">
                     <h3 data-cy="item-name"
                         class="font-['Forum'] text-xl text-white group-hover:text-[#C65A1E] transition-colors">
                       {{ item.name }}
@@ -141,12 +141,12 @@ import { CustomDropdownComponent } from '@shared/components';
                       {{ item.price | price }}
                     </span>
                   </div>
-                  <p class="text-xs text-neutral-400 font-light leading-relaxed mb-4">
+                  <p class="text-xs text-neutral-400 font-light leading-relaxed mb-4 text-start">
                     {{ item.description }}
                   </p>
                 </div>
 
-                <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+                <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5 rtl:flex-row-reverse">
                   <div class="flex gap-2 flex-wrap">
                     <span data-cy="item-category"
                           class="text-[9px] tracking-wider uppercase bg-white/5 text-neutral-400 px-2 py-0.5 rounded border border-white/10">
