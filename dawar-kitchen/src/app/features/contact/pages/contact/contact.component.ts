@@ -2,8 +2,8 @@ import { Component, OnInit, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SeoService } from '../../services/seo.service';
-import { CustomDropdownComponent } from '../../components/custom-dropdown/custom-dropdown.component';
+import { SeoService } from '@shared/services';
+import { CustomDropdownComponent } from '@shared/components/custom-dropdown/custom-dropdown.component';
 
 @Component({
   selector: 'app-contact-page',

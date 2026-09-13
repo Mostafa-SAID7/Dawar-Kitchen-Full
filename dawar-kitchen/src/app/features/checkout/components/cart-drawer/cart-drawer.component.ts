@@ -5,10 +5,10 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
-import { CartService } from '../../services/cart.service';
-import { ApiService } from '../../services/api.service';
-import { ToastService } from '../../services/toast.service';
-import { DrawerStep } from '../../models';
+import { CartService } from '@features/checkout/services/cart.service';
+import { ApiService } from '@core/http/api.service';
+import { ToastService } from '@shared/services';
+import { DrawerStep } from '@features/checkout/models/drawer.model';
 
 
 @Component({

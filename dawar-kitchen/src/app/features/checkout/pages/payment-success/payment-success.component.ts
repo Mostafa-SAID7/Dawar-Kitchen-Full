@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { SeoService } from '../../services/seo.service';
+import { SeoService } from '@shared/services';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
 
 @Component({

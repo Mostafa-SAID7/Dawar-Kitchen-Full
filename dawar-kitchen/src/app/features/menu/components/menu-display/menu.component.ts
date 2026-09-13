@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import { CartService } from '../../services/cart.service';
-import { RevealDirective } from '../../directives/scroll-reveal.directive';
-import { MenuItem, MenuItemView } from '../../models';
+import { ApiService } from '@core/http/api.service';
+import { CartService } from '@features/checkout/services/cart.service';
+import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
+import { MenuItem, MenuItemView } from '@features/menu/models/menu.model';
 
 
 @Component({
@@ -64,11 +64,12 @@ export class MenuComponent implements OnInit {
   }
 
   addToCart(item: MenuItemView): void {
-    this.cart.add({
+    this.cart.addItem({
       menuItemId: item.id,
       name: item.name,
       price: item.price,
-      category: item.category
+      category: item.category,
+      quantity: 1
     });
     this.addedId = item.id;
     setTimeout(() => {

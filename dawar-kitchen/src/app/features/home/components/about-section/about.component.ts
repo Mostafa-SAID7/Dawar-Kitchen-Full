@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RevealDirective } from '../../directives/scroll-reveal.directive';
+import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RevealDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],

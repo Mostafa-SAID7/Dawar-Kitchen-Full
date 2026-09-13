@@ -2,11 +2,11 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { CustomCalendarComponent } from '../../components/custom-calendar/custom-calendar.component';
-import { CustomDropdownComponent } from '../../components/custom-dropdown/custom-dropdown.component';
-import { ApiService } from '../../services/api.service';
-import { ToastService } from '../../services/toast.service';
-import { ReservationForm } from '../../models';
+import { CustomCalendarComponent } from '@shared/components/custom-calendar/custom-calendar.component';
+import { CustomDropdownComponent } from '@shared/components/custom-dropdown/custom-dropdown.component';
+import { ApiService } from '@core/http/api.service';
+import { ToastService } from '@shared/services';
+import { ReservationForm } from '@features/reservations/models/reservation.model';
 
 
 @Component({

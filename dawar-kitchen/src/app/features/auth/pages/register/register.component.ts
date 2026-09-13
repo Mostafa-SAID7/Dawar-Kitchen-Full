@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../services/auth.service';
-import { SeoService } from '../../services/seo.service';
-import { ToastService } from '../../services/toast.service';
+import { AuthService } from '@core/auth/auth.service';
+import { SeoService } from '@shared/services';
+import { ToastService } from '@shared/services';
 
 @Component({
   selector: 'app-register',
@@ -108,7 +108,7 @@ export class RegisterComponent {
     this.errorMessage = null;
     const { email, password } = this.form.value;
     this.auth.register(email, password).subscribe({
-      next: (success) => {
+      next: (success: any) => {
         this.loading = false;
         if (success) {
           this.toast.success(this.translate.instant('auth.registerSuccess'));

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { ApiService } from '../../services/api.service';
-import { RevealDirective } from '../../directives/scroll-reveal.directive';
-import { Chef, ChefView } from '../../models';
+import { ApiService } from '@core/http/api.service';
+import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
+import { Chef, ChefView } from '@features/chefs/models/chef.model';
 
 const CHEF_IMAGES = [
   'assets/chefs/chef-mahmoud.jpg',

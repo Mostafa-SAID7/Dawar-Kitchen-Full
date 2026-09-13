@@ -3,18 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { MenuItem } from '@features/menu/models/menu.model';
+import { Chef } from '@features/chefs/models/chef.model';
 import {
-  MenuItem,
-  Chef,
   CreateReservationRequest,
   CreateReservationResponse,
+} from '@features/reservations/models/reservation.model';
+import {
   CreateContactRequest,
   CreateContactResponse,
+} from '@features/contact/models/contact.model';
+import {
   CreateOrderRequest,
   CreateOrderResponse,
   CreateCheckoutSessionRequest,
   CreateCheckoutSessionResponse,
-} from '../../shared/models';
+} from '@features/checkout/models/order.model';
 
 export type {
   MenuItem,

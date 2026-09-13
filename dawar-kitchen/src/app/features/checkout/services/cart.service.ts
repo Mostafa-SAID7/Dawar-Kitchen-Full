@@ -23,6 +23,7 @@ export class CartService {
     this.items$().reduce((sum, item) => sum + (item.price * item.quantity), 0)
   );
   readonly isOpen = computed(() => this.isOpen$());
+  readonly isEmpty = computed(() => this.items$().length === 0);
 
   constructor() {
     // Persist cart to localStorage whenever it changes
@@ -61,12 +62,42 @@ export class CartService {
     this.items$.set(this.items$().filter(i => i.menuItemId !== menuItemId));
   }
 
+  /** Alias for removeItem — used by cart-drawer and checkout templates */
+  remove(menuItemId: string): void {
+    this.removeItem(menuItemId);
+  }
+
+  /** Increment quantity by 1 */
+  increment(menuItemId: string): void {
+    const item = this.items$().find(i => i.menuItemId === menuItemId);
+    if (item) this.updateItem(menuItemId, { quantity: item.quantity + 1 });
+  }
+
+  /** Decrement quantity by 1 (removes if reaches 0) */
+  decrement(menuItemId: string): void {
+    const item = this.items$().find(i => i.menuItemId === menuItemId);
+    if (item) this.setQuantity(menuItemId, item.quantity - 1);
+  }
+
+  /** Formatted total string e.g. £12.50 */
+  formattedTotal(): string {
+    return `£${this.total().toFixed(2)}`;
+  }
+
   updateItem(menuItemId: string, updates: Partial<CartItem>): void {
     const items = this.items$();
     const updated = items.map(i =>
       i.menuItemId === menuItemId ? { ...i, ...updates } : i
     );
     this.items$.set(updated);
+  }
+
+  setQuantity(menuItemId: string, quantity: number): void {
+    if (quantity <= 0) {
+      this.removeItem(menuItemId);
+    } else {
+      this.updateItem(menuItemId, { quantity });
+    }
   }
 
   clear(): void {

@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CartService } from '../../services/cart.service';
-import { ApiService } from '../../services/api.service';
-import { ToastService } from '../../services/toast.service';
-import { SeoService } from '../../services/seo.service';
-import { CustomDropdownComponent } from '../../components/custom-dropdown/custom-dropdown.component';
+import { CartService } from '@features/checkout/services/cart.service';
+import { ApiService } from '@core/http/api.service';
+import { ToastService } from '@shared/services';
+import { SeoService } from '@shared/services';
+import { CustomDropdownComponent } from '@shared/components/custom-dropdown/custom-dropdown.component';
 
 @Component({
   selector: 'app-checkout',
@@ -126,13 +126,13 @@ export class CheckoutComponent implements OnInit {
       successUrl: `${origin}/payment-success`,
       cancelUrl:  `${origin}/payment-cancelled`
     }).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         // Clear cart immediately — Stripe redirect takes the user off-site
         this.cart.clear();
         // Hard-navigate to Stripe hosted checkout page
         window.location.href = res.sessionUrl;
       },
-      error: (err) => {
+      error: (err: any) => {
         this.submitting = false;
         const msg = err?.error?.errors
           ? Object.values(err.error.errors).flat().join('. ')

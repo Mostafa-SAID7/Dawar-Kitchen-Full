@@ -294,7 +294,8 @@ export class MenuPageComponent implements OnInit {
       menuItemId: item.id,
       name:       item.name,
       price:      item.price,
-      category:   item.category
+      category:   item.category,
+      quantity:   1
     });
   }
 }

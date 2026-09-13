@@ -3,7 +3,7 @@ import { RouterOutlet, Router, NavigationEnd, NavigationStart } from '@angular/r
 import { filter, take } from 'rxjs/operators';
 import { HeaderComponent, FooterComponent } from './layout';
 import { AnimatedBackgroundComponent, ToastComponent } from './shared/components';
-import { CartDrawerComponent } from './components/cart-drawer/cart-drawer.component';
+import { CartDrawerComponent } from './features/checkout/components/cart-drawer/cart-drawer.component';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from './shared/services';
 

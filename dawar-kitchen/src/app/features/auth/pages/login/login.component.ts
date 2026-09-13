@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../services/auth.service';
-import { SeoService } from '../../services/seo.service';
+import { AuthService } from '@core/auth/auth.service';
+import { SeoService } from '@shared/services';
 
 @Component({
   selector: 'app-login',
@@ -89,7 +89,7 @@ export class LoginComponent {
     this.errorMessage = null;
     const { email, password } = this.form.value;
     this.auth.login(email, password).subscribe({
-      next: (success) => {
+      next: (success: any) => {
         this.loading = false;
         if (success) { this.router.navigate(['/']); }
         else { this.errorMessage = this.translate.instant('auth.invalidCredentials'); }
