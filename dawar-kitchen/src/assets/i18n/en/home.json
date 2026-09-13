@@ -36,6 +36,11 @@
     "orderNow": "Order Now",
     "exploreMenu": "Explore Menu"
   },
+  "aboutPage": {
+    "paragraph1": "Dawar Kitchen is a social enterprise born from a vision to celebrate culinary heritage while creating meaningful opportunities for women in our community. We believe that every meal tells a story—of family, tradition, resilience, and hope.",
+    "paragraph2": "In Ezbet Khairallah, Old Cairo, we gather Syrian and Egyptian women to craft authentic dishes rooted in generations of family knowledge. Our kitchen is more than a place to cook; it's a space where tradition meets empowerment, where every ingredient carries history, and where work is dignified.",
+    "paragraph3": "Through our platform, every meal you order directly supports fair wages, vocational training programs, and opportunities for women to sustain their families with pride. Together, we're building a future where culinary heritage and economic justice nourish one another."
+  },
   "blog": {
     "tagline": "From Our Kitchen",
     "heading": "Stories & Recipes",
