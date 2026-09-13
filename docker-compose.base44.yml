@@ -1,0 +1,62 @@
+# Base44 development compose — runs the app from cloned source with live reload.
+# Usage: docker compose -f docker-compose.base44.yml up -d --build
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: naar-noor-base44-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=naarnoor_base44_dev
+      - POSTGRES_DB=postgres
+    volumes:
+      - naar-noor-base44-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  api:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    container_name: naar-noor-base44-api
+    working_dir: /app
+    volumes:
+      - ./api-server:/app
+      - naar-noor-base44-api-nuget:/root/.nuget/packages
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - PORT=8080
+      - PGHOST=db
+      - PGPORT=5432
+      - PGUSER=postgres
+      - PGPASSWORD=naarnoor_base44_dev
+      - PGDATABASE=postgres
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
+      - ASPNETCORE_SUPPRESSSTATUSMESSAGES=true
+    ports:
+      - "8000:8080"
+    command: sh -c "dotnet restore && dotnet watch run --project src/NaarNoor.API/NaarNoor.API.csproj"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    image: node:20
+    container_name: naar-noor-base44-web
+    working_dir: /app
+    volumes:
+      - ./dawar-kitchen:/app
+    ports:
+      - "3000:5000"
+    command: sh -c "npm install && npx ng serve --port 5000 --host 0.0.0.0 --proxy-config proxy.conf.base44.json"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  naar-noor-base44-db-data:
+  naar-noor-base44-api-nuget:
