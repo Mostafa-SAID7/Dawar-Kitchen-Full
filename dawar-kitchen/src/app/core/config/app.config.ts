@@ -19,11 +19,15 @@ export class MultiTranslateHttpLoader implements TranslateLoader {
     const v = (window as any).__i18n_v || (((window as any).__i18n_v = Date.now()), (window as any).__i18n_v);
     const requests = this.files.map(file =>
       this.http.get(`${this.prefix}${lang}/${file}.json`, { params: { _v: v } }).pipe(
-        catchError(() => of({}))
+        catchError((err) => { console.error(`[i18n] Failed to load ${lang}/${file}.json`, err); return of({}); })
       )
     );
     return forkJoin(requests).pipe(
-      map(responses => Object.assign({}, ...responses))
+      map(responses => {
+        const merged = Object.assign({}, ...responses);
+        console.log(`[i18n] Loaded ${lang} translations:`, Object.keys(merged), 'nav.home =', merged?.nav?.home);
+        return merged;
+      })
     );
   }
 }
