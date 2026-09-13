@@ -4,16 +4,9 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NaarNoor.Application.Common.Interfaces;
 
 namespace NaarNoor.Infrastructure.Services;
-
-/// <summary>
-/// Service for generating and validating JWT tokens
-/// </summary>
-public interface IJwtService
-{
-    string GenerateToken(string userId, string email, string[] roles);
-}
 
 public class JwtService : IJwtService
 {
