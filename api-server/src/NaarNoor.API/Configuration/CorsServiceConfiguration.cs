@@ -30,15 +30,15 @@ public static class CorsServiceConfiguration
                 }
                 else if (environment == "Development")
                 {
-                    // Development fallback: allow any origin so the Replit proxy works
+                    // Development fallback: allow any origin so the Angular dev server proxy works
                     policy.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 }
                 else
                 {
-                    // Production fallback
-                    policy.WithOrigins("https://naar-noor.vercel.app")
+                    // Production fallback: Dawar Kitchen frontend domain
+                    policy.WithOrigins("https://dawar-kitchen.vercel.app", "http://localhost:3000")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();

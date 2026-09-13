@@ -1,5 +1,5 @@
 using MediatR;
-using NaarNoor.Application.MenuItems.Queries.GetMenuItems;
+using NaarNoor.Application.DTOs;
 
 namespace NaarNoor.Application.MenuItems.Queries.GetMenuItemById;
 

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
+using NaarNoor.Application.DTOs;
 
 namespace NaarNoor.Application.Chefs.Queries.GetChefs;
 
@@ -18,15 +19,16 @@ public class GetChefsQueryHandler : IRequestHandler<GetChefsQuery, List<ChefDto>
         return await _unitOfWork.Chefs.Query()
             .Where(c => c.IsActive)
             .OrderBy(c => c.SortOrder)
-            .Select(c => new ChefDto(
-                c.Id,
-                c.Name,
-                c.Title,
-                c.Bio,
-                c.ImageUrl,
-                c.Specialty,
-                c.SortOrder
-            ))
+            .Select(c => new ChefDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Title = c.Title,
+                Bio = c.Bio,
+                ImageUrl = c.ImageUrl,
+                Specialty = c.Specialty,
+                SortOrder = c.SortOrder
+            })
             .ToListAsync(cancellationToken);
     }
 }

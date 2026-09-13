@@ -22,7 +22,7 @@ builder.Host.UseSerilog();
 
 try
 {
-    Log.Information("Starting Naar-Noor API...");
+    Log.Information("Starting Dawar Kitchen API...");
     Log.Information("Environment: {Environment}", builder.Environment.EnvironmentName);
     Log.Information("Machine: {MachineName}", Environment.MachineName);
     Log.Information("Time: {UtcNow:O}", DateTime.UtcNow);
@@ -135,7 +135,7 @@ try
     // 9. Seed Database
     await app.SeedDatabaseMiddlewareAsync();
 
-    Log.Information("Naar-Noor API started successfully");
+    Log.Information("Dawar Kitchen API started successfully");
     app.Run();
 }
 catch (Exception ex)

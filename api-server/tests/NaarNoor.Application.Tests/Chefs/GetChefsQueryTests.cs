@@ -1,5 +1,6 @@
 using FluentAssertions;
 using NaarNoor.Application.Chefs.Queries.GetChefs;
+using NaarNoor.Application.DTOs;
 using Xunit;
 
 namespace NaarNoor.Application.Tests.Chefs;
@@ -60,7 +61,16 @@ public class GetChefsQueryTests
     {
         var id = Guid.NewGuid();
 
-        var dto = new ChefDto(id, "Mahmoud Hassan", "Executive Chef", "Expert in Egyptian cuisine", null, "Grills", 1);
+        var dto = new ChefDto 
+        { 
+            Id = id, 
+            Name = "Mahmoud Hassan", 
+            Title = "Executive Chef", 
+            Bio = "Expert in Egyptian cuisine", 
+            ImageUrl = null, 
+            Specialty = "Grills", 
+            SortOrder = 1 
+        };
 
         dto.Id.Should().Be(id);
         dto.Name.Should().Be("Mahmoud Hassan");
@@ -74,7 +84,16 @@ public class GetChefsQueryTests
     [Fact]
     public void ChefDto_ImageUrl_CanBeProvided()
     {
-        var dto = new ChefDto(Guid.NewGuid(), "Nisha", "Head Pastry Chef", "Bio", "https://example.com/photo.jpg", "Desserts", 2);
+        var dto = new ChefDto 
+        { 
+            Id = Guid.NewGuid(), 
+            Name = "Nisha", 
+            Title = "Head Pastry Chef", 
+            Bio = "Bio", 
+            ImageUrl = "https://example.com/photo.jpg", 
+            Specialty = "Desserts", 
+            SortOrder = 2 
+        };
 
         dto.ImageUrl.Should().Be("https://example.com/photo.jpg");
     }
@@ -84,8 +103,26 @@ public class GetChefsQueryTests
     {
         var id = Guid.NewGuid();
 
-        var dto1 = new ChefDto(id, "Rohan", "Sous Chef", "Bio", null, "Middle Eastern", 3);
-        var dto2 = new ChefDto(id, "Rohan", "Sous Chef", "Bio", null, "Middle Eastern", 3);
+        var dto1 = new ChefDto 
+        { 
+            Id = id, 
+            Name = "Rohan", 
+            Title = "Sous Chef", 
+            Bio = "Bio", 
+            ImageUrl = null, 
+            Specialty = "Middle Eastern", 
+            SortOrder = 3 
+        };
+        var dto2 = new ChefDto 
+        { 
+            Id = id, 
+            Name = "Rohan", 
+            Title = "Sous Chef", 
+            Bio = "Bio", 
+            ImageUrl = null, 
+            Specialty = "Middle Eastern", 
+            SortOrder = 3 
+        };
 
         dto1.Should().Be(dto2);
     }
@@ -95,8 +132,26 @@ public class GetChefsQueryTests
     {
         var id = Guid.NewGuid();
 
-        var dto1 = new ChefDto(id, "Chef", "Title", "Bio", null, "Specialty", 1);
-        var dto2 = new ChefDto(id, "Chef", "Title", "Bio", null, "Specialty", 2);
+        var dto1 = new ChefDto 
+        { 
+            Id = id, 
+            Name = "Chef", 
+            Title = "Title", 
+            Bio = "Bio", 
+            ImageUrl = null, 
+            Specialty = "Specialty", 
+            SortOrder = 1 
+        };
+        var dto2 = new ChefDto 
+        { 
+            Id = id, 
+            Name = "Chef", 
+            Title = "Title", 
+            Bio = "Bio", 
+            ImageUrl = null, 
+            Specialty = "Specialty", 
+            SortOrder = 2 
+        };
 
         dto1.Should().NotBe(dto2);
     }
@@ -104,7 +159,16 @@ public class GetChefsQueryTests
     [Fact]
     public void ChefDto_ToString_ContainsTypeName()
     {
-        var dto = new ChefDto(Guid.NewGuid(), "Chef", "Title", "Bio", null, "Specialty", 1);
+        var dto = new ChefDto 
+        { 
+            Id = Guid.NewGuid(), 
+            Name = "Chef", 
+            Title = "Title", 
+            Bio = "Bio", 
+            ImageUrl = null, 
+            Specialty = "Specialty", 
+            SortOrder = 1 
+        };
 
         dto.ToString().Should().Contain("ChefDto");
     }
@@ -112,7 +176,16 @@ public class GetChefsQueryTests
     [Fact]
     public void ChefDto_GetHashCode_IsConsistent()
     {
-        var dto = new ChefDto(Guid.NewGuid(), "Chef", "Title", "Bio", null, "Specialty", 1);
+        var dto = new ChefDto 
+        { 
+            Id = Guid.NewGuid(), 
+            Name = "Chef", 
+            Title = "Title", 
+            Bio = "Bio", 
+            ImageUrl = null, 
+            Specialty = "Specialty", 
+            SortOrder = 1 
+        };
 
         dto.GetHashCode().Should().Be(dto.GetHashCode());
     }

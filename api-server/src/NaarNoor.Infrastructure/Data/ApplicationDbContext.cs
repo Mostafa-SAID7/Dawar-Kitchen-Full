@@ -15,6 +15,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<ContactInquiry> ContactInquiries => Set<ContactInquiry>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<Review> Reviews => Set<Review>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

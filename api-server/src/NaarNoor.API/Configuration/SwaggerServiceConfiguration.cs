@@ -14,13 +14,13 @@ public static class SwaggerServiceConfiguration
             // Register API documentation
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "Naar & Noor API",
+                Title = "Dawar Kitchen API",
                 Version = "v1",
                 Description = "Restaurant management API with menu, chefs, reservations, orders, and contact endpoints",
                 Contact = new OpenApiContact
                 {
-                    Name = "Naar & Noor",
-                    Url = new Uri("https://naar-noor.vercel.app")
+                    Name = "Dawar Kitchen",
+                    Url = new Uri("https://dawar-kitchen.vercel.app")
                 }
             });
         });

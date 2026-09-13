@@ -1,8 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NaarNoor.Application.Common.Interfaces;
+using NaarNoor.Application.DTOs;
 using NaarNoor.Application.Reservations.Commands.CreateReservation;
 using NaarNoor.Application.Reservations.Commands.DeleteReservation;
 using NaarNoor.Application.Reservations.Commands.UpdateReservation;
@@ -16,17 +15,14 @@ namespace NaarNoor.API.Controllers;
 public class ReservationsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public ReservationsController(IMediator mediator, IUnitOfWork unitOfWork)
+    public ReservationsController(IMediator mediator)
     {
         _mediator = mediator;
-        _unitOfWork = unitOfWork;
     }
 
-    [Authorize]
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(CreateReservationResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateReservationBody body, CancellationToken cancellationToken)
     {
@@ -59,96 +55,38 @@ public class ReservationsController : ControllerBase
         );
 
         var id = await _mediator.Send(command, cancellationToken);
-        return Created(string.Empty, new { id });
+        return Created(string.Empty, new CreateReservationResponse { Id = id.ToString() });
     }
 
     [Authorize]
     [HttpGet]
-    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ReservationDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
-        [FromQuery] DateTime? fromDate = null,
-        [FromQuery] DateTime? toDate = null,
         CancellationToken cancellationToken = default)
     {
-        var query = _unitOfWork.Reservations.Query();
-
-        if (fromDate.HasValue)
-            query = query.Where(r => r.ReservationDate >= DateOnly.FromDateTime(fromDate.Value));
-        if (toDate.HasValue)
-            query = query.Where(r => r.ReservationDate <= DateOnly.FromDateTime(toDate.Value));
-
-        var total = await query.CountAsync(cancellationToken);
-
-        var items = await query
-            .OrderByDescending(r => r.ReservationDate)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .Select(r => new
-            {
-                id              = r.Id.ToString(),
-                customerName    = r.CustomerName,
-                customerEmail   = r.Email,
-                customerPhone   = r.PhoneNumber,
-                email           = r.Email,
-                phoneNumber     = r.PhoneNumber,
-                reservationDate = r.ReservationDate.ToString("yyyy-MM-dd"),
-                reservationTime = r.ReservationTime.ToString("HH:mm"),
-                bookingTime     = r.ReservationDate.ToDateTime(r.ReservationTime),
-                partySize       = r.PartySize,
-                tableNumber     = (string?)null,
-                status          = r.Status.ToString(),
-                specialRequests = r.SpecialRequests,
-                createdAt       = r.CreatedAt,
-                updatedAt       = r.UpdatedAt,
-            })
-            .ToListAsync(cancellationToken);
-
-        return Ok(new
-        {
-            data     = items,
-            page     = page,
-            pageSize = pageSize,
-            total    = total,
-        });
+        var query = new GetReservationsQuery(page, pageSize);
+        var reservations = await _mediator.Send(query, cancellationToken);
+        return Ok(reservations);
     }
 
     [Authorize]
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ReservationDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var r = await _unitOfWork.Reservations.Query()
-            .Where(r => r.Id == id)
-            .Select(r => new
-            {
-                id              = r.Id.ToString(),
-                customerName    = r.CustomerName,
-                customerEmail   = r.Email,
-                customerPhone   = r.PhoneNumber,
-                email           = r.Email,
-                phoneNumber     = r.PhoneNumber,
-                reservationDate = r.ReservationDate.ToString("yyyy-MM-dd"),
-                reservationTime = r.ReservationTime.ToString("HH:mm"),
-                bookingTime     = r.ReservationDate.ToDateTime(r.ReservationTime),
-                partySize       = r.PartySize,
-                tableNumber     = (string?)null,
-                status          = r.Status.ToString(),
-                specialRequests = r.SpecialRequests,
-                createdAt       = r.CreatedAt,
-                updatedAt       = r.UpdatedAt,
-            })
-            .FirstOrDefaultAsync(cancellationToken);
-
-        if (r is null) return NotFound();
-        return Ok(r);
+        var query = new GetReservationByIdQuery(id);
+        var reservation = await _mediator.Send(query, cancellationToken);
+        
+        if (reservation is null) return NotFound();
+        return Ok(reservation);
     }
 
     [Authorize]
     [HttpPut("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ReservationDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateReservationBody body, CancellationToken cancellationToken)
     {
@@ -177,6 +115,11 @@ public class ReservationsController : ControllerBase
         var deleted = await _mediator.Send(new DeleteReservationCommand(id), cancellationToken);
         return deleted ? NoContent() : NotFound();
     }
+}
+
+public class CreateReservationResponse
+{
+    public string Id { get; set; } = string.Empty;
 }
 
 public class CreateReservationBody

@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Caching;
 using NaarNoor.Application.Common.Interfaces;
+using NaarNoor.Application.DTOs;
 
 namespace NaarNoor.Application.MenuItems.Queries.GetMenuItems;
 

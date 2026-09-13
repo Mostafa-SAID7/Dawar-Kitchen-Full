@@ -1,5 +1,5 @@
 using MediatR;
-using NaarNoor.Application.Reservations.Queries.GetReservations;
+using NaarNoor.Application.DTOs;
 
 namespace NaarNoor.Application.Reservations.Queries.GetReservationById;
 

@@ -3,6 +3,7 @@ using FsCheck;
 using FsCheck.Xunit;
 using Moq;
 using NaarNoor.Application.Common.Interfaces;
+using NaarNoor.Application.DTOs;
 using NaarNoor.Application.MenuItems.Queries.GetMenuItems;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using NaarNoor.Domain.Entities;

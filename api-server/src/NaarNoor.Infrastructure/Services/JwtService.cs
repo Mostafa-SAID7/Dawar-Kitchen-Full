@@ -38,9 +38,11 @@ public class JwtService : IJwtService
 
             var claims = new List<Claim>
             {
-                new(ClaimTypes.NameIdentifier, userId),
-                new(ClaimTypes.Email, email),
-                new("uid", userId)
+                // Required claims for frontend decoding
+                new("sub", userId),                       // 'sub' claim - user ID (standard JWT)
+                new(ClaimTypes.Email, email),             // 'email' claim
+                new(ClaimTypes.NameIdentifier, userId),   // .NET standard claim
+                new("uid", userId)                        // fallback claim
             };
 
             // Add role claims

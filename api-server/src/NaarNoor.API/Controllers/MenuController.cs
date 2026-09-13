@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NaarNoor.Application.DTOs;
 using NaarNoor.Application.MenuItems.Commands.CreateMenuItem;
 using NaarNoor.Application.MenuItems.Commands.DeleteMenuItem;
 using NaarNoor.Application.MenuItems.Commands.UpdateMenuItem;
@@ -21,21 +22,21 @@ public class MenuController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<MenuItemDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll([FromQuery] string? category = null, CancellationToken cancellationToken = default)
     {
         var items = await _mediator.Send(new GetMenuItemsQuery(category), cancellationToken);
-        return Ok(items.Select(MapToDesktopDto));
+        return Ok(items);
     }
 
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(MenuItemDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
         var item = await _mediator.Send(new GetMenuItemByIdQuery(id), cancellationToken);
         if (item is null) return NotFound();
-        return Ok(MapToDesktopDto(item));
+        return Ok(item);
     }
 
     [Authorize]
@@ -61,7 +62,7 @@ public class MenuController : ControllerBase
 
         var id = await _mediator.Send(command, cancellationToken);
         var created = await _mediator.Send(new GetMenuItemByIdQuery(id), cancellationToken);
-        return Created($"/api/menu/{id}", MapToDesktopDto(created!));
+        return Created($"/api/menu/{id}", created);
     }
 
     [Authorize]
@@ -87,7 +88,7 @@ public class MenuController : ControllerBase
         if (!updated) return NotFound();
 
         var item = await _mediator.Send(new GetMenuItemByIdQuery(id), cancellationToken);
-        return Ok(MapToDesktopDto(item!));
+        return Ok(item);
     }
 
     [Authorize]
@@ -100,26 +101,6 @@ public class MenuController : ControllerBase
         return deleted ? NoContent() : NotFound();
     }
 
-    private static object MapToDesktopDto(MenuItemDto m) => new
-    {
-        id           = m.Id.ToString(),
-        nameEn       = m.Name,
-        nameAr       = m.Name,
-        descriptionEn = m.Description,
-        descriptionAr = m.Description,
-        name         = m.Name,
-        description  = m.Description,
-        category     = m.Category,
-        price        = m.Price,
-        isVegetarian = m.IsVegetarian,
-        isVegan      = m.IsVegan,
-        isGlutenFree = m.IsGlutenFree,
-        isAvailable  = m.IsAvailable,
-        imageUrl     = m.ImageUrl,
-        sortOrder    = m.SortOrder,
-        createdAt    = DateTime.UtcNow,
-        updatedAt    = DateTime.UtcNow,
-    };
 }
 
 public class CreateMenuItemRequest

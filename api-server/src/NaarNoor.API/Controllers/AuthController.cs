@@ -1,307 +1,268 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using NaarNoor.Application.Services;
 using NaarNoor.Infrastructure.Services;
 
 namespace NaarNoor.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly IJwtService _jwtService;
     private readonly IUserService _userService;
-    private readonly IConfiguration _configuration;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(
         IJwtService jwtService,
         IUserService userService,
-        IConfiguration configuration,
         ILogger<AuthController> logger)
     {
         _jwtService = jwtService;
         _userService = userService;
-        _configuration = configuration;
         _logger = logger;
     }
 
-    [AllowAnonymous]
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginBody request)
-    {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-        try
-        {
-            var authResult = await _userService.AuthenticateAsync(request.Email, request.Password);
-            if (!authResult.Success)
-            {
-                _logger.LogWarning("Login failed for {Email}: {Error}", request.Email, authResult.Error);
-                return Unauthorized(new { error = authResult.Error ?? "Invalid credentials" });
-            }
-
-            var user = authResult.User!;
-            var accessToken  = _jwtService.GenerateToken(user.Id, user.Email, user.Roles);
-            var refreshToken = _jwtService.GenerateToken(user.Id, user.Email, user.Roles);
-
-            _logger.LogInformation("User {Email} logged in", user.Email);
-            return Ok(BuildAuthResponse(user, accessToken, refreshToken));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Login error");
-            return StatusCode(500, new { error = "Login failed" });
-        }
-    }
-
+    /// <summary>
+    /// Register a new user
+    /// </summary>
+    /// <param name="request">Email and password</param>
+    /// <returns>201 Created with userId</returns>
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterBody request)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Register([FromBody] AuthRegisterRequest request)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        // Validation
+        if (string.IsNullOrWhiteSpace(request.Email))
+            return BadRequest(new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/validation",
+                Title = "Validation Error",
+                Detail = "Email is required",
+                Status = StatusCodes.Status400BadRequest
+            });
+
+        if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 8)
+            return BadRequest(new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/validation",
+                Title = "Validation Error",
+                Detail = "Password must be at least 8 characters",
+                Status = StatusCodes.Status400BadRequest
+            });
+
         try
         {
-            var fullName = $"{request.FirstName} {request.LastName}".Trim();
-            if (string.IsNullOrWhiteSpace(fullName)) fullName = request.FullName ?? "User";
-
-            var result = await _userService.RegisterAsync(request.Email, request.Password, fullName);
+            var result = await _userService.RegisterAsync(request.Email, request.Password, "");
             if (!result.Success)
-            {
-                _logger.LogWarning("Registration failed for {Email}: {Error}", request.Email, result.Error);
-                return BadRequest(new { error = result.Error ?? "Registration failed" });
-            }
+                return BadRequest(new ProblemDetails
+                {
+                    Type = "https://dawar-kitchen.api/errors/registration",
+                    Title = "Registration Failed",
+                    Detail = result.Error ?? "Registration failed",
+                    Status = StatusCodes.Status400BadRequest
+                });
 
-            var user = result.User!;
-            var accessToken  = _jwtService.GenerateToken(user.Id, user.Email, user.Roles);
-            var refreshToken = _jwtService.GenerateToken(user.Id, user.Email, user.Roles);
-
-            _logger.LogInformation("New user registered: {Email}", user.Email);
-            return Created("", BuildAuthResponse(user, accessToken, refreshToken));
+            _logger.LogInformation("User registered: {Email}", request.Email);
+            return Created("", new { userId = result.User!.Id });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Registration error");
-            return StatusCode(500, new { error = "Registration failed" });
-        }
-    }
-
-    [HttpPost("refresh")]
-    public IActionResult RefreshToken([FromBody] RefreshBody? body)
-    {
-        try
-        {
-            string? rawToken = null;
-
-            var authHeader = Request.Headers.Authorization.FirstOrDefault();
-            if (authHeader?.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase) == true)
-                rawToken = authHeader["Bearer ".Length..].Trim();
-
-            if (string.IsNullOrEmpty(rawToken) && body?.RefreshToken is not null)
-                rawToken = body.RefreshToken;
-
-            if (string.IsNullOrEmpty(rawToken))
-                return Unauthorized(new { error = "No token provided" });
-
-            var principal = ValidateToken(rawToken);
-            if (principal is null)
-                return Unauthorized(new { error = "Invalid or expired token" });
-
-            var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                      ?? principal.FindFirst("uid")?.Value;
-            var email  = principal.FindFirst(ClaimTypes.Email)?.Value ?? "unknown@example.com";
-            var roles  = principal.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
-
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized(new { error = "Invalid token claims" });
-
-            var newAccessToken  = _jwtService.GenerateToken(userId, email, roles);
-            var newRefreshToken = _jwtService.GenerateToken(userId, email, roles);
-
-            _logger.LogInformation("Token refreshed for user {UserId}", userId);
-            return Ok(new
+            _logger.LogError(ex, "Registration error for {Email}", request.Email);
+            return StatusCode(500, new ProblemDetails
             {
-                accessToken  = newAccessToken,
-                refreshToken = newRefreshToken,
-                expiresIn    = 3600,
+                Type = "https://dawar-kitchen.api/errors/server",
+                Title = "Internal Server Error",
+                Detail = "Registration failed",
+                Status = StatusCodes.Status500InternalServerError
             });
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Token refresh failed");
-            return StatusCode(500, new { error = "Token refresh failed" });
-        }
     }
 
-    [Authorize]
-    [HttpGet("me")]
-    public async Task<IActionResult> GetMe()
-    {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                  ?? User.FindFirst("uid")?.Value;
-        if (string.IsNullOrEmpty(userId))
-            return Unauthorized(new { error = "Invalid token" });
-
-        var user = await _userService.GetUserByIdAsync(userId);
-        if (user is null)
-            return NotFound(new { error = "User not found" });
-
-        var (firstName, lastName) = SplitFullName(user.FullName);
-        return Ok(new
-        {
-            id           = user.Id,
-            email        = user.Email,
-            firstName    = firstName,
-            lastName     = lastName,
-            fullName     = user.FullName,
-            phone        = "",
-            role         = user.Roles.FirstOrDefault() ?? "customer",
-            roles        = user.Roles,
-            verified     = true,
-            createdAt    = user.CreatedAt,
-            updatedAt    = user.CreatedAt,
-        });
-    }
-
-    [Authorize]
-    [HttpPost("logout")]
-    public IActionResult Logout()
-    {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        _logger.LogInformation("User {UserId} logged out", userId);
-        return Ok(new { message = "Logged out successfully." });
-    }
-
+    /// <summary>
+    /// Login with email and password
+    /// </summary>
+    /// <param name="request">Email and password</param>
+    /// <returns>200 OK with access_token (snake_case)</returns>
     [AllowAnonymous]
-    [HttpPost("check-email")]
-    public async Task<IActionResult> CheckEmail([FromBody] CheckEmailBody body)
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Login([FromBody] AuthLoginRequest request)
     {
-        if (string.IsNullOrWhiteSpace(body.Email))
-            return BadRequest(new { error = "Email is required" });
+        // Validation
+        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
+            return BadRequest(new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/validation",
+                Title = "Validation Error",
+                Detail = "Email and password are required",
+                Status = StatusCodes.Status400BadRequest
+            });
 
-        var user = await _userService.GetUserByEmailAsync(body.Email);
-        return Ok(new { available = user is null });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("password-reset-request")]
-    public IActionResult RequestPasswordReset([FromBody] PasswordResetRequestBody body)
-    {
-        _logger.LogInformation("Password reset requested for {Email}", body.Email);
-        return Ok(new { message = "If that email exists, a reset link has been sent." });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("password-reset-confirm")]
-    public IActionResult ConfirmPasswordReset([FromBody] PasswordResetConfirmBody body)
-    {
-        _logger.LogInformation("Password reset confirm attempt");
-        return Ok(new { message = "Password reset successfully." });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("verify-email")]
-    public IActionResult VerifyEmail([FromBody] VerifyEmailBody body)
-    {
-        _logger.LogInformation("Email verification attempt");
-        return Ok(new { message = "Email verified successfully." });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("resend-verification")]
-    public IActionResult ResendVerification([FromBody] ResendVerificationBody body)
-    {
-        _logger.LogInformation("Verification resend requested for {Email}", body.Email);
-        return Ok(new { message = "Verification email sent." });
-    }
-
-    private ClaimsPrincipal? ValidateToken(string token)
-    {
         try
         {
-            var secretKey = _configuration["Jwt:SecretKey"];
-            if (string.IsNullOrEmpty(secretKey)) return null;
-
-            var handler = new JwtSecurityTokenHandler();
-            return handler.ValidateToken(token, new TokenValidationParameters
+            var result = await _userService.AuthenticateAsync(request.Email, request.Password);
+            if (!result.Success)
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey         = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                ValidateIssuer           = false,
-                ValidateAudience         = false,
-                ValidateLifetime         = false,
-                ClockSkew                = TimeSpan.Zero,
-            }, out _);
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    private static object BuildAuthResponse(UserDto user, string accessToken, string refreshToken)
-    {
-        var (firstName, lastName) = SplitFullName(user.FullName);
-        return new
-        {
-            accessToken  = accessToken,
-            refreshToken = refreshToken,
-            expiresIn    = 3600,
-            user         = new
-            {
-                id        = user.Id,
-                email     = user.Email,
-                firstName = firstName,
-                lastName  = lastName,
-                fullName  = user.FullName,
-                phone     = "",
-                role      = user.Roles.FirstOrDefault() ?? "customer",
-                roles     = user.Roles,
-                verified  = true,
-                createdAt = user.CreatedAt,
-                updatedAt = user.CreatedAt,
+                _logger.LogWarning("Failed login attempt for {Email}", request.Email);
+                return Unauthorized(new ProblemDetails
+                {
+                    Type = "https://dawar-kitchen.api/errors/authentication",
+                    Title = "Authentication Failed",
+                    Detail = "Invalid email or password",
+                    Status = StatusCodes.Status401Unauthorized
+                });
             }
-        };
+
+            var token = _jwtService.GenerateToken(result.User!.Id, result.User!.Email, result.User!.Roles);
+            _logger.LogInformation("User logged in: {Email}", request.Email);
+
+            // Return EXACTLY { access_token: string } per spec (snake_case)
+            return Ok(new { access_token = token });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Login error for {Email}", request.Email);
+            return StatusCode(500, new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/server",
+                Title = "Internal Server Error",
+                Detail = "Login failed",
+                Status = StatusCodes.Status500InternalServerError
+            });
+        }
     }
 
-    private static (string firstName, string lastName) SplitFullName(string fullName)
+    /// <summary>
+    /// Logout the current user
+    /// </summary>
+    /// <returns>200 OK</returns>
+    [Authorize]
+    [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult Logout()
     {
-        var parts = (fullName ?? "").Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
-        return parts.Length switch
+        var userId = User.FindFirst("sub")?.Value ?? User.FindFirst("uid")?.Value;
+        _logger.LogInformation("User logged out: {UserId}", userId);
+        return Ok();
+    }
+
+    /// <summary>
+    /// Reset password for a user (email-based)
+    /// </summary>
+    /// <param name="request">Email address</param>
+    /// <returns>200 OK</returns>
+    [AllowAnonymous]
+    [HttpPost("reset-password")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ResetPassword([FromBody] AuthResetPasswordRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Email))
+            return BadRequest(new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/validation",
+                Title = "Validation Error",
+                Detail = "Email is required",
+                Status = StatusCodes.Status400BadRequest
+            });
+
+        try
         {
-            0 => ("User", ""),
-            1 => (parts[0], ""),
-            _ => (parts[0], parts[1]),
-        };
+            // Security: Don't reveal if email exists
+            var user = await _userService.GetUserByEmailAsync(request.Email);
+            if (user != null)
+            {
+                _logger.LogInformation("Password reset requested for {Email}", request.Email);
+                // TODO: Send reset email with token
+            }
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Password reset error");
+            return StatusCode(500, new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/server",
+                Title = "Internal Server Error",
+                Detail = "Password reset failed",
+                Status = StatusCodes.Status500InternalServerError
+            });
+        }
+    }
+
+    /// <summary>
+    /// Get current authenticated user
+    /// </summary>
+    /// <returns>200 OK with { userId, email }</returns>
+    [Authorize]
+    [HttpGet("me")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> GetMe()
+    {
+        var userId = User.FindFirst("sub")?.Value ?? User.FindFirst("uid")?.Value;
+        var email = User.FindFirst("email")?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized(new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/authentication",
+                Title = "Unauthorized",
+                Detail = "Invalid token",
+                Status = StatusCodes.Status401Unauthorized
+            });
+
+        try
+        {
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user is null)
+                return Unauthorized(new ProblemDetails
+                {
+                    Type = "https://dawar-kitchen.api/errors/authentication",
+                    Title = "User Not Found",
+                    Detail = "User not found",
+                    Status = StatusCodes.Status401Unauthorized
+                });
+
+            // Return EXACTLY { userId, email } per spec
+            return Ok(new { userId = user.Id, email = user.Email });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Get me error for {UserId}", userId);
+            return StatusCode(500, new ProblemDetails
+            {
+                Type = "https://dawar-kitchen.api/errors/server",
+                Title = "Internal Server Error",
+                Detail = "Failed to get user",
+                Status = StatusCodes.Status500InternalServerError
+            });
+        }
     }
 }
 
-public class LoginBody
+/// <summary>
+/// Request DTOs matching frontend contracts exactly
+/// </summary>
+public class AuthRegisterRequest
 {
-    public string Email    { get; set; } = "";
+    public string Email { get; set; } = "";
     public string Password { get; set; } = "";
 }
 
-public class RegisterBody
+public class AuthLoginRequest
 {
-    public string  Email     { get; set; } = "";
-    public string  Password  { get; set; } = "";
-    public string? FirstName { get; set; }
-    public string? LastName  { get; set; }
-    public string? FullName  { get; set; }
-    public string? Phone     { get; set; }
+    public string Email { get; set; } = "";
+    public string Password { get; set; } = "";
 }
 
-public class RefreshBody
+public class AuthResetPasswordRequest
 {
-    public string? RefreshToken { get; set; }
+    public string Email { get; set; } = "";
 }
-
-public class CheckEmailBody      { public string Email    { get; set; } = ""; }
-public class PasswordResetRequestBody { public string Email { get; set; } = ""; }
-public class PasswordResetConfirmBody { public string? Token { get; set; } public string? NewPassword { get; set; } }
-public class VerifyEmailBody     { public string? Token   { get; set; } }
-public class ResendVerificationBody { public string Email { get; set; } = ""; }

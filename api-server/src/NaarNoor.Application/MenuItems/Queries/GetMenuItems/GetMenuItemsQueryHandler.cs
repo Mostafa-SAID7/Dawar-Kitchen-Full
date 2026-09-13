@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
+using NaarNoor.Application.DTOs;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 
@@ -37,18 +38,20 @@ public class GetMenuItemsQueryHandler : IRequestHandler<GetMenuItemsQuery, List<
 internal static class MenuItemProjection
 {
     internal static IQueryable<MenuItemDto> ProjectToDto(this IQueryable<MenuItem> source)
-        => source.Select(m => new MenuItemDto(
-            m.Id,
-            m.Name,
-            m.Description,
-            m.Price,
-            m.Category.ToString(),
-            m.IsVegetarian,
-            m.IsVegan,
-            m.IsGlutenFree,
-            m.IsAvailable,
-            m.ImageUrl,
-            m.SortOrder));
+        => source.Select(m => new MenuItemDto
+        {
+            Id = m.Id,
+            Name = m.Name,
+            Description = m.Description,
+            Price = m.Price,
+            Category = m.Category.ToString(),
+            IsVegetarian = m.IsVegetarian,
+            IsVegan = m.IsVegan,
+            IsGlutenFree = m.IsGlutenFree,
+            IsAvailable = m.IsAvailable,
+            ImageUrl = m.ImageUrl,
+            SortOrder = m.SortOrder
+        });
 
     internal static IQueryable<MenuItem> FilterByCategory(
         this IQueryable<MenuItem> source, string? category)
