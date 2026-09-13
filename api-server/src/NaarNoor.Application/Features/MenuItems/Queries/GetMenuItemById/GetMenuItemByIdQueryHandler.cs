@@ -1,10 +1,13 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
 
-namespace NaarNoor.Application.MenuItems.Queries.GetMenuItemById;
+namespace NaarNoor.Application.Features.MenuItems.Queries.GetMenuItemById;
 
+/// <summary>
+/// Handler for GetMenuItemByIdQuery
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class GetMenuItemByIdQueryHandler : IRequestHandler<GetMenuItemByIdQuery, MenuItemDto?>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,22 +19,24 @@ public class GetMenuItemByIdQueryHandler : IRequestHandler<GetMenuItemByIdQuery,
 
     public async Task<MenuItemDto?> Handle(GetMenuItemByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.MenuItems.Query()
-            .Where(m => m.Id == request.Id)
-            .Select(m => new MenuItemDto
-            {
-                Id = m.Id,
-                Name = m.Name,
-                Description = m.Description,
-                Price = m.Price,
-                Category = m.Category.ToString(),
-                IsVegetarian = m.IsVegetarian,
-                IsVegan = m.IsVegan,
-                IsGlutenFree = m.IsGlutenFree,
-                IsAvailable = m.IsAvailable,
-                ImageUrl = m.ImageUrl,
-                SortOrder = m.SortOrder
-            })
-            .FirstOrDefaultAsync(cancellationToken);
+        var menuItem = await _unitOfWork.MenuItems.GetByIdAsync(request.Id, cancellationToken);
+        
+        if (menuItem is null)
+            return null;
+
+        return new MenuItemDto
+        {
+            Id = menuItem.Id,
+            Name = menuItem.Name,
+            Description = menuItem.Description,
+            Price = menuItem.Price,
+            Category = menuItem.Category.ToString(),
+            IsVegetarian = menuItem.IsVegetarian,
+            IsVegan = menuItem.IsVegan,
+            IsGlutenFree = menuItem.IsGlutenFree,
+            IsAvailable = menuItem.IsAvailable,
+            ImageUrl = menuItem.ImageUrl,
+            SortOrder = menuItem.SortOrder
+        };
     }
 }

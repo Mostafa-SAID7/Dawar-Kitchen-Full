@@ -1,10 +1,13 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
 
-namespace NaarNoor.Application.Chefs.Queries.GetChefs;
+namespace NaarNoor.Application.Features.Chefs.Queries.GetChefs;
 
+/// <summary>
+/// Handler for GetChefsQuery
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class GetChefsQueryHandler : IRequestHandler<GetChefsQuery, List<ChefDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +19,9 @@ public class GetChefsQueryHandler : IRequestHandler<GetChefsQuery, List<ChefDto>
 
     public async Task<List<ChefDto>> Handle(GetChefsQuery request, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.Chefs.Query()
+        var allChefs = await _unitOfWork.Chefs.GetAllAsync(cancellationToken);
+
+        return allChefs
             .Where(c => c.IsActive)
             .OrderBy(c => c.SortOrder)
             .Select(c => new ChefDto
@@ -29,6 +34,6 @@ public class GetChefsQueryHandler : IRequestHandler<GetChefsQuery, List<ChefDto>
                 Specialty = c.Specialty,
                 SortOrder = c.SortOrder
             })
-            .ToListAsync(cancellationToken);
+            .ToList();
     }
 }

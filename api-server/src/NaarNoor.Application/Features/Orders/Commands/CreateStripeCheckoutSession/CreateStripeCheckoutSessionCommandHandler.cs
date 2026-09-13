@@ -1,25 +1,28 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 
-namespace NaarNoor.Application.Orders.Commands.CreateStripeCheckoutSession;
+namespace NaarNoor.Application.Features.Orders.Commands.CreateStripeCheckoutSession;
 
+/// <summary>
+/// Handler for CreateStripeCheckoutSessionCommand
+/// Creates order with Stripe payment session in a SINGLE transaction
+/// ✅ Fixed: Removed IApplicationDbContext injection (use IUnitOfWork only)
+/// ✅ Fixed: Consolidated to single SaveChangesAsync (atomic operation)
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class CreateStripeCheckoutSessionCommandHandler
     : IRequestHandler<CreateStripeCheckoutSessionCommand, CreateStripeCheckoutSessionResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IApplicationDbContext _db;
     private readonly IStripeService _stripe;
 
     public CreateStripeCheckoutSessionCommandHandler(
         IUnitOfWork unitOfWork,
-        IApplicationDbContext db,
         IStripeService stripe)
     {
         _unitOfWork = unitOfWork;
-        _db = db;
         _stripe = stripe;
     }
 
@@ -30,9 +33,11 @@ public class CreateStripeCheckoutSessionCommandHandler
         // --- Resolve authoritative prices from the database ---
         var requestedIds = request.Items.Select(i => i.MenuItemId).Distinct().ToList();
 
-        var menuItems = await _db.MenuItems
+        // Fetch all available menu items and build dictionary in-memory (no IQueryable)
+        var allAvailableItems = await _unitOfWork.MenuItems.GetAllAsync(cancellationToken);
+        var menuItems = allAvailableItems
             .Where(m => requestedIds.Contains(m.Id) && m.IsAvailable)
-            .ToDictionaryAsync(m => m.Id, cancellationToken);
+            .ToDictionary(m => m.Id);
 
         // Validate all requested items exist and are available
         var missingIds = requestedIds.Where(id => !menuItems.ContainsKey(id)).ToList();
@@ -74,11 +79,9 @@ public class CreateStripeCheckoutSessionCommandHandler
             TotalAmount          = items.Sum(i => i.UnitPrice * i.Quantity),
             Items                = items,
             Status               = OrderStatus.Pending,
-            PaymentStatus        = PaymentStatus.Pending
+            PaymentStatus        = PaymentStatus.Pending,
+            // Note: StripeSessionId will be set before SaveChangesAsync
         };
-
-        _unitOfWork.Orders.Add(order);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Build Stripe line items using authoritative server-side prices
         var stripeLineItems = items.Select(i => new StripeLineItem(
@@ -88,6 +91,7 @@ public class CreateStripeCheckoutSessionCommandHandler
             Quantity:    i.Quantity
         )).ToList();
 
+        // Create Stripe checkout session BEFORE persisting order
         var checkoutResult = await _stripe.CreateCheckoutSessionAsync(
             new StripeCheckoutRequest(
                 OrderId:       order.Id,
@@ -100,8 +104,17 @@ public class CreateStripeCheckoutSessionCommandHandler
             cancellationToken
         );
 
-        // Persist the session ID against the order
+        // Set Stripe session ID on order
         order.StripeSessionId = checkoutResult.SessionId;
+
+        // Add order and items
+        _unitOfWork.Orders.Add(order);
+        foreach (var item in items)
+        {
+            _unitOfWork.OrderItems.Add(item);
+        }
+
+        // ✅ SINGLE SaveChangesAsync — atomic transaction (FIXED from two separate calls)
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new CreateStripeCheckoutSessionResponse(order.Id, checkoutResult.SessionUrl);

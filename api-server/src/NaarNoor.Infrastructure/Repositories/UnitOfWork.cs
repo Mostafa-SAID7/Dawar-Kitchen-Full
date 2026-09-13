@@ -6,6 +6,10 @@ using NaarNoor.Infrastructure.Data;
 
 namespace NaarNoor.Infrastructure.Repositories;
 
+/// <summary>
+/// Unit of Work implementation coordinating all repositories within a single transaction.
+/// Lazy-initializes repositories on first access to minimize memory footprint.
+/// </summary>
 public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
@@ -16,6 +20,8 @@ public class UnitOfWork : IUnitOfWork
     private IRepository<ContactInquiry>? _contactInquiries;
     private IRepository<Order>? _orders;
     private IRepository<OrderItem>? _orderItems;
+    private IRepository<User>? _users;
+    private IRepository<Review>? _reviews;
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -28,6 +34,8 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<ContactInquiry> ContactInquiries => _contactInquiries ??= new Repository<ContactInquiry>(_context);
     public IRepository<Order> Orders => _orders ??= new Repository<Order>(_context);
     public IRepository<OrderItem> OrderItems => _orderItems ??= new Repository<OrderItem>(_context);
+    public IRepository<User> Users => _users ??= new Repository<User>(_context);
+    public IRepository<Review> Reviews => _reviews ??= new Repository<Review>(_context);
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => _context.SaveChangesAsync(cancellationToken);

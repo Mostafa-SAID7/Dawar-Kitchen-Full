@@ -1,10 +1,13 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Enums;
 
-namespace NaarNoor.Application.MenuItems.Commands.UpdateMenuItem;
+namespace NaarNoor.Application.Features.MenuItems.Commands.UpdateMenuItem;
 
+/// <summary>
+/// Handler for UpdateMenuItemCommand
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class UpdateMenuItemCommandHandler : IRequestHandler<UpdateMenuItemCommand, bool>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,8 +19,9 @@ public class UpdateMenuItemCommandHandler : IRequestHandler<UpdateMenuItemComman
 
     public async Task<bool> Handle(UpdateMenuItemCommand request, CancellationToken cancellationToken)
     {
-        var item = await _unitOfWork.MenuItems.Query()
-            .FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken);
+        var item = await _unitOfWork.MenuItems.FindAsync(
+            m => m.Id == request.Id,
+            cancellationToken);
 
         if (item is null) return false;
 

@@ -1,10 +1,13 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
 
-namespace NaarNoor.Application.Reservations.Queries.GetReservationById;
+namespace NaarNoor.Application.Features.Reservations.Queries.GetReservationById;
 
+/// <summary>
+/// Handler for GetReservationByIdQuery
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class GetReservationByIdQueryHandler : IRequestHandler<GetReservationByIdQuery, ReservationDto?>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,21 +19,23 @@ public class GetReservationByIdQueryHandler : IRequestHandler<GetReservationById
 
     public async Task<ReservationDto?> Handle(GetReservationByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.Reservations.Query()
-            .Where(r => r.Id == request.Id)
-            .Select(r => new ReservationDto
-            {
-                Id = r.Id,
-                CustomerName = r.CustomerName,
-                Email = r.Email,
-                PhoneNumber = r.PhoneNumber,
-                ReservationDate = r.ReservationDate,
-                ReservationTime = r.ReservationTime.ToString("HH:mm"),
-                PartySize = r.PartySize,
-                Status = r.Status.ToString(),
-                SpecialRequests = r.SpecialRequests,
-                CreatedAt = r.CreatedAt
-            })
-            .FirstOrDefaultAsync(cancellationToken);
+        var reservation = await _unitOfWork.Reservations.GetByIdAsync(request.Id, cancellationToken);
+        
+        if (reservation is null)
+            return null;
+
+        return new ReservationDto
+        {
+            Id = reservation.Id,
+            CustomerName = reservation.CustomerName,
+            Email = reservation.Email,
+            PhoneNumber = reservation.PhoneNumber,
+            ReservationDate = reservation.ReservationDate,
+            ReservationTime = reservation.ReservationTime.ToString("HH:mm"),
+            PartySize = reservation.PartySize,
+            Status = reservation.Status.ToString(),
+            SpecialRequests = reservation.SpecialRequests,
+            CreatedAt = reservation.CreatedAt
+        };
     }
 }

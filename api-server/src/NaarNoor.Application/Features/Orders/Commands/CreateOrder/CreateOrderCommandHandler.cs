@@ -1,14 +1,15 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 
-namespace NaarNoor.Application.Orders.Commands.CreateOrder;
+namespace NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 
 /// <summary>
 /// Handler for CreateOrderCommand
-/// Validates menu items, recomputes prices server-side, creates Order + OrderItems in a transaction
+/// Validates menu items, recomputes prices server-side, creates Order + OrderItems in a SINGLE transaction
+/// ✅ Fixed: Consolidated to single SaveChangesAsync (atomic operation)
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
 /// </summary>
 public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
 {
@@ -23,11 +24,14 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
     {
         // ✅ Step 1: Validate all menu items exist and fetch current prices from database
         var menuItemIds = request.Items.Select(i => i.MenuItemId).ToList();
-        var menuItems = await _unitOfWork.MenuItems.Query()
+        
+        // Fetch all available items and filter in-memory (no IQueryable in Application)
+        var allAvailableItems = await _unitOfWork.MenuItems.GetAllAsync(cancellationToken);
+        var validatedMenuItems = allAvailableItems
             .Where(m => menuItemIds.Contains(m.Id) && m.IsAvailable)
-            .ToListAsync(cancellationToken);
+            .ToList();
 
-        if (menuItems.Count != request.Items.Count)
+        if (validatedMenuItems.Count != request.Items.Count)
         {
             throw new InvalidOperationException("One or more menu items are not available or do not exist.");
         }
@@ -38,7 +42,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
 
         foreach (var requestItem in request.Items)
         {
-            var menuItem = menuItems.FirstOrDefault(m => m.Id == requestItem.MenuItemId)
+            var menuItem = validatedMenuItems.FirstOrDefault(m => m.Id == requestItem.MenuItemId)
                 ?? throw new InvalidOperationException($"Menu item {requestItem.MenuItemId} not found.");
 
             // Server-side price (ignore client-provided price)
@@ -64,9 +68,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
         };
 
         _unitOfWork.Orders.Add(order);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        // ✅ Step 4: Create OrderItems (one per menu item)
+        // ✅ Step 4: Create OrderItems (one per menu item) — BEFORE SaveChangesAsync
         foreach (var (requestItem, menuItem, serverPrice) in validatedItems)
         {
             var orderItem = new OrderItem
@@ -81,6 +84,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
             _unitOfWork.OrderItems.Add(orderItem);
         }
 
+        // ✅ Step 5: SINGLE SaveChangesAsync — atomic transaction (FIXED from two separate calls)
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return order.Id;

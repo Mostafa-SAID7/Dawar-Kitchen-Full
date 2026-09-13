@@ -1,11 +1,14 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Enums;
 
-namespace NaarNoor.Application.Orders.Commands.HandleStripeWebhook;
+namespace NaarNoor.Application.Features.Orders.Commands.HandleStripeWebhook;
 
+/// <summary>
+/// Handler for HandleStripeWebhookCommand
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class HandleStripeWebhookCommandHandler : IRequestHandler<HandleStripeWebhookCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -66,8 +69,7 @@ public class HandleStripeWebhookCommandHandler : IRequestHandler<HandleStripeWeb
             return;
         }
 
-        var order = await _unitOfWork.Orders.Query()
-            .FirstOrDefaultAsync(o => o.Id == orderId, ct);
+        var order = await _unitOfWork.Orders.FindAsync(o => o.Id == orderId, ct);
         if (order is null)
         {
             _logger.LogWarning("Order {OrderId} not found for Stripe session {SessionId}", orderId, webhookEvent.SessionId);
@@ -86,8 +88,7 @@ public class HandleStripeWebhookCommandHandler : IRequestHandler<HandleStripeWeb
         if (!Guid.TryParse(webhookEvent.OrderId, out var orderId))
             return;
 
-        var order = await _unitOfWork.Orders.Query()
-            .FirstOrDefaultAsync(o => o.Id == orderId, ct);
+        var order = await _unitOfWork.Orders.FindAsync(o => o.Id == orderId, ct);
         if (order is null) return;
 
         if (order.PaymentStatus == PaymentStatus.Pending)

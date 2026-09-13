@@ -1,10 +1,14 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
 
-namespace NaarNoor.Application.Reservations.Queries.GetReservations;
+namespace NaarNoor.Application.Features.Reservations.Queries.GetReservations;
 
+/// <summary>
+/// Handler for GetReservationsQuery
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// Note: Pagination done in-memory (acceptable for reference tables; optimize later if needed)
+/// </summary>
 public class GetReservationsQueryHandler : IRequestHandler<GetReservationsQuery, List<ReservationDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +20,9 @@ public class GetReservationsQueryHandler : IRequestHandler<GetReservationsQuery,
 
     public async Task<List<ReservationDto>> Handle(GetReservationsQuery request, CancellationToken cancellationToken)
     {
-        return await _unitOfWork.Reservations.Query()
+        var allReservations = await _unitOfWork.Reservations.GetAllAsync(cancellationToken);
+        
+        return allReservations
             .OrderByDescending(r => r.ReservationDate)
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
@@ -33,6 +39,6 @@ public class GetReservationsQueryHandler : IRequestHandler<GetReservationsQuery,
                 SpecialRequests = r.SpecialRequests,
                 CreatedAt = r.CreatedAt
             })
-            .ToListAsync(cancellationToken);
+            .ToList();
     }
 }

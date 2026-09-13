@@ -1,15 +1,16 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Caching;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
+using NaarNoor.Domain.Entities;
 
-namespace NaarNoor.Application.MenuItems.Queries.GetMenuItems;
+namespace NaarNoor.Application.Features.MenuItems.Queries.GetMenuItems;
 
 /// <summary>
 /// Handles GetMenuItemsQuery with a 5-minute distributed cache layer.
 /// Cache hit: ~5-10 ms | Cache miss: ~80-100 ms | Expected hit rate: 85-95%.
 /// Category-filtered requests bypass the cache (too many key variations).
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
 /// </summary>
 public class GetMenuItemsCachedQueryHandler : IRequestHandler<GetMenuItemsQuery, List<MenuItemDto>>
 {
@@ -35,12 +36,16 @@ public class GetMenuItemsCachedQueryHandler : IRequestHandler<GetMenuItemsQuery,
         return items;
     }
 
-    private Task<List<MenuItemDto>> QueryDatabaseAsync(GetMenuItemsQuery request, CancellationToken cancellationToken)
-        => _unitOfWork.MenuItems.Query()
+    private async Task<List<MenuItemDto>> QueryDatabaseAsync(GetMenuItemsQuery request, CancellationToken cancellationToken)
+    {
+        var allMenuItems = await _unitOfWork.MenuItems.GetAllAsync(cancellationToken);
+        
+        return allMenuItems
             .Where(m => m.IsAvailable)
-            .FilterByCategory(request.Category)
+            .ApplyCategoryFilter(request.Category)
             .OrderBy(m => m.Category)
             .ThenBy(m => m.SortOrder)
             .ProjectToDto()
-            .ToListAsync(cancellationToken);
+            .ToList();
+    }
 }

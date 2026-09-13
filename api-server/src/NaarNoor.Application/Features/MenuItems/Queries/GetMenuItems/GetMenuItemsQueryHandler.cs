@@ -1,15 +1,15 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 
-namespace NaarNoor.Application.MenuItems.Queries.GetMenuItems;
+namespace NaarNoor.Application.Features.MenuItems.Queries.GetMenuItems;
 
 /// <summary>
 /// Query handler for retrieving menu items without caching.
 /// Returns all available items, optionally filtered by category.
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
 /// </summary>
 public class GetMenuItemsQueryHandler : IRequestHandler<GetMenuItemsQuery, List<MenuItemDto>>
 {
@@ -22,22 +22,23 @@ public class GetMenuItemsQueryHandler : IRequestHandler<GetMenuItemsQuery, List<
 
     public async Task<List<MenuItemDto>> Handle(GetMenuItemsQuery request, CancellationToken cancellationToken)
     {
-        var menuItems = _unitOfWork.MenuItems.Query()
+        var allMenuItems = await _unitOfWork.MenuItems.GetAllAsync(cancellationToken);
+        
+        return allMenuItems
             .Where(m => m.IsAvailable)
-            .FilterByCategory(request.Category)
-            .ProjectToDto();
-
-        return await menuItems.ToListAsync(cancellationToken);
+            .ApplyCategoryFilter(request.Category)
+            .ProjectToDto()
+            .ToList();
     }
 }
 
 /// <summary>
-/// Centralized EF projection from MenuItem entity → MenuItemDto.
-/// Used by all menu item query handlers to avoid duplicating Select(...) expressions.
+/// Centralized projection and filtering for MenuItem entity → MenuItemDto.
+/// Operates on LINQ-to-Objects (in-memory), not EF Core queries.
 /// </summary>
 internal static class MenuItemProjection
 {
-    internal static IQueryable<MenuItemDto> ProjectToDto(this IQueryable<MenuItem> source)
+    internal static List<MenuItemDto> ProjectToDto(this IEnumerable<MenuItem> source)
         => source.Select(m => new MenuItemDto
         {
             Id = m.Id,
@@ -51,10 +52,10 @@ internal static class MenuItemProjection
             IsAvailable = m.IsAvailable,
             ImageUrl = m.ImageUrl,
             SortOrder = m.SortOrder
-        });
+        }).ToList();
 
-    internal static IQueryable<MenuItem> FilterByCategory(
-        this IQueryable<MenuItem> source, string? category)
+    internal static IEnumerable<MenuItem> ApplyCategoryFilter(
+        this IEnumerable<MenuItem> source, string? category)
     {
         if (string.IsNullOrWhiteSpace(category)) return source;
         return Enum.TryParse<MenuCategory>(category, ignoreCase: true, out var cat)

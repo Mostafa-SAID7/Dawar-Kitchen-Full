@@ -1,9 +1,12 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 
-namespace NaarNoor.Application.MenuItems.Commands.DeleteMenuItem;
+namespace NaarNoor.Application.Features.MenuItems.Commands.DeleteMenuItem;
 
+/// <summary>
+/// Handler for DeleteMenuItemCommand
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class DeleteMenuItemCommandHandler : IRequestHandler<DeleteMenuItemCommand, bool>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -15,8 +18,9 @@ public class DeleteMenuItemCommandHandler : IRequestHandler<DeleteMenuItemComman
 
     public async Task<bool> Handle(DeleteMenuItemCommand request, CancellationToken cancellationToken)
     {
-        var item = await _unitOfWork.MenuItems.Query()
-            .FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken);
+        var item = await _unitOfWork.MenuItems.FindAsync(
+            m => m.Id == request.Id,
+            cancellationToken);
 
         if (item is null) return false;
 

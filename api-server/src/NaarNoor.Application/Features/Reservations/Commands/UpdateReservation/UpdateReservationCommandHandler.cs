@@ -1,10 +1,13 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Enums;
 
-namespace NaarNoor.Application.Reservations.Commands.UpdateReservation;
+namespace NaarNoor.Application.Features.Reservations.Commands.UpdateReservation;
 
+/// <summary>
+/// Handler for UpdateReservationCommand
+/// ✅ Fixed: Removed Microsoft.EntityFrameworkCore import
+/// </summary>
 public class UpdateReservationCommandHandler : IRequestHandler<UpdateReservationCommand, bool>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,8 +19,9 @@ public class UpdateReservationCommandHandler : IRequestHandler<UpdateReservation
 
     public async Task<bool> Handle(UpdateReservationCommand request, CancellationToken cancellationToken)
     {
-        var reservation = await _unitOfWork.Reservations.Query()
-            .FirstOrDefaultAsync(r => r.Id == request.Id, cancellationToken);
+        var reservation = await _unitOfWork.Reservations.FindAsync(
+            r => r.Id == request.Id,
+            cancellationToken);
 
         if (reservation is null) return false;
 
