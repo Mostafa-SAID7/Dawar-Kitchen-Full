@@ -1,62 +1,62 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from '../../pages/home/home.component';
+import { HomeComponent } from '../../features/home/pages/home/home.component';
 import { authGuard } from '../guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { preload: true } },
   {
     path: 'menu',
-    loadComponent: () => import('../../pages/menu/menu.component').then(m => m.MenuPageComponent),
+    loadComponent: () => import('../../features/menu/pages/menu/menu.component').then(m => m.MenuPageComponent),
     data: { preload: true }  // ✅ High priority - preload after home
   },
   {
     path: 'reservations',
-    loadComponent: () => import('../../pages/reservations/reservations.component').then(m => m.ReservationsPageComponent),
+    loadComponent: () => import('../../features/reservations/pages/reservations/reservations.component').then(m => m.ReservationsPageComponent),
     data: { preload: true }  // ✅ High priority
   },
   {
     path: 'about',
-    loadComponent: () => import('../../pages/about/about.component').then(m => m.AboutPageComponent)
+    loadComponent: () => import('../../features/static/pages/about/about.component').then(m => m.AboutPageComponent)
   },
   {
     path: 'contact',
-    loadComponent: () => import('../../pages/contact/contact.component').then(m => m.ContactPageComponent)
+    loadComponent: () => import('../../features/contact/pages/contact/contact.component').then(m => m.ContactPageComponent)
   },
   {
     path: 'login',
-    loadComponent: () => import('../../pages/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('../../features/auth/pages/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'register',
-    loadComponent: () => import('../../pages/register/register.component').then(m => m.RegisterComponent)
+    loadComponent: () => import('../../features/auth/pages/register/register.component').then(m => m.RegisterComponent)
   },
   {
     path: 'checkout',
-    loadComponent: () => import('../../pages/checkout/checkout.component').then(m => m.CheckoutComponent)
+    loadComponent: () => import('../../features/checkout/pages/checkout/checkout.component').then(m => m.CheckoutComponent)
   },
   {
     path: 'order-confirmed',
-    loadComponent: () => import('../../pages/order-confirmed/order-confirmed.component').then(m => m.OrderConfirmedComponent),
+    loadComponent: () => import('../../features/orders/pages/order-confirmed/order-confirmed.component').then(m => m.OrderConfirmedComponent),
     canActivate: [authGuard]
   },
   {
     path: 'payment-success',
-    loadComponent: () => import('../../pages/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
+    loadComponent: () => import('../../features/checkout/pages/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
   },
   {
     path: 'payment-cancelled',
-    loadComponent: () => import('../../pages/payment-cancelled/payment-cancelled.component').then(m => m.PaymentCancelledComponent)
+    loadComponent: () => import('../../features/checkout/pages/payment-cancelled/payment-cancelled.component').then(m => m.PaymentCancelledComponent)
   },
   {
     path: 'privacy',
-    loadComponent: () => import('../../pages/privacy/privacy.component').then(m => m.PrivacyPageComponent)
+    loadComponent: () => import('../../features/static/pages/privacy/privacy.component').then(m => m.PrivacyPageComponent)
   },
   {
     path: 'terms',
-    loadComponent: () => import('../../pages/terms/terms.component').then(m => m.TermsPageComponent)
+    loadComponent: () => import('../../features/static/pages/terms/terms.component').then(m => m.TermsPageComponent)
   },
   {
     path: '**',
-    loadComponent: () => import('../../pages/not-found/not-found.component').then(m => m.NotFoundComponent)
+    loadComponent: () => import('../../features/static/pages/not-found/not-found.component').then(m => m.NotFoundComponent)
   }
 ];

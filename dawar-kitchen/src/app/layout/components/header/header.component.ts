@@ -2,9 +2,10 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject, signal } from 
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { CartService } from '../../../services/cart.service';
-import { AuthService } from '../../../core/auth/auth.service';
-import { ThemeService, LanguageService } from '../../../shared/services';
+import { CheckoutService } from '@features/checkout/services/checkout.service';
+import { CartService } from '@features/checkout/services/cart.service';
+import { AuthService } from '@core/auth/auth.service';
+import { ThemeService, LanguageService } from '@shared/services';
 import { AuthModalComponent } from '../../auth-modal/auth-modal.component';
 
 @Component({
