@@ -53,21 +53,34 @@ export class LanguageService {
 
     this.applyDocumentLanguage(lang);
     StorageUtil.set(STORAGE_KEYS.LANGUAGE, lang);
+
+    // Force a fresh fetch every time. ngx-translate caches translations in memory
+    // and treats an empty {} as "loaded" (never retrying), so a load that failed
+    // during early bootstrap would leave the language permanently broken.
+    // reloadLang() clears the cache and re-issues the HTTP requests.
+    this.translateService.reloadLang(lang);
+
     this.translateService.use(lang).subscribe({
       next: () => this.currentLanguage$.next(lang),
-      error: () => {
-        if (lang === DEFAULT_LANGUAGE) {
-          this.currentLanguage$.next(DEFAULT_LANGUAGE);
-          return;
-        }
+      error: () => this.handleLanguageFallback(lang)
+    });
+  }
 
-        this.applyDocumentLanguage(DEFAULT_LANGUAGE);
-        StorageUtil.set(STORAGE_KEYS.LANGUAGE, DEFAULT_LANGUAGE);
-        this.translateService.use(DEFAULT_LANGUAGE).subscribe({
-          next: () => this.currentLanguage$.next(DEFAULT_LANGUAGE),
-          error: () => this.currentLanguage$.next(DEFAULT_LANGUAGE)
-        });
-      }
+  /**
+   * Fall back to the default language when the requested language fails to load.
+   */
+  private handleLanguageFallback(lang: string): void {
+    if (lang === DEFAULT_LANGUAGE) {
+      this.currentLanguage$.next(DEFAULT_LANGUAGE);
+      return;
+    }
+
+    this.applyDocumentLanguage(DEFAULT_LANGUAGE);
+    StorageUtil.set(STORAGE_KEYS.LANGUAGE, DEFAULT_LANGUAGE);
+    this.translateService.reloadLang(DEFAULT_LANGUAGE);
+    this.translateService.use(DEFAULT_LANGUAGE).subscribe({
+      next: () => this.currentLanguage$.next(DEFAULT_LANGUAGE),
+      error: () => this.currentLanguage$.next(DEFAULT_LANGUAGE)
     });
   }
 

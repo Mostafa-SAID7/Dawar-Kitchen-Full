@@ -1,7 +1,6 @@
 import { ApplicationConfig, isDevMode, importProvidersFrom } from '@angular/core';
 import { provideRouter, withInMemoryScrolling, withPreloading, PreloadAllModules } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { DEFAULT_LANGUAGE } from '../../shared/constants';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -50,9 +49,13 @@ export const appConfig: ApplicationConfig = {
       registrationStrategy: 'registerWhenStable:30000'
     }),
     // ✅ TranslateModule for i18n (standalone configuration)
+    // NOTE: defaultLanguage is intentionally NOT set here. Setting it triggers an
+    // early setDefaultLang() → getTranslation() during TranslateService construction
+    // (the earliest bootstrap moment), which races the dev-server asset compilation
+    // and can cache an empty {} for 'en' that ngx-translate never retries. The
+    // LanguageService owns all language loading instead.
     importProvidersFrom(
       TranslateModule.forRoot({
-        defaultLanguage: DEFAULT_LANGUAGE,
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
