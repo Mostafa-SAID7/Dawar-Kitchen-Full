@@ -1,20 +1,20 @@
 export const BLOG_POSTS_DATA = [
   {
-    date: 'Oct 12, 2026',
-    title: 'The Story Behind Egyptian Flavors',
-    excerpt: 'Discover the rich history and cultural significance of the spices that define our unique menu offerings.',
+    dateKey: 'blogPosts.oneDate',
+    titleKey: 'blogPosts.oneTitle',
+    excerptKey: 'blogPosts.oneExcerpt',
     image: 'assets/locations/cooking-fire.jpg'
   },
   {
-    date: 'Oct 05, 2026',
-    title: '5 Must-Try Dishes at Dawar Kitchen',
-    excerpt: 'A curated guide to navigating our menu, from authentic Koshari to our signature Syrian Kabsa.',
+    dateKey: 'blogPosts.twoDate',
+    titleKey: 'blogPosts.twoTitle',
+    excerptKey: 'blogPosts.twoExcerpt',
     image: 'assets/blog/5 Must-Try Dishes at Dawar Kitchen.jpg'
   },
   {
-    date: 'Sep 28, 2026',
-    title: 'The Art of Charcoal Cooking',
-    excerpt: 'Why we believe cooking over charcoal is the only way to truly unlock the depth of our Egyptian ingredients.',
+    dateKey: 'blogPosts.threeDate',
+    titleKey: 'blogPosts.threeTitle',
+    excerptKey: 'blogPosts.threeExcerpt',
     image: 'assets/blog/The-Art-of-Fire-Grilled-Cooking.jpg'
   }
 ];

@@ -28,6 +28,10 @@
     "sendMessage": "أرسل رسالة",
     "yourName": "اسمك",
     "yourEmail": "your@email.com",
-    "tellUsMore": "أخبرنا كيف يمكننا مساعدتك…"
+    "tellUsMore": "أخبرنا كيف يمكننا مساعدتك…",
+    "addressValue": "5 شارع مجدي الخولي،\nعزبة خيرالله، القاهرة القديمة،\nمحافظة القاهرة، مصر",
+    "productionTime": "9:00 صباحاً – 5:00 مساءً",
+    "deliveryTime": "10:00 صباحاً – 8:00 مساءً",
+    "daysValue": "الاثنين – الأحد"
   }
 }

@@ -26,7 +26,8 @@
     "test:ci": "jest --config jest.config.js --forceExit",
     "coverage:check": "jest --config jest.config.js --coverage --forceExit",
     "e2e": "cypress open",
-    "e2e:ci": "cypress run --headless --browser chrome"
+    "e2e:ci": "cypress run --headless --browser chrome",
+    "i18n:check": "node check-i18n.mjs"
   },
   "dependencies": {
     "@angular/animations": "^18.2.14",

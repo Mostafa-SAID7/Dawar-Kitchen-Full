@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal, OnInit, OnDestroy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
@@ -15,7 +16,7 @@ import { PricePipe } from '@shared/pipes';
 @Component({
   selector: 'app-cart-drawer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PricePipe],
+  imports: [CommonModule, ReactiveFormsModule, PricePipe, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
@@ -64,14 +65,14 @@ import { PricePipe } from '@shared/pipes';
             </iconify-icon>
             <h2 class="font-['Forum'] text-xl text-white tracking-tight">
               <ng-container [ngSwitch]="step()">
-                <span *ngSwitchCase="1">Your Cart</span>
-                <span *ngSwitchCase="2">Checkout</span>
-                <span *ngSwitchCase="3">Order Received!</span>
+                <span *ngSwitchCase="1">{{ 'cart.title' | translate }}</span>
+                <span *ngSwitchCase="2">{{ 'checkout.yourOrder' | translate }}</span>
+                <span *ngSwitchCase="3">{{ 'order.receivedTitle' | translate }}</span>
               </ng-container>
             </h2>
             <span *ngIf="step() === 1 && !cart.isEmpty()"
                   class="text-xs font-medium text-neutral-400 bg-white/5 px-2 py-0.5 rounded-full">
-              {{ cart.count() }} {{ cart.count() === 1 ? 'item' : 'items' }}
+              {{ cart.count() }} {{ cart.count() === 1 ? ('checkout.item' | translate) : ('checkout.items' | translate) }}
             </span>
           </div>
           <button (click)="closeDrawer()" data-cy="cart-drawer-close" class="text-neutral-500 hover:text-white transition-colors p-1">
@@ -97,11 +98,11 @@ import { PricePipe } from '@shared/pipes';
             <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-5">
               <iconify-icon icon="solar:cart-large-2-linear" width="28" class="text-neutral-500"></iconify-icon>
             </div>
-            <p class="text-white font-['Forum'] text-xl mb-2">Your cart is empty</p>
-            <p class="text-sm text-neutral-500 leading-relaxed">Add items from our menu to get started.</p>
+            <p class="text-white font-['Forum'] text-xl mb-2">{{ 'cart.empty' | translate }}</p>
+            <p class="text-sm text-neutral-500 leading-relaxed">{{ 'cartDrawer.emptyDescription' | translate }}</p>
             <button (click)="closeDrawer()"
                     class="mt-6 px-6 py-2.5 text-sm text-white border border-white/15 rounded-xl hover:bg-white/5 transition-all">
-              Browse Menu
+              {{ 'cartDrawer.browseMenu' | translate }}
             </button>
           </div>
 
@@ -138,13 +139,13 @@ import { PricePipe } from '@shared/pipes';
           <!-- Step 1 footer -->
           <div *ngIf="!cart.isEmpty()" class="px-6 py-5 border-t border-white/5 space-y-3 shrink-0">
             <div class="flex items-center justify-between text-sm">
-              <span class="text-neutral-400">Subtotal</span>
+              <span class="text-neutral-400">{{ 'cart.subtotal' | translate }}</span>
               <span class="text-white font-medium" data-cy="order-total">{{ cart.formattedTotal() }}</span>
             </div>
-            <p class="text-xs text-neutral-600">Delivery fee confirmed at next step</p>
+            <p class="text-xs text-neutral-600">{{ 'cartDrawer.deliveryFeeNextStep' | translate }}</p>
             <button (click)="goToStep2()"
                     class="w-full py-3.5 text-sm font-medium text-[#0a0a0a] bg-white rounded-xl hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300 flex items-center justify-center gap-2">
-              Continue to Checkout
+              {{ 'cartDrawer.continueCheckout' | translate }}
               <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon>
             </button>
           </div>
@@ -159,18 +160,18 @@ import { PricePipe } from '@shared/pipes';
             <div class="flex items-center justify-between py-3 px-4 bg-[#111] rounded-xl border border-white/5">
               <div class="flex items-center gap-2 text-xs text-neutral-400">
                 <iconify-icon icon="solar:cart-large-2-linear" width="14" class="text-neutral-500"></iconify-icon>
-                {{ cart.count() }} {{ cart.count() === 1 ? 'item' : 'items' }}
+                {{ cart.count() }} {{ cart.count() === 1 ? ('checkout.item' | translate) : ('checkout.items' | translate) }}
               </div>
               <span class="text-sm font-medium text-white font-['Forum']">{{ cart.formattedTotal() }}</span>
             </div>
 
             <!-- Order type -->
             <div>
-              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase mb-3">How would you like your order?</p>
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase mb-3">{{ 'cartDrawer.orderTypePrompt' | translate }}</p>
               <select formControlName="type" name="orderType" data-cy="order-type-select" class="nn-input w-full mb-3">
-                <option value="dine-in">Dine-in</option>
-                <option value="delivery">Delivery</option>
-                <option value="collection">Pickup</option>
+                <option value="dine-in">{{ 'reservations.dineIn' | translate }}</option>
+                <option value="delivery">{{ 'reservations.delivery' | translate }}</option>
+                <option value="collection">{{ 'reservations.pickup' | translate }}</option>
               </select>
               <div class="grid grid-cols-3 gap-2">
                 <label *ngFor="let t of orderTypes; trackBy: trackByType"
@@ -196,121 +197,121 @@ import { PricePipe } from '@shared/pipes';
 
             <!-- Contact details -->
             <div class="space-y-3">
-              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Contact details</p>
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'cartDrawer.contactDetails' | translate }}</p>
 
               <div>
-                <input formControlName="customerName" type="text" placeholder="Full name"
+                <input formControlName="customerName" type="text" [placeholder]="'cartDrawer.fullName' | translate"
                        name="customerName"
                        data-cy="customer-name"
                        class="nn-input"
                        [ngClass]="err('customerName') ? 'nn-field--error' : ''">
                 <p *ngIf="err('customerName')" class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
                   <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
-                  <span *ngIf="f['customerName'].errors?.['required']">Your name is required.</span>
-                  <span *ngIf="f['customerName'].errors?.['minlength']">Must be at least 2 characters.</span>
+                  <span *ngIf="f['customerName'].errors?.['required']">{{ 'cartDrawer.nameRequired' | translate }}</span>
+                  <span *ngIf="f['customerName'].errors?.['minlength']">{{ 'cartDrawer.nameMin' | translate }}</span>
                 </p>
               </div>
 
               <div>
-                <input formControlName="email" type="email" placeholder="Email address"
+                <input formControlName="email" type="email" [placeholder]="'cartDrawer.emailAddress' | translate"
                        class="nn-input"
                        [ngClass]="err('email') ? 'nn-field--error' : ''">
                 <p *ngIf="err('email')" class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
                   <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
-                  <span *ngIf="f['email'].errors?.['required']">Email is required.</span>
-                  <span *ngIf="f['email'].errors?.['email']">Please enter a valid email.</span>
+                  <span *ngIf="f['email'].errors?.['required']">{{ 'cartDrawer.emailRequired' | translate }}</span>
+                  <span *ngIf="f['email'].errors?.['email']">{{ 'cartDrawer.emailInvalid' | translate }}</span>
                 </p>
               </div>
 
               <div>
-                <input formControlName="phoneNumber" type="tel" placeholder="Phone number"
+                <input formControlName="phoneNumber" type="tel" [placeholder]="'cartDrawer.phoneNumber' | translate"
                        name="phone"
                        data-cy="phone"
                        class="nn-input"
                        [ngClass]="err('phoneNumber') ? 'nn-field--error' : ''">
                 <p *ngIf="err('phoneNumber')" class="mt-1.5 text-xs text-red-400 flex items-center gap-1">
                   <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
-                  <span *ngIf="f['phoneNumber'].errors?.['required']">Phone number is required.</span>
-                  <span *ngIf="f['phoneNumber'].errors?.['minlength']">Enter a valid phone number.</span>
+                  <span *ngIf="f['phoneNumber'].errors?.['required']">{{ 'cartDrawer.phoneRequired' | translate }}</span>
+                  <span *ngIf="f['phoneNumber'].errors?.['minlength']">{{ 'cartDrawer.phoneInvalid' | translate }}</span>
                 </p>
               </div>
             </div>
 
             <!-- Delivery address -->
             <div *ngIf="isDelivery" class="space-y-2">
-              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Delivery address</p>
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'cartDrawer.deliveryAddress' | translate }}</p>
               <textarea formControlName="deliveryAddress" rows="3"
-                        placeholder="Full delivery address including postcode"
+                        [placeholder]="'cartDrawer.deliveryAddressPlaceholder' | translate"
                         name="address"
                         data-cy="delivery-address"
                         class="nn-input resize-none"
                         [ngClass]="err('deliveryAddress') ? 'nn-field--error' : ''"></textarea>
               <p *ngIf="err('deliveryAddress')" class="text-xs text-red-400 flex items-center gap-1">
                 <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
-                Please enter your full delivery address.
+                {{ 'cartDrawer.deliveryAddressRequired' | translate }}
               </p>
             </div>
 
             <!-- Pickup time (for takeaway) -->
             <div *ngIf="orderType === 'collection'" class="space-y-2">
-              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Pickup time</p>
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'cartDrawer.pickupTime' | translate }}</p>
               <input formControlName="pickupTime" type="time"
                      data-cy="pickup-time"
                      class="nn-input"
                      [ngClass]="err('pickupTime') ? 'nn-field--error' : ''">
               <p *ngIf="err('pickupTime')" class="text-xs text-red-400 flex items-center gap-1">
                 <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
-                Please select a pickup time.
+                {{ 'cartDrawer.pickupTimeRequired' | translate }}
               </p>
             </div>
 
             <!-- Table selection (for dine-in) -->
             <div *ngIf="isDineIn" class="space-y-2">
-              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Select table</p>
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'cartDrawer.selectTable' | translate }}</p>
               <select formControlName="tableNumber"
                       data-cy="table-selection"
                       class="nn-input"
                       [ngClass]="err('tableNumber') ? 'nn-field--error' : ''">
-                <option value="" disabled>Choose a table...</option>
-                <option value="1">Table 1</option>
-                <option value="2">Table 2</option>
-                <option value="3">Table 3</option>
-                <option value="4">Table 4</option>
-                <option value="5">Table 5</option>
-                <option value="6">Table 6</option>
+                <option value="" disabled>{{ 'cartDrawer.chooseTable' | translate }}</option>
+                <option value="1">{{ 'cartDrawer.tableOne' | translate }}</option>
+                <option value="2">{{ 'cartDrawer.tableTwo' | translate }}</option>
+                <option value="3">{{ 'cartDrawer.tableThree' | translate }}</option>
+                <option value="4">{{ 'cartDrawer.tableFour' | translate }}</option>
+                <option value="5">{{ 'cartDrawer.tableFive' | translate }}</option>
+                <option value="6">{{ 'cartDrawer.tableSix' | translate }}</option>
               </select>
               <p *ngIf="err('tableNumber')" class="text-xs text-red-400 flex items-center gap-1">
                 <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
-                Please select a table.
+                {{ 'cartDrawer.tableRequired' | translate }}
               </p>
             </div>
 
             <!-- Dine-in reservation name -->
             <div *ngIf="isDineIn" class="space-y-2">
-              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">Reservation details</p>
+              <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">{{ 'cartDrawer.reservationDetails' | translate }}</p>
               <div class="rounded-xl border border-[#C65A1E]/20 bg-[#C65A1E]/5 px-4 py-3 flex items-start gap-3">
                 <iconify-icon icon="solar:info-circle-linear" width="14" class="text-[#C65A1E] mt-0.5 shrink-0"></iconify-icon>
                 <p class="text-xs text-neutral-400 leading-relaxed">
-                  Enter the name your table reservation is under so our team can bring your order to you.
+                  {{ 'cartDrawer.reservationDetailsHint' | translate }}
                 </p>
               </div>
               <input formControlName="tableReservationName" type="text"
-                     placeholder="Reservation name (e.g. John Smith)"
+                     [placeholder]="'cartDrawer.reservationNamePlaceholder' | translate"
                      class="nn-input"
                      [ngClass]="err('tableReservationName') ? 'nn-field--error' : ''">
               <p *ngIf="err('tableReservationName')" class="text-xs text-red-400 flex items-center gap-1">
                 <iconify-icon icon="solar:danger-circle-linear" width="12"></iconify-icon>
-                Please enter the name your reservation is under.
+                {{ 'cartDrawer.reservationNameRequired' | translate }}
               </p>
             </div>
 
             <!-- Special requests -->
             <div class="space-y-2">
               <p class="text-xs text-neutral-500 tracking-[0.15em] uppercase">
-                Special requests <span class="normal-case text-neutral-700">(optional)</span>
+                {{ 'cartDrawer.specialRequests' | translate }} <span class="normal-case text-neutral-700">{{ 'checkout.optional' | translate }}</span>
               </p>
               <textarea formControlName="notes" rows="2"
-                        placeholder="Allergies, dietary requirements, etc."
+                        [placeholder]="'cartDrawer.allergiesPlaceholder' | translate"
                         class="nn-input resize-none">
               </textarea>
             </div>
@@ -327,10 +328,10 @@ import { PricePipe } from '@shared/pipes';
                       ? 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
                       : 'bg-white text-[#0a0a0a] hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_24px_rgba(198,90,30,0.4)]'">
               <iconify-icon *ngIf="submitting" icon="solar:spinner-line-duotone" width="18" class="animate-spin"></iconify-icon>
-              <span>{{ submitting ? 'Placing order…' : 'Place Order' }}</span>
+              <span>{{ submitting ? ('cartDrawer.placingOrder' | translate) : ('cartDrawer.placeOrder' | translate) }}</span>
               <iconify-icon *ngIf="!submitting" icon="solar:check-circle-linear" width="18"></iconify-icon>
             </button>
-            <p class="text-xs text-neutral-600 text-center">We'll confirm your order by phone shortly.</p>
+            <p class="text-xs text-neutral-600 text-center">{{ 'cartDrawer.confirmByPhone' | translate }}</p>
           </div>
         </ng-container>
 
@@ -343,23 +344,23 @@ import { PricePipe } from '@shared/pipes';
               <iconify-icon icon="solar:check-circle-bold" width="44" class="text-emerald-400"></iconify-icon>
             </div>
 
-            <span class="text-[#C65A1E] text-[10px] font-medium tracking-[0.22em] uppercase mb-2">Confirmed</span>
-            <h3 class="font-['Forum'] text-2xl text-white tracking-tight mb-3">Order Received!</h3>
+            <span class="text-[#C65A1E] text-[10px] font-medium tracking-[0.22em] uppercase mb-2">{{ 'order.confirmed' | translate }}</span>
+            <h3 class="font-['Forum'] text-2xl text-white tracking-tight mb-3">{{ 'order.receivedTitle' | translate }}</h3>
             <p class="text-sm text-neutral-400 leading-relaxed max-w-xs">
-              Our team will review your order and confirm by phone shortly.
+              {{ 'cartDrawer.confirmByPhone' | translate }}
             </p>
 
             <!-- Order reference -->
             <div *ngIf="confirmedShortId"
                  class="mt-6 inline-flex items-center gap-2 px-4 py-2.5 bg-[#111] border border-white/5 rounded-xl">
               <iconify-icon icon="solar:tag-linear" width="14" class="text-neutral-500"></iconify-icon>
-              <span class="text-xs text-neutral-500">Order ref</span>
+              <span class="text-xs text-neutral-500">{{ 'cartDrawer.orderRef' | translate }}</span>
               <span class="text-xs text-white font-medium font-mono tracking-wider">{{ confirmedShortId }}</span>
             </div>
 
             <!-- What happens next -->
             <div class="mt-8 w-full bg-[#111] border border-white/5 rounded-2xl p-5 text-left space-y-4">
-              <h4 class="text-xs font-medium text-neutral-500 uppercase tracking-widest mb-1">What happens next</h4>
+              <h4 class="text-xs font-medium text-neutral-500 uppercase tracking-widest mb-1">{{ 'cartDrawer.whatNext' | translate }}</h4>
               <div *ngFor="let s of nextSteps; let i = index; trackBy: trackByIndex" class="flex items-start gap-3">
                 <div class="w-6 h-6 rounded-full bg-[#C65A1E]/10 border border-[#C65A1E]/20 flex items-center justify-center shrink-0 mt-0.5">
                   <span class="text-[10px] font-bold text-[#C65A1E]">{{ i + 1 }}</span>
@@ -378,7 +379,7 @@ import { PricePipe } from '@shared/pipes';
             <button (click)="startOver()"
                     data-cy="back-to-menu"
                     class="w-full py-3.5 text-sm font-medium text-[#0a0a0a] bg-white rounded-xl hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300">
-              Back to Menu
+              {{ 'cartDrawer.backToMenu' | translate }}
             </button>
           </div>
         </ng-container>
@@ -393,6 +394,7 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
   private readonly api   = inject(ApiService);
   private readonly toast = inject(ToastService);
   private readonly cdr   = inject(ChangeDetectorRef);
+  private readonly translate = inject(TranslateService);
 
   step = signal<DrawerStep>(1);
   form!: FormGroup;
@@ -401,17 +403,21 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
 
   private typeSub?: Subscription;
 
-  readonly orderTypes = [
-    { value: 'collection', label: 'Takeaway',  sub: 'Pick up in store',       icon: 'solar:bag-5-linear' },
-    { value: 'delivery',   label: 'Delivery',  sub: 'Delivered to your door', icon: 'solar:delivery-linear' },
-    { value: 'dine-in',    label: 'Dine-in',   sub: 'Reserved table',         icon: 'solar:tea-cup-linear' }
-  ];
+  get orderTypes() {
+    return [
+      { value: 'collection', label: this.translate.instant('reservations.pickup'), sub: this.translate.instant('cartDrawer.pickupSub'), icon: 'solar:bag-5-linear' },
+      { value: 'delivery', label: this.translate.instant('reservations.delivery'), sub: this.translate.instant('cartDrawer.deliverySub'), icon: 'solar:delivery-linear' },
+      { value: 'dine-in', label: this.translate.instant('reservations.dineIn'), sub: this.translate.instant('cartDrawer.dineInSub'), icon: 'solar:tea-cup-linear' }
+    ];
+  }
 
-  readonly nextSteps = [
-    { title: 'We review your order',  desc: 'Our kitchen checks items and confirms availability.' },
-    { title: 'You get a call',        desc: "We'll ring the number you provided to confirm and arrange payment." },
-    { title: 'Your food is prepared', desc: 'Freshly made with authentic Egyptian care, ready for you.' }
-  ];
+  get nextSteps() {
+    return [
+      { title: this.translate.instant('cartDrawer.nextReviewTitle'), desc: this.translate.instant('cartDrawer.nextReviewDesc') },
+      { title: this.translate.instant('cartDrawer.nextCallTitle'), desc: this.translate.instant('cartDrawer.nextCallDesc') },
+      { title: this.translate.instant('cartDrawer.nextPreparedTitle'), desc: this.translate.instant('cartDrawer.nextPreparedDesc') }
+    ];
+  }
 
   trackByCartItem(_index: number, item: { menuItemId: string }): string { return item.menuItemId; }
   trackByType(_index: number, t: { value: string }): string { return t.value; }
@@ -528,7 +534,7 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
         this.submitting = false;
         const msg = err?.error?.errors
           ? Object.values(err.error.errors).flat().join('. ')
-          : 'Something went wrong. Please try again.';
+          : this.translate.instant('common.tryAgain');
         this.toast.error(msg as string);
         this.cdr.markForCheck();
       }

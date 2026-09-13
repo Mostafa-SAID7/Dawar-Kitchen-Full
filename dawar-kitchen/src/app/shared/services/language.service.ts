@@ -51,21 +51,37 @@ export class LanguageService {
       return;
     }
 
-    this.translateService.use(lang);
+    this.applyDocumentLanguage(lang);
     StorageUtil.set(STORAGE_KEYS.LANGUAGE, lang);
-    this.currentLanguage$.next(lang);
-    
-    const doc = DomUtil.getDocument();
-    if (doc) {
-      doc.documentElement.lang = lang;
-      if (lang === RTL_LANGUAGE) {
-        doc.documentElement.dir = 'rtl';
-        doc.body.classList.add('rtl');
-      } else {
-        doc.documentElement.dir = 'ltr';
-        doc.body.classList.remove('rtl');
+    this.translateService.use(lang).subscribe({
+      next: () => this.currentLanguage$.next(lang),
+      error: () => {
+        if (lang === DEFAULT_LANGUAGE) {
+          this.currentLanguage$.next(DEFAULT_LANGUAGE);
+          return;
+        }
+
+        this.applyDocumentLanguage(DEFAULT_LANGUAGE);
+        StorageUtil.set(STORAGE_KEYS.LANGUAGE, DEFAULT_LANGUAGE);
+        this.translateService.use(DEFAULT_LANGUAGE).subscribe({
+          next: () => this.currentLanguage$.next(DEFAULT_LANGUAGE),
+          error: () => this.currentLanguage$.next(DEFAULT_LANGUAGE)
+        });
       }
-    }
+    });
+  }
+
+  private applyDocumentLanguage(lang: string): void {
+    const doc = DomUtil.getDocument();
+    if (!doc) return;
+
+    const isRtl = lang === RTL_LANGUAGE;
+    doc.documentElement.lang = lang;
+    doc.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+    doc.documentElement.classList.toggle('rtl', isRtl);
+    doc.documentElement.classList.toggle('ltr', !isRtl);
+    doc.body.classList.toggle('rtl', isRtl);
+    doc.body.classList.toggle('ltr', !isRtl);
   }
 
   /**

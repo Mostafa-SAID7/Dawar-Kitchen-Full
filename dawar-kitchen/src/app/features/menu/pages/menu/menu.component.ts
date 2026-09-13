@@ -52,7 +52,7 @@ import { CustomDropdownComponent } from '@shared/components';
               <app-custom-dropdown
                 data-cy="category-filter"
                 [options]="categoryOptions"
-                [selectedValue]="activeCategory"
+                [selectedValue]="activeCategoryDisplay"
                 [placeholder]="'common.selectOption' | translate"
                 [icon]="'solar:tag-linear'"
                 (valueSelected)="onCategorySelected($event)">
@@ -150,7 +150,7 @@ import { CustomDropdownComponent } from '@shared/components';
                   <div class="flex gap-2 flex-wrap">
                     <span data-cy="item-category"
                           class="text-[9px] tracking-wider uppercase bg-white/5 text-neutral-400 px-2 py-0.5 rounded border border-white/10">
-                      {{ item.category }}
+                      {{ categoryLabel(item.category) }}
                     </span>
                     <span *ngIf="item.isVegan"
                           class="text-[9px] tracking-wider uppercase bg-[#C65A1E]/10 text-[#C65A1E] px-2 py-0.5 rounded border border-[#C65A1E]/20">
@@ -226,7 +226,30 @@ export class MenuPageComponent implements OnInit {
   }
 
   get categoryOptions(): string[] {
-    return ['All', ...this.categories];
+    return ['All', ...this.categories].map(category => this.categoryLabel(category));
+  }
+
+  get activeCategoryDisplay(): string {
+    return this.categoryLabel(this.activeCategory);
+  }
+
+  private categoryKey(category: string): string {
+    const keys: Record<string, string> = {
+      All: 'menu.allCategories',
+      Breakfast: 'menu.categoryBreakfast',
+      'Appetizers & Mezze': 'menu.categoryAppetizers',
+      'Syrian Dishes': 'menu.categorySyrian',
+      'Egyptian Dishes': 'menu.categoryEgyptian',
+      'Grills & Meat': 'menu.categoryGrills',
+      'Sides & Rice': 'menu.categorySides',
+      Desserts: 'menu.categoryDesserts',
+      Beverages: 'menu.categoryBeverages'
+    };
+    return keys[category] ?? category;
+  }
+
+  categoryLabel(category: string): string {
+    return this.translate.instant(this.categoryKey(category));
   }
 
   applyFilters(): void {
@@ -261,7 +284,7 @@ export class MenuPageComponent implements OnInit {
   trackByIndex(_index: number): number                { return _index; }
 
   onCategorySelected(category: string): void {
-    this.activeCategory = category;
+    this.activeCategory = ['All', ...this.categories].find(value => this.categoryLabel(value) === category) ?? 'All';
     this.applyFilters();
   }
 
