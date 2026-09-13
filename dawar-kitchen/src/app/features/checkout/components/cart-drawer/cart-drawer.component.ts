@@ -5,16 +5,17 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
+import { AppValidators } from '@shared/validators';
 import { CartService } from '@features/checkout/services/cart.service';
 import { ApiService } from '@core/http/api.service';
 import { ToastService } from '@shared/services';
 import { DrawerStep } from '@features/checkout/models/drawer.model';
-
+import { PricePipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-cart-drawer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PricePipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
@@ -113,7 +114,7 @@ import { DrawerStep } from '@features/checkout/models/drawer.model';
                 <p class="text-sm font-medium text-white leading-tight">{{ item.name }}</p>
                 <p class="text-xs text-neutral-500 mt-0.5">{{ item.category }}</p>
                 <p class="text-sm text-[#C65A1E] font-medium mt-1.5" data-cy="item-price">
-                  £{{ (item.price * item.quantity).toFixed(2) }}
+                  {{ (item.price * item.quantity) | price }}
                 </p>
               </div>
               <div class="flex items-center gap-2 shrink-0">
@@ -427,10 +428,10 @@ export class CartDrawerComponent implements OnInit, OnDestroy {
   private buildForm(): void {
     this.typeSub?.unsubscribe();
     this.form = this.fb.group({
-      customerName:         ['', [Validators.required, Validators.minLength(2)]],
-      email:                ['', [Validators.required, Validators.email]],
-      phoneNumber:          ['', [Validators.required, Validators.minLength(7)]],
-      type:                 ['collection', Validators.required],
+      customerName:         ['', AppValidators.fullName],
+      email:                ['', AppValidators.email],
+      phoneNumber:          ['', AppValidators.phone],
+      type:                 ['collection', AppValidators.required],
       deliveryAddress:      [''],
       pickupTime:           [''],
       tableNumber:          [''],

@@ -168,12 +168,6 @@ export class TermsPageComponent implements OnInit {
   private readonly seo = inject(SeoService);
 
   ngOnInit(): void {
-    this.seo.set({
-      title:        'Terms of Service',
-      description:  'Read the Terms of Service for Dawar Kitchen. Understand the rules and conditions for using our website, placing orders, and receiving delivery.',
-      keywords:     'terms of service, Dawar Kitchen terms, order terms, delivery terms, Cairo food delivery',
-      canonicalUrl: 'https://www.dawarkitchen.com/terms',
-      ogUrl:        'https://www.dawarkitchen.com/terms',
-    });
+    this.seo.setTerms();
   }
 }

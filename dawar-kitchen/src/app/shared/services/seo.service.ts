@@ -1,85 +1,90 @@
 import { Injectable, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { SeoConfig } from '../models';
+import {
+  SEO_PAGES,
+  SEO_BASE_NAME,
+  SITE_URL,
+  APP_DESCRIPTION,
+  APP_KEYWORDS,
+  APP_LOCALE,
+  SITE_OG_IMAGE
+} from '../constants';
 
 export type { SeoConfig };
-
-const BASE      = 'Dawar Kitchen';
-const SITE_URL  = 'https://www.dawarkitchen.com';
-const DEF_DESC  = 'Authentic Egyptian & Syrian cuisine from Dawar Kitchen. Social enterprise delivering home-style meals across Cairo.';
-const DEF_IMG   = `${SITE_URL}/assets/hero/hero.webp`;
-const DEF_KW    = 'Dawar Kitchen, Egyptian Syrian cuisine, Cairo delivery, social enterprise, home-style meals, authentic food, Cairo restaurant, Ezbet Khairallah';
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
   private readonly titleService = inject(Title);
   private readonly meta         = inject(Meta);
+  private readonly document     = inject(DOCUMENT);
+
+  // ─── Core ────────────────────────────────────────────────────────────────────
 
   set(config: SeoConfig): void {
-    const fullTitle = config.title === BASE ? BASE : `${config.title} | ${BASE}`;
-    const desc      = config.description ?? DEF_DESC;
-    const image     = config.ogImage     ?? DEF_IMG;
-    const type      = config.ogType      ?? 'website';
-    const url       = config.ogUrl       ?? SITE_URL;
-    const keywords  = config.keywords    ?? DEF_KW;
+    const fullTitle = config.title === SEO_BASE_NAME
+      ? SEO_BASE_NAME
+      : `${config.title} | ${SEO_BASE_NAME}`;
+    const desc     = config.description ?? APP_DESCRIPTION;
+    const image    = config.ogImage     ?? SITE_OG_IMAGE;
+    const type     = config.ogType      ?? 'website';
+    const url      = config.ogUrl       ?? SITE_URL;
+    const keywords = config.keywords    ?? APP_KEYWORDS;
 
+    // ─── Title ───────────────────────────────────────────────────────────────
     this.titleService.setTitle(fullTitle);
 
+    // ─── Standard meta ───────────────────────────────────────────────────────
     this.meta.updateTag({ name: 'description',        content: desc });
     this.meta.updateTag({ name: 'keywords',           content: keywords });
+
+    // ─── Robots ──────────────────────────────────────────────────────────────
+    this.meta.updateTag({
+      name: 'robots',
+      content: config.noIndex ? 'noindex, nofollow' : 'index, follow'
+    });
+
+    // ─── Open Graph ──────────────────────────────────────────────────────────
     this.meta.updateTag({ property: 'og:title',       content: fullTitle });
     this.meta.updateTag({ property: 'og:description', content: desc });
     this.meta.updateTag({ property: 'og:image',       content: image });
     this.meta.updateTag({ property: 'og:type',        content: type });
     this.meta.updateTag({ property: 'og:url',         content: url });
-    this.meta.updateTag({ property: 'og:site_name',   content: BASE });
-    this.meta.updateTag({ property: 'og:locale',      content: 'en_GB' });
+    this.meta.updateTag({ property: 'og:site_name',   content: SEO_BASE_NAME });
+    this.meta.updateTag({ property: 'og:locale',      content: APP_LOCALE });
+
+    // ─── Twitter Card ────────────────────────────────────────────────────────
     this.meta.updateTag({ name: 'twitter:card',        content: 'summary_large_image' });
     this.meta.updateTag({ name: 'twitter:title',       content: fullTitle });
     this.meta.updateTag({ name: 'twitter:description', content: desc });
     this.meta.updateTag({ name: 'twitter:image',       content: image });
 
-    if (config.noIndex) {
-      this.meta.updateTag({ name: 'robots', content: 'noindex, nofollow' });
-    } else {
-      this.meta.updateTag({ name: 'robots', content: 'index, follow' });
-    }
-
+    // ─── Canonical (Angular DOCUMENT token — SSR-safe, no raw DOM) ───────────
     if (config.canonicalUrl) {
-      let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+      let link = this.document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
       if (!link) {
-        link = document.createElement('link');
+        link = this.document.createElement('link');
         link.rel = 'canonical';
-        document.head.appendChild(link);
+        this.document.head.appendChild(link);
       }
       link.href = config.canonicalUrl;
     }
   }
 
-  setHome(): void {
-    this.set({
-      title:       'Dawar Kitchen — Authentic Egyptian & Syrian Cuisine',
-      description: 'Dawar Kitchen: Social enterprise delivering authentic Egyptian & Syrian home-style meals across Cairo. Celebrating food heritage and fair work.',
-      keywords:    'Dawar Kitchen, Egyptian Syrian cuisine, Cairo delivery, social enterprise, authentic meals, Ezbet Khairallah, Egyptian food, Damascus cuisine',
-      canonicalUrl: `${SITE_URL}/`,
-      ogUrl:        `${SITE_URL}/`,
-      ogType:       'restaurant',
-    });
-  }
+  // ─── Page helpers (one method per route — zero inline strings in components) ─
 
-  setCheckout(): void {
-    this.set({
-      title:    'Checkout',
-      description: 'Complete your Dawar Kitchen order. Choose delivery across Cairo and confirm your authentic Egyptian & Syrian meal order.',
-      noIndex:  true,
-    });
-  }
-
-  setOrderConfirmed(): void {
-    this.set({
-      title:    'Order Confirmed',
-      description: 'Your Dawar Kitchen order has been received. We will confirm shortly by phone. Thank you for supporting our social enterprise!',
-      noIndex:  true,
-    });
-  }
+  setHome():            void { this.set(SEO_PAGES['HOME']); }
+  setMenu():            void { this.set(SEO_PAGES['MENU']); }
+  setReservations():    void { this.set(SEO_PAGES['RESERVATIONS']); }
+  setAbout():           void { this.set(SEO_PAGES['ABOUT']); }
+  setContact():         void { this.set(SEO_PAGES['CONTACT']); }
+  setCheckout():        void { this.set(SEO_PAGES['CHECKOUT']); }
+  setOrderConfirmed():  void { this.set(SEO_PAGES['ORDER_CONFIRMED']); }
+  setPaymentSuccess():  void { this.set(SEO_PAGES['PAYMENT_SUCCESS']); }
+  setPaymentCancelled(): void { this.set(SEO_PAGES['PAYMENT_CANCELLED']); }
+  setPrivacy():         void { this.set(SEO_PAGES['PRIVACY']); }
+  setTerms():           void { this.set(SEO_PAGES['TERMS']); }
+  setLogin():           void { this.set(SEO_PAGES['LOGIN']); }
+  setRegister():        void { this.set(SEO_PAGES['REGISTER']); }
 }

@@ -8,11 +8,13 @@ import { ApiService } from '@core/http/api.service';
 import { ToastService } from '@shared/services';
 import { SeoService } from '@shared/services';
 import { CustomDropdownComponent } from '@shared/components/custom-dropdown/custom-dropdown.component';
+import { AppValidators } from '@shared/validators';
+import { PricePipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, CustomDropdownComponent, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, CustomDropdownComponent, TranslateModule, PricePipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './checkout.component.html'
 })
@@ -44,10 +46,10 @@ export class CheckoutComponent implements OnInit {
     }
 
     this.form = this.fb.group({
-      customerName:         ['', [Validators.required, Validators.minLength(2)]],
-      email:                ['', [Validators.required, Validators.email]],
-      phoneNumber:          ['', [Validators.required, Validators.minLength(7)]],
-      type:                 ['pickup', Validators.required],
+      customerName:         ['', AppValidators.fullName],
+      email:                ['', AppValidators.email],
+      phoneNumber:          ['', AppValidators.phone],
+      type:                 ['pickup', AppValidators.required],
       deliveryAddress:      [''],
       tableReservationName: [''],
       notes:                ['', Validators.maxLength(300)]

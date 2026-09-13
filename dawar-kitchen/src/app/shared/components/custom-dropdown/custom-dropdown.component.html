@@ -1,4 +1,4 @@
-<div class="relative">
+<div class="relative" (appClickOutside)="isOpen = false">
   <button 
     type="button"
     (click)="toggleDropdown()"
@@ -30,9 +30,5 @@
         class="text-[#C65A1E]"></iconify-icon>
     </button>
   </div>
-
-  <div 
-    *ngIf="isOpen"
-    (click)="toggleDropdown()"
-    class="fixed inset-0 z-[90]"></div>
 </div>
+

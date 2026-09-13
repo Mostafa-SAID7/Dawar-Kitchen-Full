@@ -1,0 +1,33 @@
+{
+  "contact": {
+    "title": "اتصل بنا",
+    "description": "نود أن نسمع منك",
+    "name": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "submit": "إرسال الرسالة",
+    "success": "شكرا لرسالتك! سنعود إليك قريبا.",
+    "error": "فشل في إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+    "location": "الموقع",
+    "hours": "ساعات العمل",
+    "getInTouch": "تواصل معنا",
+    "contactDawarKitchen": "اتصل بمطبخ دوار",
+    "subjectReservation": "استفسار الحجز",
+    "subjectPrivateEvent": "حدث خاص / حجز جماعي",
+    "subjectFeedback": "ملاحظات",
+    "subjectOther": "أخرى",
+    "messageSent": "تم إرسال الرسالة!",
+    "willBeInTouch": "سنتواصل معك في يوم عمل واحد.",
+    "sendAnother": "إرسال رسالة أخرى",
+    "openingHours": "ساعات الفتح",
+    "production": "الإنتاج",
+    "deliveryHours": "التوصيل",
+    "days": "الأيام",
+    "sendMessage": "أرسل رسالة",
+    "yourName": "اسمك",
+    "yourEmail": "your@email.com",
+    "tellUsMore": "أخبرنا كيف يمكننا مساعدتك…"
+  }
+}

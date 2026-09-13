@@ -1,54 +1,61 @@
-import { Component, EventEmitter, Output, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropdownManagerService } from '../../services/dropdown-manager.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ClickOutsideDirective } from '../../directives';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-custom-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ClickOutsideDirective, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './custom-calendar.component.html',
   styleUrls: ['./custom-calendar.component.css']
 })
 export class CustomCalendarComponent implements OnInit, OnDestroy {
+  private readonly translate = inject(TranslateService);
+  private langSub?: Subscription;
   @Input() selectedDate: Date | null = null;
   @Output() dateSelected = new EventEmitter<Date>();
   
   isOpen = false;
-  private componentId = 'calendar-' + Math.random().toString(36).substr(2, 9);
-  private subscription?: Subscription;
   currentMonth: Date = new Date();
   weeks: (Date | null)[][] = [];
-  
-  monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'];
-  
-  dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  monthNames: string[] = [];
+  dayNames: string[] = [];
 
-  constructor(private dropdownManager: DropdownManagerService) {}
+  private getLocale(): string {
+    return (this.translate.currentLang || 'en') === 'ar' ? 'ar-EG' : 'en-US';
+  }
+
+  private buildLocaleNames(): void {
+    const locale = this.getLocale();
+    // Build 12 month names
+    this.monthNames = Array.from({ length: 12 }, (_, i) =>
+      new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(2000, i, 1))
+    );
+    // Build 7 day names (Sun-Sat)
+    this.dayNames = Array.from({ length: 7 }, (_, i) =>
+      new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(new Date(2000, 0, i + 2))
+    );
+  }
 
   ngOnInit() {
+    this.buildLocaleNames();
     this.generateCalendar();
-    
-    // Subscribe to close all events
-    this.subscription = this.dropdownManager.closeAll$.subscribe(exceptId => {
-      if (exceptId !== this.componentId) {
-        this.isOpen = false;
-      }
+    this.langSub = this.translate.onLangChange.subscribe(() => {
+      this.buildLocaleNames();
+      this.generateCalendar();
     });
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    this.langSub?.unsubscribe();
   }
 
   toggleCalendar() {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
-      this.dropdownManager.closeAllExcept(this.componentId);
       this.generateCalendar();
     }
   }
@@ -139,13 +146,15 @@ export class CustomCalendarComponent implements OnInit, OnDestroy {
   }
 
   getFormattedDate(): string {
-    if (!this.selectedDate) return 'Select Date';
+    if (!this.selectedDate) return this.translate.instant('common.selectDate');
+    const lang = this.translate.currentLang || 'en';
+    const locale = lang === 'ar' ? 'ar-EG' : 'en-US';
     const options: Intl.DateTimeFormatOptions = { 
       weekday: 'short', 
       year: 'numeric', 
       month: 'short', 
       day: 'numeric' 
     };
-    return this.selectedDate.toLocaleDateString('en-US', options);
+    return this.selectedDate.toLocaleDateString(locale, options);
   }
 }

@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '@core/auth/auth.service';
 import { SeoService } from '@shared/services';
+import { ToastService } from '@shared/services';
+import { AppValidators } from '@shared/validators';
 
 @Component({
   selector: 'app-login',
@@ -74,10 +76,10 @@ export class LoginComponent {
   loading = false;
 
   constructor() {
-    this.seo.set({ title: 'Login' });
+    this.seo.setLogin();
     this.form = this.fb.group({
-      email:    ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      email:    ['', AppValidators.email],
+      password: ['', AppValidators.required]
     });
   }
 

@@ -1,4 +1,6 @@
 import { Injectable, signal, computed, effect } from '@angular/core';
+import { STORAGE_KEYS, THEME } from '../constants';
+import { StorageUtil, DomUtil } from '../utils';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -10,15 +12,18 @@ export class ThemeService {
     // Apply theme immediately and on every change
     effect(() => {
       const dark = this._isDark();
-      const html = document.documentElement;
-      if (dark) {
-        html.classList.remove('theme-light');
-        html.classList.add('theme-dark');
-      } else {
-        html.classList.remove('theme-dark');
-        html.classList.add('theme-light');
+      const doc = DomUtil.getDocument();
+      if (doc) {
+        const html = doc.documentElement;
+        if (dark) {
+          html.classList.remove('theme-light');
+          html.classList.add('theme-dark');
+        } else {
+          html.classList.remove('theme-dark');
+          html.classList.add('theme-light');
+        }
       }
-      localStorage.setItem('nn_theme', dark ? 'dark' : 'light');
+      StorageUtil.set(STORAGE_KEYS.THEME, dark ? THEME.DARK : THEME.LIGHT);
     });
   }
 
@@ -27,10 +32,8 @@ export class ThemeService {
   }
 
   private loadTheme(): boolean {
-    try {
-      const stored = localStorage.getItem('nn_theme');
-      if (stored) return stored === 'dark';
-    } catch { /* ignore */ }
+    const stored = StorageUtil.get(STORAGE_KEYS.THEME);
+    if (stored) return stored === THEME.DARK;
     return true; // default: dark
   }
 }

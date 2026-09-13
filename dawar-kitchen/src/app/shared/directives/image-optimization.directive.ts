@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, OnInit } from '@angular/core';
+import { Directive, Input, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 
 /**
  * Image optimization directive
@@ -8,7 +8,7 @@ import { Directive, Input, ElementRef, OnInit } from '@angular/core';
   selector: '[appImageOptimization]',
   standalone: true,
 })
-export class ImageOptimizationDirective implements OnInit {
+export class ImageOptimizationDirective implements OnChanges {
   @Input() appImageOptimization!: string; // Original image path
   @Input() alt: string = '';
   @Input() width?: number;
@@ -17,27 +17,23 @@ export class ImageOptimizationDirective implements OnInit {
 
   constructor(private el: ElementRef<HTMLImageElement>) {}
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     const img = this.el.nativeElement;
 
-    if (this.priority) {
-      // Priority images: load immediately
-      img.src = this.appImageOptimization;
-      img.alt = this.alt;
-    } else {
-      // Non-priority: lazy load
-      img.loading = 'lazy';
-      img.src = this.appImageOptimization;
+    if (changes['appImageOptimization'] || changes['priority'] || changes['alt']) {
+      if (this.priority) {
+        // Priority images: load immediately
+        img.removeAttribute('loading');
+        img.src = this.appImageOptimization;
+      } else {
+        // Non-priority: lazy load
+        img.loading = 'lazy';
+        img.src = this.appImageOptimization;
+      }
       img.alt = this.alt;
     }
 
-    // Add responsive attributes
-    if (this.width) img.width = this.width;
-    if (this.height) img.height = this.height;
-
-    // CSS for responsive images
-    img.style.maxWidth = '100%';
-    img.style.height = 'auto';
-    img.style.display = 'block';
+    if (changes['width'] && this.width) img.width = this.width;
+    if (changes['height'] && this.height) img.height = this.height;
   }
 }

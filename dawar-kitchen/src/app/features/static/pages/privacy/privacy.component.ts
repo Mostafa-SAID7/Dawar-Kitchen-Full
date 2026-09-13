@@ -166,12 +166,6 @@ export class PrivacyPageComponent implements OnInit {
   private readonly seo = inject(SeoService);
 
   ngOnInit(): void {
-    this.seo.set({
-      title:        'Privacy Policy',
-      description:  'Learn how Dawar Kitchen collects, uses, and protects your personal information. Read our full privacy policy.',
-      keywords:     'privacy policy, Dawar Kitchen privacy, data protection, Cairo food delivery',
-      canonicalUrl: 'https://www.dawarkitchen.com/privacy',
-      ogUrl:        'https://www.dawarkitchen.com/privacy',
-    });
+    this.seo.setPrivacy();
   }
 }

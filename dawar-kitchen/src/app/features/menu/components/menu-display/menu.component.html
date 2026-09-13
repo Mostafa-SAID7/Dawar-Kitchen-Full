@@ -3,8 +3,8 @@
 
     <!-- Header -->
     <div reveal [revealDelay]="0" class="text-center mb-10 md:mb-12">
-      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">Signatures</span>
-      <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">Crafted With Passion</h2>
+      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'menu.signatures' | translate }}</span>
+      <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight">{{ 'menu.craftedWithPassion' | translate }}</h2>
     </div>
 
     <!-- Category tabs -->
@@ -33,7 +33,7 @@
 
     <!-- Error -->
     <div *ngIf="error" class="text-center py-12 text-neutral-500 text-sm">
-      Unable to load the menu right now. Please call us or visit in person.
+      {{ 'menu.unableToLoad' | translate }}
     </div>
 
     <!-- Menu list — 2 columns on lg+ -->
@@ -52,12 +52,12 @@
               </h3>
               <span *ngIf="itemCount(item.id) > 0"
                     class="text-[10px] font-medium bg-[#C65A1E]/15 text-[#C65A1E] px-2 py-0.5 rounded-full border border-[#C65A1E]/30">
-                ×{{ itemCount(item.id) }} in cart
+                ×{{ itemCount(item.id) }} {{ 'menu.inCart' | translate }}
               </span>
             </div>
           </div>
           <div class="flex items-center gap-3 shrink-0">
-            <span class="font-['Forum'] text-lg sm:text-xl text-white">{{ item.priceFormatted }}</span>
+            <span class="font-['Forum'] text-lg sm:text-xl text-white">{{ item.price | price }}</span>
             <button (click)="addToCart(item)"
                     [class]="addedId === item.id
                       ? 'w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center transition-all duration-300 shadow-[0_0_12px_rgba(16,185,129,0.4)]'
@@ -68,8 +68,8 @@
         </div>
         <p class="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed">{{ item.description }}</p>
         <div *ngIf="item.isVegetarian || item.isVegan" class="mt-1.5 flex gap-2">
-          <span *ngIf="item.isVegan" class="text-[10px] tracking-widest uppercase text-[#C65A1E] font-medium">Vegan</span>
-          <span *ngIf="item.isVegetarian && !item.isVegan" class="text-[10px] tracking-widest uppercase text-emerald-500 font-medium">Vegetarian</span>
+          <span *ngIf="item.isVegan" class="text-[10px] tracking-widest uppercase text-[#C65A1E] font-medium">{{ 'menu.vegan' | translate }}</span>
+          <span *ngIf="item.isVegetarian && !item.isVegan" class="text-[10px] tracking-widest uppercase text-emerald-500 font-medium">{{ 'menu.vegetarian' | translate }}</span>
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@
     <!-- CTA -->
     <div *ngIf="!loading && !error" class="mt-14 sm:mt-16 text-center">
       <a routerLink="/menu" class="inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium text-white border border-white/20 rounded-xl hover:bg-white hover:text-[#0a0a0a] transition-all duration-300">
-        View Full Menu
+        {{ 'menu.viewFullMenu' | translate }}
       </a>
     </div>
 

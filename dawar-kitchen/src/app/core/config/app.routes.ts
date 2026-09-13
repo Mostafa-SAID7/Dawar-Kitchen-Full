@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from '../../features/home/pages/home/home.component';
-import { authGuard } from '../guards/auth.guard';
+import { authGuard, guestGuard, checkoutGuard } from '../guards';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { preload: true } },
@@ -24,15 +24,18 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('../../features/auth/pages/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('../../features/auth/pages/login/login.component').then(m => m.LoginComponent),
+    canActivate: [guestGuard]
   },
   {
     path: 'register',
-    loadComponent: () => import('../../features/auth/pages/register/register.component').then(m => m.RegisterComponent)
+    loadComponent: () => import('../../features/auth/pages/register/register.component').then(m => m.RegisterComponent),
+    canActivate: [guestGuard]
   },
   {
     path: 'checkout',
-    loadComponent: () => import('../../features/checkout/pages/checkout/checkout.component').then(m => m.CheckoutComponent)
+    loadComponent: () => import('../../features/checkout/pages/checkout/checkout.component').then(m => m.CheckoutComponent),
+    canActivate: [checkoutGuard]
   },
   {
     path: 'order-confirmed',

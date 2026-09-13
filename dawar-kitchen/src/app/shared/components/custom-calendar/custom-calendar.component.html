@@ -1,4 +1,4 @@
-<div class="relative">
+<div class="relative" (appClickOutside)="isOpen = false">
   <button 
     type="button"
     (click)="toggleCalendar()"
@@ -63,12 +63,8 @@
       type="button"
       (click)="selectToday()"
       class="w-full mt-4 px-4 py-2 text-xs text-[#C65A1E] border border-[#C65A1E]/30 rounded-lg hover:bg-[#C65A1E]/10 transition-all">
-      Today
+      {{ 'common.today' | translate }}
     </button>
   </div>
-
-  <div 
-    *ngIf="isOpen"
-    (click)="toggleCalendar()"
-    class="fixed inset-0 z-[90]"></div>
 </div>
+

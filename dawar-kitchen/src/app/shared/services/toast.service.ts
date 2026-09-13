@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Toast, ToastType } from '../models';
+import { TOAST_DURATION } from '../constants';
 
 export type { Toast, ToastType };
 
@@ -10,19 +11,19 @@ export class ToastService {
   readonly toasts = signal<Toast[]>([]);
 
   success(message: string, title = 'Booking Confirmed!') {
-    this.add({ type: 'success', title, message, duration: 7000 });
+    this.add({ type: 'success', title, message, duration: TOAST_DURATION.SUCCESS });
   }
 
   error(message: string, title = 'Something went wrong') {
-    this.add({ type: 'error', title, message, duration: 5000 });
+    this.add({ type: 'error', title, message, duration: TOAST_DURATION.ERROR });
   }
 
   warning(message: string, title = 'Please check') {
-    this.add({ type: 'warning', title, message, duration: 5000 });
+    this.add({ type: 'warning', title, message, duration: TOAST_DURATION.WARNING });
   }
 
   info(message: string, title = 'Info') {
-    this.add({ type: 'info', title, message, duration: 4000 });
+    this.add({ type: 'info', title, message, duration: TOAST_DURATION.INFO });
   }
 
   dismiss(id: number): void {

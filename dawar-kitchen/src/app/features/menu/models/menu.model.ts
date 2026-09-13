@@ -18,7 +18,6 @@ export interface MenuItemView {
   id: string;
   name: string;
   price: number;
-  priceFormatted: string;
   description: string;
   category: string;
   isVegetarian: boolean;

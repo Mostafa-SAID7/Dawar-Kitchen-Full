@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [

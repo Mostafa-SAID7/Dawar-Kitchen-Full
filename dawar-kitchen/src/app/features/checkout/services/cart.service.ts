@@ -1,7 +1,10 @@
 import { Injectable, inject, signal, computed, effect } from '@angular/core';
 import { CartItem } from '../models/cart.model';
+import { STORAGE_KEYS } from '@shared/constants';
+import { StorageUtil } from '@shared/utils';
+import { PricePipe } from '@shared/pipes';
 
-const CART_KEY = 'nn_cart';
+const CART_KEY = STORAGE_KEYS.CART;
 
 /**
  * CartService: Shopping cart state management
@@ -29,7 +32,7 @@ export class CartService {
     // Persist cart to localStorage whenever it changes
     effect(() => {
       const items = this.items$();
-      localStorage.setItem(CART_KEY, JSON.stringify(items));
+      StorageUtil.setObject(CART_KEY, items);
     });
   }
 
@@ -79,9 +82,11 @@ export class CartService {
     if (item) this.setQuantity(menuItemId, item.quantity - 1);
   }
 
+  private readonly pricePipe = new PricePipe();
+
   /** Formatted total string e.g. £12.50 */
   formattedTotal(): string {
-    return `£${this.total().toFixed(2)}`;
+    return this.pricePipe.transform(this.total());
   }
 
   updateItem(menuItemId: string, updates: Partial<CartItem>): void {
@@ -106,11 +111,6 @@ export class CartService {
   }
 
   private loadCart(): CartItem[] {
-    try {
-      const stored = localStorage.getItem(CART_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
+    return StorageUtil.getObject<CartItem[]>(CART_KEY) || [];
   }
 }

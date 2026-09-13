@@ -8,16 +8,15 @@
     <div reveal [revealDelay]="0" revealFrom="left" class="w-full lg:w-1/2 relative">
       <div class="aspect-[4/5] rounded-2xl overflow-hidden">
         <img
-          src="assets/locations/cooking-fire.jpg"
+          [appImageOptimization]="'assets/locations/cooking-fire.jpg'"
           alt="Cooking over fire"
-          loading="lazy"
           class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700">
       </div>
       <div class="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-8 w-36 h-36 sm:w-48 sm:h-48 bg-[#111] rounded-full border border-white/5 items-center justify-center p-4 sm:p-6 hidden md:flex">
         <p class="font-['Forum'] text-center text-xs sm:text-sm text-white tracking-tight uppercase">
-          Authentic<br/>
-          <span class="text-[#C65A1E]">Egyptian &amp; Syrian</span><br/>
-          Since 2018
+          {{ 'about.badgeAuthentic' | translate }}<br/>
+          <span class="text-[#C65A1E]">{{ 'about.badgeCuisine' | translate }}</span><br/>
+          {{ 'about.badgeSince' | translate }}
         </p>
       </div>
     </div>
@@ -25,13 +24,12 @@
     <!-- Text content -->
     <div reveal [revealDelay]="120" revealFrom="right" class="w-full lg:w-1/2 space-y-6 sm:space-y-8">
       <div>
-        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">Our Story</span>
-        <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
-          Dawar Kitchen<br/>Social Enterprise
+        <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'about.ourStory' | translate }}</span>
+        <h2 class="font-['Forum'] text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight" [innerHTML]="'about.aboutTitle' | translate">
         </h2>
       </div>
       <p class="text-sm sm:text-base text-neutral-300 leading-relaxed font-light">
-        Dawar Kitchen is a social enterprise located in Ezbet Khairallah, Cairo. Through authentic food production, we provide dignified employment and vocational training for Syrian, refugee, and Egyptian women. We celebrate food heritage and quality cuisine using the finest, freshest ingredients — locally sourced whenever possible.
+        {{ 'about.aboutDesc' | translate }}
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-2">
         <div *ngFor="let feature of features; trackBy: trackByIndex" class="flex items-start gap-4">
@@ -39,8 +37,8 @@
             <iconify-icon [attr.icon]="feature.icon" width="22"></iconify-icon>
           </div>
           <div>
-            <h4 class="text-sm font-medium text-white mb-1">{{ feature.title }}</h4>
-            <p class="text-xs text-neutral-400 leading-relaxed">{{ feature.description }}</p>
+            <h4 class="text-sm font-medium text-white mb-1">{{ feature.titleKey | translate }}</h4>
+            <p class="text-xs text-neutral-400 leading-relaxed">{{ feature.descKey | translate }}</p>
           </div>
         </div>
       </div>

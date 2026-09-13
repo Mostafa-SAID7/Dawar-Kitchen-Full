@@ -3,8 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthSession, LoginResponse, MeResponse } from './auth.model';
+import { STORAGE_KEYS } from '@shared/constants';
+import { StorageUtil } from '@shared/utils';
 
-const SESSION_KEY = 'nn_session';
+const SESSION_KEY = STORAGE_KEYS.SESSION;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -110,20 +112,15 @@ export class AuthService {
   // ──────────────────────────────────────────────────────────
 
   private loadSession(): AuthSession | null {
-    try {
-      const raw = localStorage.getItem(SESSION_KEY);
-      return raw ? (JSON.parse(raw) as AuthSession) : null;
-    } catch {
-      return null;
-    }
+    return StorageUtil.getObject<AuthSession>(SESSION_KEY);
   }
 
   private saveSession(session: AuthSession): void {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    StorageUtil.setObject(SESSION_KEY, session);
   }
 
   private clearSession(): void {
-    localStorage.removeItem(SESSION_KEY);
+    StorageUtil.remove(SESSION_KEY);
   }
 
   private decodeJwt(token: string): Record<string, string> | null {

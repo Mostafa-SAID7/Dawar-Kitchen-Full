@@ -1,0 +1,32 @@
+{
+  "menu": {
+    "title": "Our Menu",
+    "description": "Discover our authentic Syrian and Egyptian dishes, fresh and home-style",
+    "categories": "Categories",
+    "filterByCategory": "Filter by category",
+    "noItems": "No items found",
+    "addToCart": "Add to Cart",
+    "price": "Price",
+    "serves": "Serves {{count}} person(s)",
+    "sortBy": "Sort by",
+    "newestFirst": "Newest First",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
+    "nameAtoZ": "Name: A to Z",
+    "filters": "Filters",
+    "searchPlaceholder": "Search menu...",
+    "noItemsFound": "No items found. Try adjusting your filters.",
+    "dietary": "Dietary",
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "glutenFree": "Gluten-Free",
+    "priceRange": "Price Range (£)",
+    "min": "Min",
+    "max": "Max",
+    "signatures": "Signatures",
+    "craftedWithPassion": "Crafted With Passion",
+    "unableToLoad": "Unable to load the menu right now. Please call us or visit in person.",
+    "inCart": "in cart",
+    "viewFullMenu": "View Full Menu"
+  }
+}

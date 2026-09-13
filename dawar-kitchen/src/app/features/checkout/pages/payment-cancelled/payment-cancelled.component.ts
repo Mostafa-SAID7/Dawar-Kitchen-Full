@@ -59,7 +59,7 @@ export class PaymentCancelledComponent implements OnInit {
   private readonly seo    = inject(SeoService);
 
   ngOnInit(): void {
-    this.seo.set({ title: 'Payment Cancelled', description: 'Your payment was cancelled. You have not been charged.' });
+    this.seo.setPaymentCancelled();
   }
 
   tryAgain(): void {

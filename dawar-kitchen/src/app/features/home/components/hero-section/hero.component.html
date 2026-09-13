@@ -2,10 +2,9 @@
 
   <!-- ── Background image (Ken Burns) ── -->
   <img
-    src="assets/hero/hero.webp"
+    [appImageOptimization]="'assets/hero/hero.webp'"
     alt="Dawar Kitchen — Authentic Egyptian & Syrian Cuisine"
-    loading="eager"
-    fetchpriority="high"
+    [priority]="true"
     class="hero-bg absolute inset-0 w-full h-full object-cover opacity-30">
 
   <!-- ── Gradient overlays ── -->
@@ -42,18 +41,18 @@
       </div>
 
       <!-- Main heading -->
-      <h1 class="hero-title font-['Forum'] text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight leading-tight mb-5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+      <h1 reveal [revealFrom]="'bottom'" [revealDelay]="100" class="hero-title font-['Forum'] text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight leading-tight mb-5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
         {{ 'app.title' | translate }}<br/>
         <span class="flame-text text-[#C65A1E] italic font-medium">{{ 'hero.authentic' | translate }}</span>&nbsp;{{ 'hero.cuisineType' | translate }}
       </h1>
 
       <!-- Subtitle -->
-      <p class="hero-subtitle text-sm sm:text-base md:text-lg text-neutral-300 max-w-2xl mx-auto mb-8 leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+      <p reveal [revealFrom]="'bottom'" [revealDelay]="200" class="hero-subtitle text-sm sm:text-base md:text-lg text-neutral-300 max-w-2xl mx-auto mb-8 leading-relaxed font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
         {{ 'hero.subtitle' | translate }}
       </p>
 
       <!-- CTAs -->
-      <div class="hero-cta flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10">
+      <div reveal [revealFrom]="'bottom'" [revealDelay]="300" class="hero-cta flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10">
         <a href="#menu" class="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-white bg-[#C65A1E] rounded-xl hover:bg-[#a84915] hover:shadow-[0_0_28px_rgba(198,90,30,0.55)] transition-all duration-300 flex items-center justify-center gap-2">
           {{ 'hero.exploreMenu' | translate }}
           <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon>
@@ -67,22 +66,22 @@
       <div class="hero-stats flex items-center justify-center gap-6 sm:gap-8">
         <div class="flex flex-col items-center">
           <span class="font-['Forum'] text-xl text-white">4.7<span class="text-[#C65A1E]">★</span></span>
-          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">Guest Rating</span>
+          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">{{ 'hero.guestRating' | translate }}</span>
         </div>
         <div class="stats-divider"></div>
         <div class="flex flex-col items-center">
           <span class="font-['Forum'] text-xl text-white">100<span class="text-[#C65A1E]">+</span></span>
-          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">Menu Items</span>
+          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">{{ 'hero.menuItems' | translate }}</span>
         </div>
         <div class="stats-divider"></div>
         <div class="flex flex-col items-center">
-          <span class="font-['Forum'] text-xl text-white">Since<span class="text-[#C65A1E]">2018</span></span>
-          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">Founded</span>
+          <span class="font-['Forum'] text-xl text-white">{{ 'hero.sinceLabel' | translate }}<span class="text-[#C65A1E]"> 2018</span></span>
+          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">{{ 'hero.founded' | translate }}</span>
         </div>
         <div class="stats-divider"></div>
         <div class="flex flex-col items-center">
-          <span class="font-['Forum'] text-xl text-white">Cairo<span class="text-[#C65A1E]">×</span></span>
-          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">Delivery</span>
+          <span class="font-['Forum'] text-xl text-white">{{ 'hero.cairoLabel' | translate }}<span class="text-[#C65A1E]">×</span></span>
+          <span class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5">{{ 'hero.deliveryLabel' | translate }}</span>
         </div>
       </div>
 

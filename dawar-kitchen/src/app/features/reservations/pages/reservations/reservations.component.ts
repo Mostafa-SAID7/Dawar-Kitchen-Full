@@ -6,6 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@core/http/api.service';
 import { Chef } from '../../../chefs/models/chef.model';
 import { SeoService } from '@shared/services';
+import { AppValidators } from '@shared/validators';
 import { AuthService } from '@core/auth/auth.service';
 import { AuthModalComponent } from '@layout/auth-modal/auth-modal.component';
 
@@ -47,7 +48,7 @@ import { AuthModalComponent } from '@layout/auth-modal/auth-modal.component';
           <!-- Sign-in prompt -->
           <div class="p-8 sm:p-12 rounded-2xl bg-[#0d0d0d] border border-white/8 text-center space-y-5">
             <div class="w-14 h-14 mx-auto rounded-full bg-[#C65A1E]/10 border border-[#C65A1E]/20 flex items-center justify-center text-[#C65A1E]">
-              <iconify-icon icon="solar:lock-keyhole-minimalistic-bold" width="26"></iconify-icon>
+              <iconify-icon icon="solar:user-circle-bold" width="26"></iconify-icon>
             </div>
             <div class="space-y-2">
               <h2 class="font-['Forum'] text-2xl text-white">{{ 'reservations.signInToOrder' | translate }}</h2>
@@ -232,7 +233,7 @@ export class ReservationsPageComponent implements OnInit {
   get features() {
     return [
       {
-        icon: 'solar:cart-bold',
+        icon: 'solar:book-bookmark-bold',
         title: this.translate.instant('reservations.browseMenuTitle'),
         description: this.translate.instant('reservations.browseMenuDesc')
       },
@@ -242,7 +243,7 @@ export class ReservationsPageComponent implements OnInit {
         description: this.translate.instant('reservations.chooseAreaDesc')
       },
       {
-        icon: 'solar:home-bold',
+        icon: 'solar:fire-bold',
         title: this.translate.instant('reservations.freshDeliveryTitle'),
         description: this.translate.instant('reservations.freshDeliveryDesc')
       }
@@ -250,18 +251,12 @@ export class ReservationsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.seo.set({
-      title:        'Order Delivery | Dawar Kitchen',
-      description:  'Order authentic Egyptian & Syrian cuisine from Dawar Kitchen. Fresh, home-style meals delivered across Cairo. Supporting Syrian and Egyptian women through fair employment.',
-      keywords:     'order food Cairo, Dawar Kitchen delivery, Egyptian Syrian food, Cairo food delivery, authentic cuisine Cairo, social enterprise restaurant',
-      canonicalUrl: 'https://www.dawarkitchen.com/order',
-      ogUrl:        'https://www.dawarkitchen.com/order',
-    });
+    this.seo.setReservations();
 
     this.form = this.fb.group({
-      date:            ['', [Validators.required, this.futureDateValidator.bind(this)]],
-      time:            ['', [Validators.required]],
-      guestCount:      [2,  [Validators.required, Validators.min(1), Validators.max(50)]],
+      date:            ['', AppValidators.futureDate],
+      time:            ['', AppValidators.required],
+      guestCount:      [2,  [AppValidators.required, Validators.min(1), Validators.max(50)]],
       specialRequests: ['']
     });
 
@@ -284,14 +279,6 @@ export class ReservationsPageComponent implements OnInit {
 
   selectChef(chef: Chef): void {
     this.selectedChef = chef;
-  }
-
-  futureDateValidator(control: any) {
-    if (!control.value) return null;
-    const inputDate = new Date(control.value);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return inputDate > today ? null : { futureDate: true };
   }
 
   get f() { return this.form.controls; }

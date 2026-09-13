@@ -80,7 +80,7 @@
       </button>
 
       <!-- Logged in: avatar + dropdown -->
-      <div *ngIf="auth.isLoggedIn()" class="relative" data-user-menu>
+      <div *ngIf="auth.isLoggedIn()" class="relative" data-user-menu (appClickOutside)="userMenuOpen.set(false)">
         <button (click)="toggleUserMenu()"
                 [attr.aria-expanded]="userMenuOpen()"
                 aria-label="User menu"

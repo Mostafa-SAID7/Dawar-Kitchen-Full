@@ -9,10 +9,12 @@ import { ToastService } from '@shared/services';
 import { ReservationForm } from '@features/reservations/models/reservation.model';
 
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-reservation',
   standalone: true,
-  imports: [CommonModule, FormsModule, CustomCalendarComponent, CustomDropdownComponent],
+  imports: [CommonModule, FormsModule, TranslateModule, CustomCalendarComponent, CustomDropdownComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
     trigger('successAnim', [

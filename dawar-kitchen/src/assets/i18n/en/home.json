@@ -1,0 +1,64 @@
+{
+  "hero": {
+    "title": "Welcome to Dawar Kitchen",
+    "subtitle": "Delivering all around Cairo. Fresh, home-style meals prepared with love by Syrian and Egyptian women. A social enterprise celebrating food heritage and fair work.",
+    "cta": "Explore Menu",
+    "tagline": "Authentic Egyptian & Syrian Cuisine",
+    "authentic": "Authentic",
+    "cuisineType": "Egyptian & Syrian Cuisine",
+    "exploreMenu": "Explore Menu",
+    "orderDelivery": "Order Delivery",
+    "scroll": "Scroll",
+    "guestRating": "Guest Rating",
+    "menuItems": "Menu Items",
+    "sinceLabel": "Since",
+    "founded": "Founded",
+    "cairoLabel": "Cairo",
+    "deliveryLabel": "Delivery"
+  },
+  "about": {
+    "ourStory": "Our Story",
+    "aboutTitle": "About Dawar Kitchen",
+    "missionTitle": "Our Mission",
+    "whyWeExist": "Why Dawar Kitchen Exists",
+    "recipesTitle": "Traditional Recipes",
+    "recipesDesc": "Authentic Syrian and Egyptian recipes passed down through generations, prepared with love and expertise",
+    "ingredientsTitle": "Fresh Local Ingredients",
+    "ingredientsDesc": "We source the finest and freshest ingredients from local suppliers to ensure quality in every dish",
+    "fairWorkTitle": "Fair Employment & Dignity",
+    "fairWorkDesc": "Every meal supports fair wages and dignified employment for Syrian and Egyptian women",
+    "readyToSupport": "Ready to Support Us?",
+    "supportMessage": "Order from Dawar Kitchen and enjoy authentic cuisine while supporting fair work and food heritage",
+    "orderNow": "Order Now",
+    "exploreMenu": "Explore the Menu",
+    "aboutDesc": "Dawar Kitchen is a social enterprise located in Ezbet Khairallah, Cairo. Through catering and food production, we provide dignified employment and vocational training for Syrian, refugee, and Egyptian women.",
+    "badgeAuthentic": "Authentic",
+    "badgeCuisine": "Egyptian & Syrian",
+    "badgeSince": "Since 2018"
+  },
+  "blog": {
+    "tagline": "Journal",
+    "heading": "Stories From The Fire",
+    "viewAll": "View All Posts",
+    "readMore": "Read More"
+  },
+  "chefs": {
+    "tagline": "The Masters",
+    "heading": "Meet Our Chefs",
+    "description": "Decades of experience from the historic kitchens of Cairo and Alexandria, brought to life on every plate.",
+    "error": "Unable to load chef profiles right now."
+  },
+  "locations": {
+    "tagline": "Find Us",
+    "heading": "Visit Us",
+    "address": "Address",
+    "addressValue": "Town Centre, St Peter Port, Guernsey, GY1 2PN",
+    "hours": "Opening Hours",
+    "lunch": "Lunch",
+    "lunchTime": "12:00 PM – 2:00 PM",
+    "dinner": "Dinner",
+    "dinnerTime": "6:00 PM – 9:00 PM",
+    "closedMondays": "Closed on Mondays",
+    "phone": "+44 (0) 1481 123456"
+  }
+}

@@ -2,11 +2,12 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
+import { ImageOptimizationDirective } from '@shared/directives/image-optimization.directive';
 
 @Component({
   selector: 'app-cinematic-banner',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RevealDirective],
+  imports: [CommonModule, TranslateModule, RevealDirective, ImageOptimizationDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './cinematic-banner.component.html',
   styleUrls: ['./cinematic-banner.component.css']

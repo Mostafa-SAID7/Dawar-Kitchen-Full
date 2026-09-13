@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '@core/auth/auth.service';
 import { SeoService } from '@shared/services';
 import { ToastService } from '@shared/services';
+import { AppValidators } from '@shared/validators';
 
 @Component({
   selector: 'app-register',
@@ -87,20 +88,15 @@ export class RegisterComponent {
   loading = false;
 
   constructor() {
-    this.seo.set({ title: 'Register' });
+    this.seo.setRegister();
     this.form = this.fb.group({
-      email:           ['', [Validators.required, Validators.email]],
-      password:        ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: this.passwordMatchValidator });
+      email:           ['', AppValidators.email],
+      password:        ['', AppValidators.password],
+      confirmPassword: ['', AppValidators.required]
+    }, { validators: AppValidators.passwordMatch() });
   }
 
   get f() { return this.form.controls; }
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
-  }
 
   submit(): void {
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }

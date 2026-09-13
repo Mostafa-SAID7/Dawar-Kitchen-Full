@@ -90,7 +90,7 @@ export class PaymentSuccessComponent implements OnInit {
   shortOrderId = '';
 
   ngOnInit(): void {
-    this.seo.set({ title: 'Payment Confirmed', description: 'Your payment was successful and your order has been placed.' });
+    this.seo.setPaymentSuccess();
     const orderId = this.route.snapshot.queryParamMap.get('order_id');
     if (orderId) {
       this.shortOrderId = '#' + orderId.split('-')[0].toUpperCase();

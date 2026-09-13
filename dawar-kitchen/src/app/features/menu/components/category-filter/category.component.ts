@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA } from '@ang
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CATEGORIES_DATA } from '../../../../../data/category.data';
-import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
+import { RevealDirective, ImageOptimizationDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RevealDirective],
+  imports: [CommonModule, TranslateModule, RevealDirective, ImageOptimizationDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css'],

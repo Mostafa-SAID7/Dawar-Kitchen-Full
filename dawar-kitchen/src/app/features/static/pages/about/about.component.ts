@@ -104,12 +104,6 @@ export class AboutPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.seo.set({
-      title:        'About | Dawar Kitchen',
-      description:  'Learn about Dawar Kitchen — a social enterprise celebrating authentic Egyptian & Syrian cuisine while empowering Syrian and Egyptian women. Based in Ezbet Khairallah, Cairo.',
-      keywords:     'about Dawar Kitchen, Egyptian Syrian restaurant, social enterprise Cairo, women chefs, authentic cuisine, fair trade food Cairo',
-      canonicalUrl: 'https://www.dawarkitchen.com/about',
-      ogUrl:        'https://www.dawarkitchen.com/about',
-    });
+    this.seo.setAbout();
   }
 }

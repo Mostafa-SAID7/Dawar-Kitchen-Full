@@ -179,13 +179,8 @@ export class ContactPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.seo.set({
-      title:        'Contact Dawar Kitchen',
-      description:  'Contact Dawar Kitchen. Find our address in Ezbet Khairallah, Cairo. Call +20 10 33737764 or email for orders, catering, or inquiries about our social enterprise.',
-      keywords:     'contact Dawar Kitchen, Cairo restaurant, Egyptian Syrian cuisine, Ezbet Khairallah, food delivery Cairo, restaurant phone',
-      canonicalUrl: 'https://www.dawarkitchen.com/contact',
-      ogUrl:        'https://www.dawarkitchen.com/contact',
-    });
+    this.seo.setContact();
+
   }
 
   onSubjectSelected(subject: string): void {

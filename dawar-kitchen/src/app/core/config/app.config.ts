@@ -3,13 +3,33 @@ import { provideRouter, withInMemoryScrolling, withPreloading, PreloadAllModules
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServiceWorker } from '@angular/service-worker';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import { authInterceptor } from '../interceptors/auth.interceptor';
+import { authInterceptor, errorInterceptor, languageInterceptor } from '../interceptors';
+
+export class MultiTranslateHttpLoader implements TranslateLoader {
+  private readonly files = ['common', 'home', 'menu', 'reservations', 'auth', 'contact', 'payment'];
+
+  constructor(private readonly http: HttpClient, private readonly prefix = './assets/i18n/') {}
+
+  public getTranslation(lang: string): Observable<any> {
+    // Cache-bust with build timestamp to ensure fresh translations after deployments
+    const v = (window as any).__i18n_v || (((window as any).__i18n_v = Date.now()), (window as any).__i18n_v);
+    const requests = this.files.map(file =>
+      this.http.get(`${this.prefix}${lang}/${file}.json`, { params: { _v: v } }).pipe(
+        catchError(() => of({}))
+      )
+    );
+    return forkJoin(requests).pipe(
+      map(responses => Object.assign({}, ...responses))
+    );
+  }
+}
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new MultiTranslateHttpLoader(http, './assets/i18n/');
 }
 
 export const appConfig: ApplicationConfig = {
@@ -23,7 +43,7 @@ export const appConfig: ApplicationConfig = {
       }),
       withPreloading(PreloadAllModules)
     ),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, languageInterceptor])),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'

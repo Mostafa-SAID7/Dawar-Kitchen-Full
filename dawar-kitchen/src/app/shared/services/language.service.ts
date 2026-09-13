@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE, RTL_LANGUAGE, STORAGE_KEYS } from '../constants';
+import { StorageUtil, DomUtil } from '../utils';
 
 /**
  * Language service for managing EN/AR bilingual support
@@ -10,10 +12,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
  */
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-  private readonly SUPPORTED_LANGUAGES = ['en', 'ar'];
-  private readonly STORAGE_KEY = 'language';
-  private readonly DEFAULT_LANGUAGE = 'en';
-
   private currentLanguage$ = new BehaviorSubject<string>(
     this.getInitialLanguage()
   );
@@ -26,19 +24,19 @@ export class LanguageService {
    * Get initial language from localStorage or use default
    */
   private getInitialLanguage(): string {
-    const stored = localStorage.getItem(this.STORAGE_KEY);
-    if (stored && this.SUPPORTED_LANGUAGES.includes(stored)) {
+    const stored = StorageUtil.get(STORAGE_KEYS.LANGUAGE);
+    if (stored && (SUPPORTED_LANGUAGES as readonly string[]).includes(stored)) {
       return stored;
     }
-    return this.DEFAULT_LANGUAGE;
+    return DEFAULT_LANGUAGE;
   }
 
   /**
    * Initialize translation service
    */
   private initializeTranslation(): void {
-    this.translateService.setDefaultLang(this.DEFAULT_LANGUAGE);
-    this.translateService.addLangs(this.SUPPORTED_LANGUAGES);
+    this.translateService.setDefaultLang(DEFAULT_LANGUAGE);
+    this.translateService.addLangs([...SUPPORTED_LANGUAGES]);
     this.setLanguage(this.currentLanguage$.value);
   }
 
@@ -49,22 +47,24 @@ export class LanguageService {
    * - Sets document lang and RTL attributes
    */
   setLanguage(lang: string): void {
-    if (!this.SUPPORTED_LANGUAGES.includes(lang)) {
+    if (!(SUPPORTED_LANGUAGES as readonly string[]).includes(lang)) {
       return;
     }
 
     this.translateService.use(lang);
-    localStorage.setItem(this.STORAGE_KEY, lang);
+    StorageUtil.set(STORAGE_KEYS.LANGUAGE, lang);
     this.currentLanguage$.next(lang);
-    document.documentElement.lang = lang;
-
-    // RTL support for Arabic
-    if (lang === 'ar') {
-      document.documentElement.dir = 'rtl';
-      document.body.classList.add('rtl');
-    } else {
-      document.documentElement.dir = 'ltr';
-      document.body.classList.remove('rtl');
+    
+    const doc = DomUtil.getDocument();
+    if (doc) {
+      doc.documentElement.lang = lang;
+      if (lang === RTL_LANGUAGE) {
+        doc.documentElement.dir = 'rtl';
+        doc.body.classList.add('rtl');
+      } else {
+        doc.documentElement.dir = 'ltr';
+        doc.body.classList.remove('rtl');
+      }
     }
   }
 
@@ -86,7 +86,7 @@ export class LanguageService {
    * Get supported languages
    */
   getSupportedLanguages(): string[] {
-    return [...this.SUPPORTED_LANGUAGES];
+    return [...SUPPORTED_LANGUAGES];
   }
 
   /**

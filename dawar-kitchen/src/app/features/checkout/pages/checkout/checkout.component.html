@@ -38,7 +38,7 @@
                     class="w-12 px-2 py-1 rounded bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#C65A1E]"
                   />
                 </div>
-                <span data-cy="item-price" class="text-sm text-white font-medium w-16 text-right">£{{ (item.price * item.quantity).toFixed(2) }}</span>
+                <span data-cy="item-price" class="text-sm text-white font-medium w-16 text-right">{{ (item.price * item.quantity) | price }}</span>
                 <button (click)="cart.remove(item.menuItemId)" class="text-xs text-red-400 hover:text-red-300 transition-colors">
                   {{ 'cart.removeItem' | translate }}
                 </button>

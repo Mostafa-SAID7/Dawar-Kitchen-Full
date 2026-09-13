@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
+import { ImageOptimizationDirective } from '@shared/directives/image-optimization.directive';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RevealDirective],
+  imports: [CommonModule, TranslateModule, RevealDirective, ImageOptimizationDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
@@ -16,9 +18,9 @@ export class AboutComponent {
 
   trackByIndex(_index: number): number { return _index; }
   features = [
-    { icon: 'solar:flame-linear', title: 'Traditional Recipes', description: 'Authentic Syrian and Egyptian recipes celebrating food heritage.' },
-    { icon: 'solar:leaf-linear', title: 'Fresh Ingredients', description: 'Finest local produce sourced and prepared fresh daily.' },
-    { icon: 'solar:star-linear', title: 'Authentic Flavors', description: 'Generations of culinary wisdom in every dish.' },
-    { icon: 'solar:cup-hot-linear', title: 'Fair Employment', description: 'Dignified work empowering Syrian and Egyptian women.' }
+    { icon: 'solar:flame-linear', titleKey: 'about.recipesTitle', descKey: 'about.recipesDesc' },
+    { icon: 'solar:leaf-linear', titleKey: 'about.ingredientsTitle', descKey: 'about.ingredientsDesc' },
+    { icon: 'solar:star-linear', titleKey: 'about.flavorsTitle', descKey: 'about.flavorsDesc' },
+    { icon: 'solar:cup-hot-linear', titleKey: 'about.fairWorkTitle', descKey: 'about.fairWorkDesc' }
   ];
 }

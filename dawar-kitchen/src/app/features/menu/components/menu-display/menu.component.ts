@@ -1,16 +1,17 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { ApiService } from '@core/http/api.service';
 import { CartService } from '@features/checkout/services/cart.service';
 import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
 import { MenuItem, MenuItemView } from '@features/menu/models/menu.model';
-
+import { PricePipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, RevealDirective],
+  imports: [CommonModule, RouterModule, RevealDirective, PricePipe, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
@@ -36,7 +37,6 @@ export class MenuComponent implements OnInit {
           id: item.id,
           name: item.name,
           price: item.price,
-          priceFormatted: `£${item.price.toFixed(2)}`,
           description: item.description,
           category: item.category,
           isVegetarian: item.isVegetarian,

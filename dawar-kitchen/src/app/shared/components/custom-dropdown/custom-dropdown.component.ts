@@ -1,17 +1,16 @@
-import { Component, EventEmitter, Output, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropdownManagerService } from '../../services/dropdown-manager.service';
-import { Subscription } from 'rxjs';
+import { ClickOutsideDirective } from '../../directives';
 
 @Component({
   selector: 'app-custom-dropdown',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ClickOutsideDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './custom-dropdown.component.html',
   styleUrls: ['./custom-dropdown.component.css']
 })
-export class CustomDropdownComponent implements OnInit, OnDestroy {
+export class CustomDropdownComponent {
   @Input() options: string[] = [];
   @Input() selectedValue: string = '';
   @Input() placeholder: string = 'Select option';
@@ -19,31 +18,9 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
   @Output() valueSelected = new EventEmitter<string>();
   
   isOpen = false;
-  private componentId = 'dropdown-' + Math.random().toString(36).substr(2, 9);
-  private subscription?: Subscription;
-
-  constructor(private dropdownManager: DropdownManagerService) {}
-
-  ngOnInit() {
-    // Subscribe to close all events
-    this.subscription = this.dropdownManager.closeAll$.subscribe(exceptId => {
-      if (exceptId !== this.componentId) {
-        this.isOpen = false;
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   toggleDropdown() {
     this.isOpen = !this.isOpen;
-    if (this.isOpen) {
-      this.dropdownManager.closeAllExcept(this.componentId);
-    }
   }
 
   selectOption(option: string) {

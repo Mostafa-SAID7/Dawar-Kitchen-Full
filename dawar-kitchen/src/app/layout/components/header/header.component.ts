@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,11 +7,12 @@ import { CartService } from '@features/checkout/services/cart.service';
 import { AuthService } from '@core/auth/auth.service';
 import { ThemeService, LanguageService } from '@shared/services';
 import { AuthModalComponent } from '../../auth-modal/auth-modal.component';
+import { ClickOutsideDirective } from '@shared/directives';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, AuthModalComponent, TranslateModule],
+  imports: [CommonModule, RouterModule, AuthModalComponent, TranslateModule, ClickOutsideDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
@@ -57,13 +58,5 @@ export class HeaderComponent {
     this.auth.logout();
     this.userMenuOpen.set(false);
     this.router.navigate(['/']);
-  }
-
-  /** Close user dropdown when clicking outside */
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(e: MouseEvent) {
-    if (!(e.target as HTMLElement).closest('[data-user-menu]')) {
-      this.userMenuOpen.set(false);
-    }
   }
 }

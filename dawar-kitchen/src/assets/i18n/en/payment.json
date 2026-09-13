@@ -1,0 +1,26 @@
+{
+  "payment": {
+    "title": "Payment",
+    "cardNumber": "Card Number",
+    "expiryDate": "Expiry Date",
+    "cvv": "CVV",
+    "nameOnCard": "Name on Card",
+    "billingAddress": "Billing Address",
+    "payNow": "Pay Now",
+    "success": "Payment successful!",
+    "failed": "Payment failed. Please try again.",
+    "processing": "Processing payment...",
+    "confirmed": "Payment Confirmed",
+    "thankYou": "Thank You!",
+    "successMessage": "Your payment was successful and your order has been placed.",
+    "order": "Order",
+    "confirmationText": "We'll contact you shortly to confirm your order details.",
+    "receiptText": "A payment receipt has been sent to your email by Stripe.",
+    "returnHome": "Return Home",
+    "orderMore": "Order More",
+    "cancelled": "Payment Cancelled",
+    "noChargeMade": "No Charge Made",
+    "cancelledMessage": "Your payment was cancelled and you have not been charged. You can go back and try again whenever you're ready.",
+    "tryAgain": "Try Again"
+  }
+}

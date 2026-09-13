@@ -7,12 +7,13 @@ import { ApiService } from '@core/http/api.service';
 import { MenuItem } from '../../models/menu.model';
 import { CartService } from '../../../checkout/services/cart.service';
 import { SeoService } from '@shared/services';
+import { PricePipe } from '@shared/pipes';
 import { CustomDropdownComponent } from '@shared/components';
 
 @Component({
   selector: 'app-menu-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, CustomDropdownComponent, TranslateModule],
+  imports: [CommonModule, FormsModule, RouterModule, CustomDropdownComponent, TranslateModule, PricePipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -137,7 +138,7 @@ import { CustomDropdownComponent } from '@shared/components';
                       {{ item.name }}
                     </h3>
                     <span class="font-['Forum'] text-lg text-white font-medium shrink-0">
-                      £{{ item.price.toFixed(2) }}
+                      {{ item.price | price }}
                     </span>
                   </div>
                   <p class="text-xs text-neutral-400 font-light leading-relaxed mb-4">
@@ -207,13 +208,8 @@ export class MenuPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.seo.set({
-      title:        'Menu',
-      description:  'Browse the full Dawar Kitchen menu — authentic Egyptian & Syrian dishes, Koshari, Kabsa, Kibbeh, Om Ali, and more. Filter by category, dietary preference, or price.',
-      keywords:     'Dawar Kitchen menu, Egyptian Syrian cuisine, Cairo delivery menu, Koshari, Kabsa, Kofta, vegetarian, vegan options',
-      canonicalUrl: 'https://www.dawarkitchen.com/menu',
-      ogUrl:        'https://www.dawarkitchen.com/menu',
-    });
+    this.seo.setMenu();
+
     this.api.getMenu().subscribe({
       next: (items) => {
         this.allItems   = items;

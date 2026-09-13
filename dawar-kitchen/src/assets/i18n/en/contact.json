@@ -1,0 +1,33 @@
+{
+  "contact": {
+    "title": "Contact Us",
+    "description": "We'd love to hear from you",
+    "name": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send Message",
+    "success": "Thank you for your message! We'll get back to you soon.",
+    "error": "Failed to send message. Please try again.",
+    "location": "Location",
+    "hours": "Hours",
+    "getInTouch": "Get In Touch",
+    "contactDawarKitchen": "Contact Dawar Kitchen",
+    "subjectReservation": "Reservation enquiry",
+    "subjectPrivateEvent": "Private event / group booking",
+    "subjectFeedback": "Feedback",
+    "subjectOther": "Other",
+    "messageSent": "Message Sent!",
+    "willBeInTouch": "We'll be in touch within one business day.",
+    "sendAnother": "Send Another",
+    "openingHours": "Opening Hours",
+    "production": "Production",
+    "deliveryHours": "Delivery",
+    "days": "Days",
+    "sendMessage": "Send a Message",
+    "yourName": "Your name",
+    "yourEmail": "your@email.com",
+    "tellUsMore": "Tell us how we can help…"
+  }
+}

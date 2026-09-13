@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiService } from '@core/http/api.service';
 import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
+import { ImageOptimizationDirective } from '@shared/directives/image-optimization.directive';
 import { Chef, ChefView } from '@features/chefs/models/chef.model';
 
 const CHEF_IMAGES = [
@@ -14,7 +15,7 @@ const CHEF_IMAGES = [
 @Component({
   selector: 'app-chefs',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RevealDirective],
+  imports: [CommonModule, TranslateModule, RevealDirective, ImageOptimizationDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './chefs.component.html',
   styleUrls: ['./chefs.component.css'],

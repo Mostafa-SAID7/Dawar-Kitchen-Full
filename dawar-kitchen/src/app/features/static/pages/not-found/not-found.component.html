@@ -40,19 +40,19 @@
 
     <!-- Text -->
     <div class="mb-8 -mt-4">
-      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.22em] uppercase mb-3 block">Lost along the Nile</span>
+      <span class="text-[#C65A1E] text-xs font-medium tracking-[0.22em] uppercase mb-3 block">{{ 'notFound.tagline' | translate }}</span>
       <h1 class="font-['Forum'] text-2xl sm:text-3xl text-white tracking-tight mb-3">
-        Page not found
+        {{ 'notFound.title' | translate }}
       </h1>
       <p class="text-sm text-neutral-500 leading-relaxed max-w-sm mx-auto">
-        The page you're looking for has wandered into the ancient sands. Let us guide you back to warmer ground.
+        {{ 'notFound.description' | translate }}
       </p>
     </div>
 
     <!-- Countdown -->
     <div class="mb-8 flex items-center justify-center gap-2 text-xs text-neutral-600">
       <iconify-icon icon="solar:clock-circle-linear" width="14" class="text-neutral-700"></iconify-icon>
-      Returning home in
+      {{ 'notFound.returningHome' | translate }}
       <span class="font-medium tabular-nums" [class.text-[#C65A1E]]="countdown <= 5">{{ countdown }}s</span>
     </div>
 
@@ -61,12 +61,12 @@
       <button (click)="goHome()"
               class="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-[#0a0a0a] bg-white rounded-xl hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_24px_rgba(198,90,30,0.4)] transition-all duration-300 flex items-center justify-center gap-2">
         <iconify-icon icon="solar:home-2-linear" width="16"></iconify-icon>
-        Back to Home
+        {{ 'notFound.backToHome' | translate }}
       </button>
       <button (click)="goMenu()"
               class="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-white border border-white/15 rounded-xl hover:bg-white/5 hover:border-white/30 transition-all duration-300 flex items-center justify-center gap-2">
         <iconify-icon icon="solar:book-2-linear" width="16"></iconify-icon>
-        View Our Menu
+        {{ 'notFound.viewMenu' | translate }}
       </button>
     </div>
 

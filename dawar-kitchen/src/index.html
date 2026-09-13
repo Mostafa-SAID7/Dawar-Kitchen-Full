@@ -3,14 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dawar Kitchen — Authentic Egyptian & Syrian Cuisine</title>
-  <meta name="description" content="Dawar Kitchen: Authentic Egyptian & Syrian cuisine delivered across Cairo. Social enterprise employing Syrian and Egyptian women.">
-  <meta name="keywords" content="Dawar Kitchen, Egyptian Syrian cuisine, Cairo delivery, authentic food, social enterprise">
-  <meta name="author" content="Dawar Kitchen">
+  <!-- Base title (overwritten by SeoService immediately on load) -->
+  <title>Dawar Kitchen</title>
   <base href="/">
-
-  <!-- Canonical -->
-  <link rel="canonical" href="https://www.dawarkitchen.com/">
 
   <!-- CSP is delivered as an HTTP header in vercel.json (frame-ancestors
        and nonce-based rules require HTTP headers, not meta tags). -->
@@ -24,19 +19,7 @@
   <meta name="theme-color" content="#0a0a0a">
   <meta name="msapplication-TileColor" content="#0a0a0a">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="restaurant">
-  <meta property="og:url" content="https://www.dawarkitchen.com/">
-  <meta property="og:title" content="Dawar Kitchen — Authentic Egyptian & Syrian Cuisine">
-  <meta property="og:description" content="Authentic Egyptian & Syrian cuisine delivered across Cairo. Supporting Syrian and Egyptian women through fair employment.">
-  <meta property="og:image" content="https://www.dawarkitchen.com/assets/hero/hero.webp">
-  <meta property="og:site_name" content="Dawar Kitchen">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Dawar Kitchen — Authentic Egyptian & Syrian Cuisine">
-  <meta name="twitter:description" content="Authentic Egyptian & Syrian cuisine delivered across Cairo. Supporting Syrian and Egyptian women.">
-  <meta name="twitter:image" content="https://www.dawarkitchen.com/assets/hero/hero.webp">
+  <!-- Open Graph & Twitter Cards are handled dynamically by SeoService -->
 
   <!-- Favicons -->
   <link rel="icon" type="image/png" href="assets/Dawar-logo.png">
@@ -120,128 +103,18 @@
   }
   </script>
 
-  <!-- ── Splash screen styles (inline — zero network cost) ── -->
-  <style nonce="inline-critical-css">
+  <!-- Critical base styles — zero layout shift before Angular hydrates -->
+  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html {
-      scroll-behavior: auto;
-      background: #0a0a0a;
-    }
-
-    body {
-      background: #0a0a0a;
-      font-family: 'Open Sans', system-ui, sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* ── Splash overlay ── */
-    #nn-splash {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #0a0a0a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    #nn-splash.nn-fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Logo mark */
-    .nn-splash-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      animation: nn-rise 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    }
-    .nn-splash-mark {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 40px rgba(198, 90, 30, 0.35);
-      animation: nn-pulse 2.4s ease-in-out infinite;
-      background: transparent;
-    }
-    .nn-splash-mark img {
-      width: 100%;
-      height: 100%;
-      border-radius: 16px;
-      object-fit: contain;
-    }
-    .nn-splash-name {
-      font-size: 22px;
-      color: rgba(255,255,255,0.92);
-      letter-spacing: 0.04em;
-      font-weight: 300;
-    }
-    .nn-splash-sub {
-      font-size: 10px;
-      color: #C65A1E;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      margin-top: -8px;
-    }
-
-    /* Loading bar */
-    .nn-splash-bar {
-      width: 120px;
-      height: 2px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 1px;
-      overflow: hidden;
-      animation: nn-rise 0.55s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    }
-    .nn-splash-bar::after {
-      content: '';
-      display: block;
-      width: 40%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, #C65A1E, transparent);
-      border-radius: 1px;
-      animation: nn-slide 1.4s ease-in-out infinite;
-    }
-
-    @keyframes nn-rise {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes nn-pulse {
-      0%, 100% { box-shadow: 0 0 30px rgba(198,90,30,0.25); }
-      50%       { box-shadow: 0 0 50px rgba(198,90,30,0.55); }
-    }
-    @keyframes nn-slide {
-      0%   { transform: translateX(-250%); }
-      100% { transform: translateX(600%); }
-    }
+    html { scroll-behavior: auto; background: #0a0a0a; }
+    body { background: #0a0a0a; font-family: 'Open Sans', system-ui, sans-serif; overflow-x: hidden; }
   </style>
 </head>
 <body>
   <!-- Theme + scroll-restoration init — external file satisfies script-src 'self' -->
   <script src="assets/init.js"></script>
 
-  <!-- Splash screen — removed by AppComponent after first navigation -->
-  <div id="nn-splash" aria-hidden="true">
-    <div class="nn-splash-logo">
-      <div class="nn-splash-mark">
-        <img src="assets/Dawar-logo.png" alt="Dawar Kitchen">
-      </div>
-      <div>
-        <div class="nn-splash-name">Dawar Kitchen</div>
-        <div class="nn-splash-sub">Authentic Egyptian & Syrian Cuisine</div>
-      </div>
-    </div>
-    <div class="nn-splash-bar"></div>
-  </div>
+  <!-- app-splash-screen is rendered by AppComponent (Angular) -->
 
   <app-root></app-root>
 </body>

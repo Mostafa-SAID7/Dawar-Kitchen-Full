@@ -4,10 +4,12 @@ import {
   ElementRef, AfterViewChecked
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../core/auth/auth.service';
 import { ToastService } from '../../shared/services/toast.service';
+import { AppValidators } from '../../shared/validators';
+import { DomUtil } from '../../shared/utils';
 
 const FOCUSABLE = 'button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
@@ -225,15 +227,17 @@ export class AuthModalComponent implements OnChanges, AfterViewChecked {
     if (changes['open']) {
       if (changes['open'].currentValue === true) {
         // Save trigger element before modal renders
-        this.triggerEl = document.activeElement as HTMLElement;
+        const doc = DomUtil.getDocument();
+        this.triggerEl = doc ? doc.activeElement as HTMLElement : null;
         this.focusSet = false;
         this.buildForms();
         this.loginError.set(null);
         this.registerError.set(null);
         // Prevent background scroll
-        document.body.style.overflow = 'hidden';
+        if (doc) doc.body.style.overflow = 'hidden';
       } else {
-        document.body.style.overflow = '';
+        const doc = DomUtil.getDocument();
+        if (doc) doc.body.style.overflow = '';
         // Restore focus to trigger element
         setTimeout(() => this.triggerEl?.focus(), 50);
       }
@@ -267,9 +271,9 @@ export class AuthModalComponent implements OnChanges, AfterViewChecked {
     const last  = focusable[focusable.length - 1];
 
     if (event.shiftKey) {
-      if (document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (DomUtil.getDocument()?.activeElement === first) { event.preventDefault(); last.focus(); }
     } else {
-      if (document.activeElement === last) { event.preventDefault(); first.focus(); }
+      if (DomUtil.getDocument()?.activeElement === last) { event.preventDefault(); first.focus(); }
     }
   }
 
@@ -337,18 +341,13 @@ export class AuthModalComponent implements OnChanges, AfterViewChecked {
 
   private buildForms(): void {
     this.loginForm = this.fb.group({
-      email:    ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      email:    ['', AppValidators.email],
+      password: ['', AppValidators.required]
     });
     this.registerForm = this.fb.group({
-      email:           ['', [Validators.required, Validators.email]],
-      password:        ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: this.passwordMatch });
-  }
-
-  private passwordMatch(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
+      email:           ['', AppValidators.email],
+      password:        ['', AppValidators.password],
+      confirmPassword: ['', AppValidators.required]
+    }, { validators: AppValidators.passwordMatch() });
   }
 }
