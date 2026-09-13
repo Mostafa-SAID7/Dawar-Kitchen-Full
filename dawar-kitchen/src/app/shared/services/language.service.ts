@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE, RTL_LANGUAGE, STORAGE_KEYS } from '../constants';
@@ -15,6 +15,11 @@ export class LanguageService {
   private currentLanguage$ = new BehaviorSubject<string>(
     this.getInitialLanguage()
   );
+
+  /** True while a language-switch fade transition is in progress. */
+  readonly transitioning = signal(false);
+
+  private switchTimer?: ReturnType<typeof setTimeout>;
 
   constructor(private translateService: TranslateService) {
     this.initializeTranslation();
@@ -35,9 +40,15 @@ export class LanguageService {
    * Initialize translation service
    */
   private initializeTranslation(): void {
-    this.translateService.setDefaultLang(DEFAULT_LANGUAGE);
     this.translateService.addLangs([...SUPPORTED_LANGUAGES]);
-    this.setLanguage(this.currentLanguage$.value);
+    // Do NOT call setDefaultLang() here. It triggers a concurrent
+    // getTranslation(DEFAULT_LANGUAGE) that races with the initial language
+    // load on ngx-translate's shared this.loadingTranslations / this.pending
+    // fields, corrupting the cache. use() sets both currentLang and defaultLang
+    // on its own (defaultLang starts null). The default is promoted to
+    // DEFAULT_LANGUAGE inside doLanguageSwitch once it's already cached, so
+    // setDefaultLang() finds it in the cache and triggers no new HTTP request.
+    this.setLanguage(this.currentLanguage$.value, false);
   }
 
   /**
@@ -45,28 +56,86 @@ export class LanguageService {
    * - Updates TranslateService
    * - Persists to localStorage
    * - Sets document lang and RTL attributes
+   *
+   * @param animate  when true, coordinates a brief fade transition so the text
+   *                 and direction swap is masked visually (default: true).
    */
-  setLanguage(lang: string): void {
+  setLanguage(lang: string, animate = true): void {
     if (!(SUPPORTED_LANGUAGES as readonly string[]).includes(lang)) {
       return;
     }
 
+    clearTimeout(this.switchTimer);
+
+    if (animate) {
+      // Start the fade-out; swap language at minimum opacity (≈120 ms in).
+      this.transitioning.set(true);
+      this.switchTimer = setTimeout(() => this.doLanguageSwitch(lang), 120);
+    } else {
+      this.doLanguageSwitch(lang);
+    }
+  }
+
+  /**
+   * Perform the actual language swap — direction, storage, and translation load.
+   * Only hits the network when translations are not yet cached (or cached empty),
+   * so subsequent toggles are instant.
+   */
+  private doLanguageSwitch(lang: string): void {
     this.applyDocumentLanguage(lang);
     StorageUtil.set(STORAGE_KEYS.LANGUAGE, lang);
-    this.translateService.use(lang).subscribe({
-      next: () => this.currentLanguage$.next(lang),
-      error: () => {
-        if (lang === DEFAULT_LANGUAGE) {
-          this.currentLanguage$.next(DEFAULT_LANGUAGE);
-          return;
-        }
 
-        this.applyDocumentLanguage(DEFAULT_LANGUAGE);
-        StorageUtil.set(STORAGE_KEYS.LANGUAGE, DEFAULT_LANGUAGE);
-        this.translateService.use(DEFAULT_LANGUAGE).subscribe({
-          next: () => this.currentLanguage$.next(DEFAULT_LANGUAGE),
-          error: () => this.currentLanguage$.next(DEFAULT_LANGUAGE)
-        });
+    // If translations were previously cached as an empty object (e.g. a load
+    // that failed during early bootstrap), clear the cache so use() re-fetches.
+    // We use resetLang() — NOT reloadLang() — because reloadLang() calls
+    // getTranslation() without storing the request, so the subsequent use() →
+    // retrieveTranslations() starts a SECOND concurrent getTranslation() that
+    // races on ngx-translate's shared this.loadingTranslations field and
+    // corrupts the cache. resetLang() only clears; use() then triggers exactly
+    // one clean fetch via retrieveTranslations → getTranslation.
+    const cached = this.translateService.translations[lang];
+    if (cached && Object.keys(cached).length === 0) {
+      this.translateService.resetLang(lang);
+    }
+
+    this.translateService.use(lang).subscribe({
+      next: () => {
+        this.currentLanguage$.next(lang);
+        // Once DEFAULT_LANGUAGE is loaded and cached, promote it to the
+        // fallback default. setDefaultLang() finds it in the cache, so it
+        // calls changeDefaultLang() directly — no new HTTP, no pending state,
+        // no race. This ensures missing keys fall back to English.
+        if (lang === DEFAULT_LANGUAGE && this.translateService.defaultLang !== DEFAULT_LANGUAGE) {
+          this.translateService.setDefaultLang(DEFAULT_LANGUAGE);
+        }
+        // Hold the fade until the CSS animation finishes (≈280 ms total).
+        setTimeout(() => this.transitioning.set(false), 160);
+      },
+      error: () => this.handleLanguageFallback(lang)
+    });
+  }
+
+  /**
+   * Fall back to the default language when the requested language fails to load.
+   */
+  private handleLanguageFallback(lang: string): void {
+    if (lang === DEFAULT_LANGUAGE) {
+      this.currentLanguage$.next(DEFAULT_LANGUAGE);
+      this.transitioning.set(false);
+      return;
+    }
+
+    this.applyDocumentLanguage(DEFAULT_LANGUAGE);
+    StorageUtil.set(STORAGE_KEYS.LANGUAGE, DEFAULT_LANGUAGE);
+    this.translateService.resetLang(DEFAULT_LANGUAGE);
+    this.translateService.use(DEFAULT_LANGUAGE).subscribe({
+      next: () => {
+        this.currentLanguage$.next(DEFAULT_LANGUAGE);
+        this.transitioning.set(false);
+      },
+      error: () => {
+        this.currentLanguage$.next(DEFAULT_LANGUAGE);
+        this.transitioning.set(false);
       }
     });
   }

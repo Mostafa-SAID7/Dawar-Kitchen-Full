@@ -29,7 +29,7 @@ import { LanguageService } from './shared/services';
       (transitionend)="onSplashTransitionEnd()">
     </app-splash-screen>
 
-    <div class="relative min-h-screen" [class.nn-page-ready]="pageReady()">
+    <div class="relative min-h-screen" [class.nn-page-ready]="pageReady()" [class.lang-switching]="languageService.transitioning()">
       <app-animated-background [zIndex]="'-z-50'"></app-animated-background>
       <app-header></app-header>
       <main class="nn-page-content">
@@ -45,16 +45,31 @@ import { LanguageService } from './shared/services';
     /* App shell is invisible until first route resolves */
     .nn-page-content {
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.15s ease;
     }
     .nn-page-ready .nn-page-content {
       opacity: 1;
+    }
+
+    /* ── Language switch fade ──────────────────────────────
+       Plays a quick opacity dip on the main content, header,
+       and footer so the text + RTL/LTR swap is masked.
+       Total duration ≈ 280 ms — smooth but snappy.            */
+    @keyframes langSwitchFade {
+      0%   { opacity: 1; }
+      45%  { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .lang-switching .nn-page-content,
+    .lang-switching app-header,
+    .lang-switching app-footer {
+      animation: langSwitchFade 0.28s ease;
     }
   `]
 })
 export class AppComponent implements OnInit {
   private readonly router = inject(Router);
-  private readonly languageService = inject(LanguageService);
+  readonly languageService = inject(LanguageService);
 
   /** true → splash component is mounted in the DOM */
   splashVisible = signal(true);
