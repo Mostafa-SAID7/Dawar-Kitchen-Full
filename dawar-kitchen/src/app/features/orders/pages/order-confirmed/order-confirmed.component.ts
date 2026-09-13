@@ -1,5 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SeoService } from '@shared/services';
 import { RealtimeService } from '../../../orders/services/realtime.service';
@@ -10,7 +11,7 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
 @Component({
   selector: 'app-order-confirmed',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
     trigger('fadeUp', [
@@ -40,18 +41,18 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
 
         <!-- Content -->
         <div @fadeUp>
-          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">Confirmed</span>
+          <span class="text-[#C65A1E] text-xs font-medium tracking-[0.2em] uppercase mb-3 block">{{ 'order.confirmed' | translate }}</span>
           <h1 class="font-['Forum'] text-3xl sm:text-4xl text-white tracking-tight mb-4">
-            Order Received!
+            {{ 'order.receivedTitle' | translate }}
           </h1>
           
           <!-- Live Status Stepper -->
           <div class="my-10 bg-[#111] border border-white/5 rounded-2xl p-6 text-left">
             <h3 class="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-6 flex items-center justify-between">
-              <span>Live Order Tracker</span>
+              <span>{{ 'order.trackerTitle' | translate }}</span>
               <span class="flex items-center gap-1.5 normal-case text-emerald-400 font-sans font-normal">
                 <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
-                Listening for updates
+                {{ 'order.listening' | translate }}
               </span>
             </h3>
             
@@ -64,9 +65,9 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
                 </div>
                 <div>
                   <h4 class="text-sm font-medium transition-colors" [ngClass]="isStepActive(1) ? 'text-white' : 'text-neutral-500'">
-                    Order Received
+                    {{ 'order.received' | translate }}
                   </h4>
-                  <p class="text-xs text-neutral-500 mt-0.5">We have received your order details.</p>
+                  <p class="text-xs text-neutral-500 mt-0.5">{{ 'order.receivedDescription' | translate }}</p>
                 </div>
               </div>
 
@@ -78,9 +79,9 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
                 </div>
                 <div>
                   <h4 class="text-sm font-medium transition-colors" [ngClass]="isStepActive(2) ? 'text-white' : 'text-neutral-500'">
-                    Confirmed & Accepted
+                    {{ 'order.accepted' | translate }}
                   </h4>
-                  <p class="text-xs text-neutral-500 mt-0.5">Our kitchen checked items and confirmed availability.</p>
+                  <p class="text-xs text-neutral-500 mt-0.5">{{ 'order.acceptedDescription' | translate }}</p>
                 </div>
               </div>
 
@@ -92,9 +93,9 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
                 </div>
                 <div>
                   <h4 class="text-sm font-medium transition-colors" [ngClass]="isStepActive(3) ? 'text-white' : 'text-neutral-500'">
-                    Preparing Food
+                    {{ 'order.preparing' | translate }}
                   </h4>
-                  <p class="text-xs text-neutral-500 mt-0.5">Your meal is fresh cooked by our Egyptian chefs.</p>
+                  <p class="text-xs text-neutral-500 mt-0.5">{{ 'order.preparingDescription' | translate }}</p>
                 </div>
               </div>
 
@@ -106,9 +107,9 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
                 </div>
                 <div>
                   <h4 class="text-sm font-medium transition-colors" [ngClass]="isStepActive(4) ? 'text-emerald-400 font-semibold' : 'text-neutral-500'">
-                    Ready for Handover
+                    {{ 'order.ready' | translate }}
                   </h4>
-                  <p class="text-xs text-neutral-500 mt-0.5">Ready for collection or out for hot delivery.</p>
+                  <p class="text-xs text-neutral-500 mt-0.5">{{ 'order.readyDescription' | translate }}</p>
                 </div>
               </div>
             </div>
@@ -118,7 +119,7 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
           <div *ngIf="orderId" class="mt-8 flex flex-col items-center gap-2 px-4 py-3 bg-[#111] border border-white/5 rounded-xl">
             <div class="flex items-center gap-2">
               <iconify-icon icon="solar:tag-linear" width="16" class="text-neutral-500"></iconify-icon>
-              <span class="text-xs text-neutral-500">Order reference</span>
+              <span class="text-xs text-neutral-500">{{ 'order.reference' | translate }}</span>
               <span data-cy="order-reference" class="text-xs text-white font-medium font-mono">#{{ shortId }}</span>
             </div>
           </div>
@@ -127,7 +128,7 @@ type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'completed'
           <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <button (click)="goHome()"
                     class="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-[#0a0a0a] bg-white rounded-xl hover:bg-[#C65A1E] hover:text-white hover:shadow-[0_0_20px_rgba(198,90,30,0.35)] transition-all duration-300">
-              Back to Home
+              {{ 'order.backHome' | translate }}
             </button>
           </div>
         </div>

@@ -35,9 +35,7 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
                 <span class="text-[10px] font-medium tracking-widest uppercase text-neutral-400">{{ 'footer.address' | translate }}</span>
               </div>
               <p class="text-sm text-neutral-300 font-light leading-relaxed">
-                5 Magdy El-Khouly,<br/>
-                Ezbet Khairallah, Old Cairo,<br/>
-                Cairo Governorate, Egypt
+                {{ 'contact.addressValue' | translate }}
               </p>
             </div>
 
@@ -48,9 +46,9 @@ import { CustomDropdownComponent } from '@shared/components/custom-dropdown/cust
                 <span class="text-[10px] font-medium tracking-widest uppercase text-neutral-400">{{ 'contact.openingHours' | translate }}</span>
               </div>
               <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-neutral-300 font-light">
-                <span class="text-neutral-500">{{ 'contact.production' | translate }}</span>  <span>9:00 AM – 5:00 PM</span>
-                <span class="text-neutral-500">{{ 'contact.deliveryHours' | translate }}</span>  <span>10:00 AM – 8:00 PM</span>
-                <span class="text-neutral-500">{{ 'contact.days' | translate }}</span>  <span>Monday – Sunday</span>
+                <span class="text-neutral-500">{{ 'contact.production' | translate }}</span>  <span>{{ 'contact.productionTime' | translate }}</span>
+                <span class="text-neutral-500">{{ 'contact.deliveryHours' | translate }}</span>  <span>{{ 'contact.deliveryTime' | translate }}</span>
+                <span class="text-neutral-500">{{ 'contact.days' | translate }}</span>  <span>{{ 'contact.daysValue' | translate }}</span>
               </div>
             </div>
 

@@ -82,6 +82,21 @@ export class MenuComponent implements OnInit {
     return this.cart.items().find(i => i.menuItemId === id)?.quantity ?? 0;
   }
 
+  categoryLabelKey(category: string): string {
+    const keys: Record<string, string> = {
+      All: 'menu.allCategories',
+      Breakfast: 'menu.categoryBreakfast',
+      'Appetizers & Mezze': 'menu.categoryAppetizers',
+      'Syrian Dishes': 'menu.categorySyrian',
+      'Egyptian Dishes': 'menu.categoryEgyptian',
+      'Grills & Meat': 'menu.categoryGrills',
+      'Sides & Rice': 'menu.categorySides',
+      Desserts: 'menu.categoryDesserts',
+      Beverages: 'menu.categoryBeverages'
+    };
+    return keys[category] ?? category;
+  }
+
   trackByItem(_index: number, item: MenuItemView): string { return item.id; }
   trackByCategory(_index: number, cat: string): string { return cat; }
   trackByIndex(_index: number): number { return _index; }

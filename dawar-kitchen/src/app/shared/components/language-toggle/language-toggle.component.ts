@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
 
 /**
@@ -10,15 +11,15 @@ import { LanguageService } from '../../services/language.service';
 @Component({
   selector: 'app-language-toggle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   template: `
     <button
       (click)="toggleLanguage()"
-      [attr.aria-label]="'Switch to ' + getOtherLanguageLabel()"
+      [attr.aria-label]="'a11y.toggleLanguage' | translate"
       class="language-toggle-btn"
       type="button"
     >
-      {{ getOtherLanguageLabel() }}
+      {{ currentLanguage === 'en' ? ('a11y.arabic' | translate) : ('a11y.english' | translate) }}
     </button>
   `,
   styles: [
@@ -74,10 +75,4 @@ export class LanguageToggleComponent implements OnInit {
     this.languageService.toggleLanguage();
   }
 
-  /**
-   * Get label for the "other" language
-   */
-  getOtherLanguageLabel(): string {
-    return this.currentLanguage === 'en' ? 'العربية' : 'English';
-  }
 }

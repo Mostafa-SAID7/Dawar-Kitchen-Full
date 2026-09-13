@@ -22,15 +22,15 @@
         <div class="aspect-[16/10] overflow-hidden">
           <img
             [appImageOptimization]="post.image"
-            [alt]="post.title"
+            [alt]="post.titleKey | translate"
             class="w-full h-full object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700">
         </div>
         <div class="p-5 sm:p-6">
-          <span class="text-xs text-neutral-500 mb-2 sm:mb-3 block">{{ post.date }}</span>
+          <span class="text-xs text-neutral-500 mb-2 sm:mb-3 block">{{ post.dateKey | translate }}</span>
           <h3 class="font-['Forum'] text-lg sm:text-xl text-white tracking-tight mb-2 sm:mb-3 group-hover:text-[#C65A1E] transition-colors leading-snug">
-            {{ post.title }}
+            {{ post.titleKey | translate }}
           </h3>
-          <p class="text-sm text-neutral-400 font-light mb-5 sm:mb-6 line-clamp-2 leading-relaxed">{{ post.excerpt }}</p>
+          <p class="text-sm text-neutral-400 font-light mb-5 sm:mb-6 line-clamp-2 leading-relaxed">{{ post.excerptKey | translate }}</p>
           <span class="text-xs font-medium text-neutral-400 group-hover:text-[#C65A1E] transition-colors flex items-center gap-1.5 uppercase tracking-wider">
             {{ 'blog.readMore' | translate }}
             <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>

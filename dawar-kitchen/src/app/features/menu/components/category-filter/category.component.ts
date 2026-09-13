@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '@shared/services';
 import { CATEGORIES_DATA } from '../../../../../data/category.data';
 import { RevealDirective, ImageOptimizationDirective } from '@shared/directives';
 
@@ -15,6 +16,7 @@ import { RevealDirective, ImageOptimizationDirective } from '@shared/directives'
 })
 export class CategoryComponent {
   categories = CATEGORIES_DATA;
+  readonly currentLang$ = inject(LanguageService).getCurrentLanguage();
 
   trackByIndex(_index: number): number { return _index; }
 }
