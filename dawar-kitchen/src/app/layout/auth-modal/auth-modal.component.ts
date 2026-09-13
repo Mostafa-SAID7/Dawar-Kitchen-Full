@@ -45,7 +45,7 @@ const FOCUSABLE = 'button:not([disabled]),input:not([disabled]),select:not([disa
         <!-- Brand + Tabs -->
         <div class="px-6 pt-6 pb-0">
           <div class="flex items-center gap-2.5 mb-5">
-            <img src="assets/Dawar-logo.png" alt="Dawar Kitchen Logo"
+            <img src="assets/Dawar-logo.png" [alt]="'a11y.logoAlt' | translate"
                  class="w-8 h-8 rounded-lg object-contain shrink-0">
             <span id="auth-modal-title" class="font-['Forum'] text-lg text-white tracking-tight">
               {{ 'app.title' | translate }}

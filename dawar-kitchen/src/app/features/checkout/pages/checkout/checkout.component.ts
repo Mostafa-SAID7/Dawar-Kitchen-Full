@@ -138,7 +138,7 @@ export class CheckoutComponent implements OnInit {
         this.submitting = false;
         const msg = err?.error?.errors
           ? Object.values(err.error.errors).flat().join('. ')
-          : err?.error?.title ?? 'Something went wrong. Please try again.';
+          : err?.error?.title ?? this.translate.instant('common.tryAgain');
         this.toast.error(msg as string);
       }
     });

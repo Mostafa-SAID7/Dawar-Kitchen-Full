@@ -13,7 +13,7 @@ import { ClickOutsideDirective } from '../../directives';
 export class CustomDropdownComponent {
   @Input() options: string[] = [];
   @Input() selectedValue: string = '';
-  @Input() placeholder: string = 'Select option';
+  @Input() placeholder = '';
   @Input() icon: string = 'solar:alt-arrow-down-linear';
   @Output() valueSelected = new EventEmitter<string>();
   

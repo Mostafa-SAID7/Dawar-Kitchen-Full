@@ -28,6 +28,10 @@
     "sendMessage": "Send a Message",
     "yourName": "Your name",
     "yourEmail": "your@email.com",
-    "tellUsMore": "Tell us how we can help…"
+    "tellUsMore": "Tell us how we can help…",
+    "addressValue": "5 Magdy El-Khouly,\nEzbet Khairallah, Old Cairo,\nCairo Governorate, Egypt",
+    "productionTime": "9:00 AM – 5:00 PM",
+    "deliveryTime": "10:00 AM – 8:00 PM",
+    "daysValue": "Monday – Sunday"
   }
 }

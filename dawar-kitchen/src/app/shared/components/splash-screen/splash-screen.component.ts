@@ -7,6 +7,7 @@ import {
   HostBinding
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * SplashScreenComponent
@@ -17,16 +18,16 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-splash-screen',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="splash-logo">
       <div class="splash-mark">
-        <img src="assets/Dawar-logo.png" alt="Dawar Kitchen" width="64" height="64">
+        <img src="assets/Dawar-logo.png" [alt]="'a11y.logoAlt' | translate" width="64" height="64">
       </div>
       <div>
         <div class="splash-name">Dawar Kitchen</div>
-        <div class="splash-sub">Authentic Egyptian &amp; Syrian Cuisine</div>
+        <div class="splash-sub">{{ 'splash.subtitle' | translate }}</div>
       </div>
     </div>
     <div class="splash-bar"></div>

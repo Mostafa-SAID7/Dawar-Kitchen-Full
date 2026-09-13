@@ -36,13 +36,13 @@ import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
         </div>
         <div class="max-w-3xl mx-auto space-y-6 mb-12">
           <p class="text-neutral-300 text-sm leading-relaxed font-light">
-            Dawar Kitchen is located in Ezbet Khairallah, one of Cairo's largest informal settlements. Through catering and food production, we provide dignified employment and vocational training for migrant, refugee, and Egyptian women. We pride ourselves on fair working conditions and a participatory approach that ensures worker engagement in core decision-making and business planning.
+            {{ 'aboutPage.paragraph1' | translate }}
           </p>
           <p class="text-neutral-300 text-sm leading-relaxed font-light">
-            We celebrate food heritage and quality cuisine. We choose the finest and freshest ingredients, using locally sourced produce wherever possible. Our customers include embassies, NGOs, private businesses, and the general public across Cairo.
+            {{ 'aboutPage.paragraph2' | translate }}
           </p>
           <p class="text-neutral-300 text-sm leading-relaxed font-light">
-            Founded as part of Dawar for Arts and Development, the kitchen began deliveries in April 2018. It empowers women with skills in commercial food production, small business management, and creates bridge-building and cross-cultural exchange through the universal language of food.
+            {{ 'aboutPage.paragraph3' | translate }}
           </p>
         </div>
         <div reveal="true" [revealDelay]="80" [revealFrom]="'bottom'" class="grid grid-cols-1 sm:grid-cols-3 gap-6">

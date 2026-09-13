@@ -22,11 +22,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401) {
         // Token expired or unauthorized
         auth.logout();
-        toast.error(translate.instant('auth.invalidCredentials') || 'Unauthorized session');
+        toast.error(translate.instant('auth.invalidCredentials'));
         router.navigate(['/login']);
       } else if (error.status >= 500) {
         // Server errors
-        toast.error(translate.instant('common.error') || 'A server error occurred.');
+        toast.error(translate.instant('common.error'));
       }
       return throwError(() => error);
     })
