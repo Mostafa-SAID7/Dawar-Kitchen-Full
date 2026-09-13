@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, inject, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -46,7 +46,7 @@ import { RevealDirective } from '@shared/directives/scroll-reveal.directive';
           </p>
         </div>
         <div reveal="true" [revealDelay]="80" [revealFrom]="'bottom'" class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div *ngFor="let v of values" class="p-6 rounded-2xl bg-[#111] border border-white/5 space-y-3">
+          <div *ngFor="let v of values()" class="p-6 rounded-2xl bg-[#111] border border-white/5 space-y-3">
             <div class="w-10 h-10 rounded-lg bg-[#C65A1E]/10 border border-[#C65A1E]/20 flex items-center justify-center text-[#C65A1E]">
               <iconify-icon [attr.icon]="v.icon" width="22"></iconify-icon>
             </div>
@@ -83,8 +83,15 @@ export class AboutPageComponent implements OnInit {
   private readonly seo       = inject(SeoService);
   private readonly translate = inject(TranslateService);
 
-  get values() {
-    return [
+  values = signal<Array<{ icon: string; title: string; description: string }>>([]);
+
+  ngOnInit(): void {
+    this.seo.setAbout();
+    this.loadValues();
+  }
+
+  private loadValues(): void {
+    this.values.set([
       {
         icon: 'solar:fire-bold',
         title: this.translate.instant('about.recipesTitle'),
@@ -100,10 +107,6 @@ export class AboutPageComponent implements OnInit {
         title: this.translate.instant('about.fairWorkTitle'),
         description: this.translate.instant('about.fairWorkDesc')
       }
-    ];
-  }
-
-  ngOnInit(): void {
-    this.seo.setAbout();
+    ]);
   }
 }
