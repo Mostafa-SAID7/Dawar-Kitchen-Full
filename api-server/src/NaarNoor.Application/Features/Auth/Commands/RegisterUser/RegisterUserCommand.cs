@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Auth.Commands.RegisterUser;
+namespace NaarNoor.Application.Features.Auth.Commands.RegisterUser;
 
 /// <summary>
 /// Command to register a new user
@@ -19,3 +19,4 @@ public record RegisterUserResult(
     string Email,
     bool Success
 );
+

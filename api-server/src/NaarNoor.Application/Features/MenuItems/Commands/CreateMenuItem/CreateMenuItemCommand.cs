@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.MenuItems.Commands.CreateMenuItem;
+namespace NaarNoor.Application.Features.MenuItems.Commands.CreateMenuItem;
 
 public record CreateMenuItemCommand(
     string Name,
@@ -14,3 +14,4 @@ public record CreateMenuItemCommand(
     string? ImageUrl,
     int SortOrder
 ) : IRequest<Guid>;
+

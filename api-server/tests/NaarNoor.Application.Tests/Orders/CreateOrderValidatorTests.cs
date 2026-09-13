@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NaarNoor.Application.Orders.Commands.CreateOrder;
+using NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using Xunit;
 
@@ -122,3 +122,4 @@ public class CreateOrderValidatorTests : ApplicationLayerTestBase
         AssertValidationFailed(result, "TableReservationName");
     }
 }
+

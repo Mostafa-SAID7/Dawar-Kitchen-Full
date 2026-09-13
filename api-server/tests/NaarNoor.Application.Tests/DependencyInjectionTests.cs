@@ -3,9 +3,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using NaarNoor.Application.Common.Behaviours;
-using NaarNoor.Application.Contact.Commands.SubmitInquiry;
-using NaarNoor.Application.Orders.Commands.CreateOrder;
-using NaarNoor.Application.Reservations.Commands.CreateReservation;
+using NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
+using NaarNoor.Application.Features.Orders.Commands.CreateOrder;
+using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 using Xunit;
 
 namespace NaarNoor.Application.Tests;
@@ -108,3 +108,4 @@ public class ApplicationDependencyInjectionTests
         act.Should().NotThrow("Calling AddApplication multiple times should be idempotent");
     }
 }
+

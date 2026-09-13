@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Reservations.Commands.CreateReservation;
+namespace NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 
 public record CreateReservationCommand(
     string CustomerName,
@@ -11,3 +11,4 @@ public record CreateReservationCommand(
     int PartySize,
     string? SpecialRequests
 ) : IRequest<Guid>;
+

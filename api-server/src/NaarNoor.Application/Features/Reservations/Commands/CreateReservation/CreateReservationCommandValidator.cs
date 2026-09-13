@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace NaarNoor.Application.Reservations.Commands.CreateReservation;
+namespace NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 
 public class CreateReservationCommandValidator : AbstractValidator<CreateReservationCommand>
 {
@@ -31,3 +31,4 @@ public class CreateReservationCommandValidator : AbstractValidator<CreateReserva
             .WithMessage("Party size must be between 1 and 20.");
     }
 }
+

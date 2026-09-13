@@ -2,7 +2,7 @@ using MediatR;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Entities;
 
-namespace NaarNoor.Application.Reservations.Commands.CreateReservation;
+namespace NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 
 public class CreateReservationCommandHandler : IRequestHandler<CreateReservationCommand, Guid>
 {
@@ -32,3 +32,4 @@ public class CreateReservationCommandHandler : IRequestHandler<CreateReservation
         return reservation.Id;
     }
 }
+

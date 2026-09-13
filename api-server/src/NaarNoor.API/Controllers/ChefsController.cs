@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NaarNoor.Application.Chefs.Queries.GetChefs;
+using NaarNoor.Application.Features.Chefs.Queries.GetChefs;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
 
@@ -51,3 +51,4 @@ public class ChefsController : ControllerBase
         return Ok(chef);
     }
 }
+

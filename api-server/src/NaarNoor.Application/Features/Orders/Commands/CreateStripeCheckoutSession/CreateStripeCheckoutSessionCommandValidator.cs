@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace NaarNoor.Application.Orders.Commands.CreateStripeCheckoutSession;
+namespace NaarNoor.Application.Features.Orders.Commands.CreateStripeCheckoutSession;
 
 public class CreateStripeCheckoutSessionCommandValidator
     : AbstractValidator<CreateStripeCheckoutSessionCommand>
@@ -69,3 +69,4 @@ public class CreateStripeCheckoutSessionCommandValidator
                && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
     }
 }
+

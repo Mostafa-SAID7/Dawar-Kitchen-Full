@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace NaarNoor.Application.Auth.Queries.LoginUser;
+namespace NaarNoor.Application.Features.Auth.Queries.LoginUser;
 
 /// <summary>
 /// Validator for LoginUserQuery
@@ -20,3 +20,4 @@ public class LoginUserQueryValidator : AbstractValidator<LoginUserQuery>
             .WithMessage("Password is required.");
     }
 }
+

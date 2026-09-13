@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace NaarNoor.Application.Orders.Commands.CreateOrder;
+namespace NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 
 /// <summary>
 /// Validator for CreateOrderCommand - validates order structure and business rules
@@ -47,3 +47,4 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
             });
     }
 }
+

@@ -1,5 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Reservations.Commands.DeleteReservation;
+namespace NaarNoor.Application.Features.Reservations.Commands.DeleteReservation;
 
 public record DeleteReservationCommand(Guid Id) : IRequest<bool>;
+

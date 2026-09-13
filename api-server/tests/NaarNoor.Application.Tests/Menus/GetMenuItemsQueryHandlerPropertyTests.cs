@@ -4,7 +4,7 @@ using FsCheck.Xunit;
 using Moq;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
-using NaarNoor.Application.MenuItems.Queries.GetMenuItems;
+using NaarNoor.Application.Features.MenuItems.Queries.GetMenuItems;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
@@ -331,3 +331,4 @@ public class GetMenuItemsQueryHandlerPropertyTests : ApplicationLayerTestBase
         return unitOfWorkMock;
     }
 }
+

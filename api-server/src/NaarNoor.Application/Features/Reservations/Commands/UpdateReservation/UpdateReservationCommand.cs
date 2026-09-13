@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Reservations.Commands.UpdateReservation;
+namespace NaarNoor.Application.Features.Reservations.Commands.UpdateReservation;
 
 public record UpdateReservationCommand(
     Guid Id,
@@ -11,3 +11,4 @@ public record UpdateReservationCommand(
     int? PartySize,
     string? SpecialRequests
 ) : IRequest<bool>;
+

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using NaarNoor.Application.Orders.Commands.CreateOrder;
+using NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 
 namespace NaarNoor.API.Controllers;
 
@@ -148,3 +148,4 @@ public class CreateOrderResponse
     /// </summary>
     public string Id { get; set; } = string.Empty;
 }
+

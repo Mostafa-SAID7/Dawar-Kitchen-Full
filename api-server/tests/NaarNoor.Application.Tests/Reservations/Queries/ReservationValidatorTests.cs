@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NaarNoor.Application.Reservations.Commands.CreateReservation;
+using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using Xunit;
 
@@ -94,3 +94,4 @@ public class ReservationValidatorTests : ApplicationLayerTestBase
         AssertValidationSucceeded(result);
     }
 }
+

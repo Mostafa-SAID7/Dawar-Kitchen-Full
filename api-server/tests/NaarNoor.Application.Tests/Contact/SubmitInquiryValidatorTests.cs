@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NaarNoor.Application.Contact.Commands.SubmitInquiry;
+using NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using Xunit;
 
@@ -97,3 +97,4 @@ public class SubmitInquiryValidatorTests : ApplicationLayerTestBase
         AssertValidationSucceeded(result);
     }
 }
+

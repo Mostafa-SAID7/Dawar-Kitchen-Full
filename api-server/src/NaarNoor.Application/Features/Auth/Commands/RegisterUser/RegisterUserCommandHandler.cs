@@ -1,7 +1,7 @@
 using MediatR;
 using NaarNoor.Application.Services;
 
-namespace NaarNoor.Application.Auth.Commands.RegisterUser;
+namespace NaarNoor.Application.Features.Auth.Commands.RegisterUser;
 
 /// <summary>
 /// Handler for RegisterUserCommand
@@ -34,3 +34,4 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             true);
     }
 }
+

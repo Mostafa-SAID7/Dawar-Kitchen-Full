@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Moq;
-using NaarNoor.Application.Chefs.Queries.GetChefs;
+using NaarNoor.Application.Features.Chefs.Queries.GetChefs;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using NaarNoor.Domain.Entities;
@@ -227,3 +227,4 @@ public class GetChefsQueryHandlerPropertyTests : ApplicationLayerTestBase
 
     #endregion
 }
+

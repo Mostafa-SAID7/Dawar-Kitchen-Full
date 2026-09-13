@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Auth.Queries.LoginUser;
+namespace NaarNoor.Application.Features.Auth.Queries.LoginUser;
 
 /// <summary>
 /// Query to authenticate user and get JWT token
@@ -18,3 +18,4 @@ public record LoginUserResult(
     string Email,
     string AccessToken
 );
+

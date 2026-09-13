@@ -1,7 +1,7 @@
 using FluentAssertions;
-using NaarNoor.Application.Reservations.Commands.CreateReservation;
-using NaarNoor.Application.Orders.Commands.CreateOrder;
-using NaarNoor.Application.Contact.Commands.SubmitInquiry;
+using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
+using NaarNoor.Application.Features.Orders.Commands.CreateOrder;
+using NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
 using System.Net;
 using System.Text.Json;
 using NaarNoor.API.Tests.Integration.Fixtures;
@@ -341,4 +341,5 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
 
     #endregion
 }
+
 

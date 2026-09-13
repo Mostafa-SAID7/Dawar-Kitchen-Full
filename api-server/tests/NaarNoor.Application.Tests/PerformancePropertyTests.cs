@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using FsCheck;
 using FsCheck.Xunit;
 using Xunit;
-using NaarNoor.Application.Reservations.Queries.GetReservations;
-using NaarNoor.Application.MenuItems.Queries.GetMenuItems;
-using NaarNoor.Application.Chefs.Queries.GetChefs;
+using NaarNoor.Application.Features.Reservations.Queries.GetReservations;
+using NaarNoor.Application.Features.MenuItems.Queries.GetMenuItems;
+using NaarNoor.Application.Features.Chefs.Queries.GetChefs;
 
 namespace NaarNoor.Application.Tests
 {
@@ -448,3 +448,4 @@ namespace NaarNoor.Application.Tests
         public int Value { get; set; }
     }
 }
+

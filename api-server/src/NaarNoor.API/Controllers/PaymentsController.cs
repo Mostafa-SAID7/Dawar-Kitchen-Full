@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NaarNoor.Application.Orders.Commands.CreateStripeCheckoutSession;
-using NaarNoor.Application.Orders.Commands.HandleStripeWebhook;
+using NaarNoor.Application.Features.Orders.Commands.CreateStripeCheckoutSession;
+using NaarNoor.Application.Features.Orders.Commands.HandleStripeWebhook;
 
 namespace NaarNoor.API.Controllers;
 
@@ -59,3 +59,4 @@ public class PaymentsController : ControllerBase
         }
     }
 }
+

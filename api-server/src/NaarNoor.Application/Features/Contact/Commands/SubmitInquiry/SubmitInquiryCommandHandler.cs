@@ -2,7 +2,7 @@ using MediatR;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Entities;
 
-namespace NaarNoor.Application.Contact.Commands.SubmitInquiry;
+namespace NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
 
 public class SubmitInquiryCommandHandler : IRequestHandler<SubmitInquiryCommand, Guid>
 {
@@ -30,3 +30,4 @@ public class SubmitInquiryCommandHandler : IRequestHandler<SubmitInquiryCommand,
         return inquiry.Id;
     }
 }
+

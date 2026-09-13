@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using NaarNoor.Application.Orders.Commands.CreateOrder;
+using NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 using NaarNoor.Domain.Enums;
 using NaarNoor.Infrastructure.Data;
 using NaarNoor.Infrastructure.Repositories;
@@ -165,3 +165,4 @@ public class CreateOrderCommandHandlerTests : IAsyncLifetime
         order!.DeliveryAddress.Should().Be("123 Test Street, London");
     }
 }
+

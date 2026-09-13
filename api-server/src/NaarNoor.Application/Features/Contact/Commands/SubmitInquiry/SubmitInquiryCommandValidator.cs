@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace NaarNoor.Application.Contact.Commands.SubmitInquiry;
+namespace NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
 
 public class SubmitInquiryCommandValidator : AbstractValidator<SubmitInquiryCommand>
 {
@@ -23,3 +23,4 @@ public class SubmitInquiryCommandValidator : AbstractValidator<SubmitInquiryComm
             .MaximumLength(2000);
     }
 }
+

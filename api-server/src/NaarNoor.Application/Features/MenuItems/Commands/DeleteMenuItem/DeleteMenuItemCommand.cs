@@ -1,5 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.MenuItems.Commands.DeleteMenuItem;
+namespace NaarNoor.Application.Features.MenuItems.Commands.DeleteMenuItem;
 
 public record DeleteMenuItemCommand(Guid Id) : IRequest<bool>;
+

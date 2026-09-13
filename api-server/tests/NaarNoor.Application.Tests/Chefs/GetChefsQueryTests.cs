@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NaarNoor.Application.Chefs.Queries.GetChefs;
+using NaarNoor.Application.Features.Chefs.Queries.GetChefs;
 using NaarNoor.Application.DTOs;
 using Xunit;
 
@@ -190,3 +190,4 @@ public class GetChefsQueryTests
         dto.GetHashCode().Should().Be(dto.GetHashCode());
     }
 }
+

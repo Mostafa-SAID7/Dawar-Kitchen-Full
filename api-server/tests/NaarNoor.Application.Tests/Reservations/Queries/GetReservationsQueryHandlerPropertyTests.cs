@@ -4,7 +4,7 @@ using FsCheck.Xunit;
 using Moq;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.DTOs;
-using NaarNoor.Application.Reservations.Queries.GetReservations;
+using NaarNoor.Application.Features.Reservations.Queries.GetReservations;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
@@ -267,3 +267,4 @@ public class GetReservationsQueryHandlerPropertyTests : ApplicationLayerTestBase
         return unitOfWorkMock;
     }
 }
+

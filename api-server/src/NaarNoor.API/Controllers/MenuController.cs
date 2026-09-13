@@ -2,11 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NaarNoor.Application.DTOs;
-using NaarNoor.Application.MenuItems.Commands.CreateMenuItem;
-using NaarNoor.Application.MenuItems.Commands.DeleteMenuItem;
-using NaarNoor.Application.MenuItems.Commands.UpdateMenuItem;
-using NaarNoor.Application.MenuItems.Queries.GetMenuItemById;
-using NaarNoor.Application.MenuItems.Queries.GetMenuItems;
+using NaarNoor.Application.Features.MenuItems.Commands.CreateMenuItem;
+using NaarNoor.Application.Features.MenuItems.Commands.DeleteMenuItem;
+using NaarNoor.Application.Features.MenuItems.Commands.UpdateMenuItem;
+using NaarNoor.Application.Features.MenuItems.Queries.GetMenuItemById;
+using NaarNoor.Application.Features.MenuItems.Queries.GetMenuItems;
 
 namespace NaarNoor.API.Controllers;
 
@@ -137,3 +137,4 @@ public class UpdateMenuItemRequest
     public bool?    IsAvailable  { get; set; }
     public string?  ImageUrl     { get; set; }
 }
+

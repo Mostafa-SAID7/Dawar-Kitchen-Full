@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.MenuItems.Commands.UpdateMenuItem;
+namespace NaarNoor.Application.Features.MenuItems.Commands.UpdateMenuItem;
 
 public record UpdateMenuItemCommand(
     Guid Id,
@@ -14,3 +14,4 @@ public record UpdateMenuItemCommand(
     bool? IsAvailable,
     string? ImageUrl
 ) : IRequest<bool>;
+

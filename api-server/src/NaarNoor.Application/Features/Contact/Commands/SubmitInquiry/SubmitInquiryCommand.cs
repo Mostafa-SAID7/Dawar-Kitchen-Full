@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Contact.Commands.SubmitInquiry;
+namespace NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
 
 public record SubmitInquiryCommand(
     string Name,
@@ -9,3 +9,4 @@ public record SubmitInquiryCommand(
     string Subject,
     string Message
 ) : IRequest<Guid>;
+

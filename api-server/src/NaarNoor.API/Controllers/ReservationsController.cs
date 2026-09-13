@@ -2,11 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NaarNoor.Application.DTOs;
-using NaarNoor.Application.Reservations.Commands.CreateReservation;
-using NaarNoor.Application.Reservations.Commands.DeleteReservation;
-using NaarNoor.Application.Reservations.Commands.UpdateReservation;
-using NaarNoor.Application.Reservations.Queries.GetReservationById;
-using NaarNoor.Application.Reservations.Queries.GetReservations;
+using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
+using NaarNoor.Application.Features.Reservations.Commands.DeleteReservation;
+using NaarNoor.Application.Features.Reservations.Commands.UpdateReservation;
+using NaarNoor.Application.Features.Reservations.Queries.GetReservationById;
+using NaarNoor.Application.Features.Reservations.Queries.GetReservations;
 
 namespace NaarNoor.API.Controllers;
 
@@ -150,3 +150,4 @@ public class UpdateReservationBody
     public string?   PhoneNumber     { get; set; }
     public string?   SpecialRequests { get; set; }
 }
+

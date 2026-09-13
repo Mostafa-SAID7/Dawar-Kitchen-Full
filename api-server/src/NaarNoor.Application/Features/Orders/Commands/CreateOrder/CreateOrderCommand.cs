@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Orders.Commands.CreateOrder;
+namespace NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 
 /// <summary>
 /// Command to create a new order from checkout
@@ -26,3 +26,4 @@ public record OrderItemRequest(
     decimal UnitPrice,
     int Quantity
 );
+

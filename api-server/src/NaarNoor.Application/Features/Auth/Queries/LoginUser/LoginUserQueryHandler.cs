@@ -2,7 +2,7 @@ using MediatR;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.Services;
 
-namespace NaarNoor.Application.Auth.Queries.LoginUser;
+namespace NaarNoor.Application.Features.Auth.Queries.LoginUser;
 
 /// <summary>
 /// Handler for LoginUserQuery
@@ -38,3 +38,4 @@ public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, LoginUserRe
             token);
     }
 }
+

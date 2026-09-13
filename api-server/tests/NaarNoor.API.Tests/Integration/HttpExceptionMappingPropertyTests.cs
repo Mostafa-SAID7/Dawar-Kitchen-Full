@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NaarNoor.Application.Reservations.Commands.CreateReservation;
+using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 using System.Net;
 using System.Text.Json;
 using NaarNoor.API.Tests.Integration.Fixtures;
@@ -347,4 +347,5 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
 
     #endregion
 }
+
 

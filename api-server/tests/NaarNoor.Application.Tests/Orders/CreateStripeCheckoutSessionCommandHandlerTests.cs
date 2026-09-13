@@ -2,7 +2,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using NaarNoor.Application.Common.Interfaces;
-using NaarNoor.Application.Orders.Commands.CreateStripeCheckoutSession;
+using NaarNoor.Application.Features.Orders.Commands.CreateStripeCheckoutSession;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
@@ -231,5 +231,12 @@ public class CreateStripeCheckoutSessionCommandHandlerTests : ApplicationLayerTe
             System.Linq.Expressions.Expression<Func<Order, bool>> predicate,
             CancellationToken cancellationToken = default) =>
             Task.FromResult<Order?>(_orders.FirstOrDefault(predicate.Compile()));
+
+        public Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+            Task.FromResult(_orders.FirstOrDefault(o => o.Id == id));
+
+        public Task<List<Order>> GetAllAsync(CancellationToken cancellationToken = default) =>
+            Task.FromResult(_orders.ToList());
     }
 }
+

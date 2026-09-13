@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using NaarNoor.Application.MenuItems.Queries.GetMenuItems;
+using NaarNoor.Application.Features.MenuItems.Queries.GetMenuItems;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 using NaarNoor.Infrastructure.Data;
@@ -139,3 +139,4 @@ public class GetMenuItemsQueryHandlerTests : IAsyncLifetime
         result.Should().BeEmpty();
     }
 }
+

@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using NaarNoor.Application.Reservations.Commands.CreateReservation;
+using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 using NaarNoor.Infrastructure.Data;
 using NaarNoor.Infrastructure.Repositories;
 using Xunit;
@@ -110,3 +110,4 @@ public class CreateReservationCommandHandlerTests : IAsyncLifetime
         count.Should().Be(2);
     }
 }
+

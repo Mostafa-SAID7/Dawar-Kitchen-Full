@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Moq;
-using NaarNoor.Application.Contact.Commands.SubmitInquiry;
+using NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
 using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using NaarNoor.Domain.Entities;
@@ -217,3 +217,5 @@ public class SubmitInquiryCommandHandlerPropertyTests : ApplicationLayerTestBase
 
     #endregion
 }
+
+

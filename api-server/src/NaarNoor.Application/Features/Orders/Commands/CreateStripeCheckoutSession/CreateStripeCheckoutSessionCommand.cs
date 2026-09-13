@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace NaarNoor.Application.Orders.Commands.CreateStripeCheckoutSession;
+namespace NaarNoor.Application.Features.Orders.Commands.CreateStripeCheckoutSession;
 
 public record CreateStripeCheckoutSessionCommand(
     string CustomerName,
@@ -26,3 +26,4 @@ public record CreateStripeCheckoutSessionResponse(
     Guid OrderId,
     string SessionUrl
 );
+

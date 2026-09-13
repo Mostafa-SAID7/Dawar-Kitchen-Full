@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace NaarNoor.Application.Auth.Commands.RegisterUser;
+namespace NaarNoor.Application.Features.Auth.Commands.RegisterUser;
 
 /// <summary>
 /// Validator for RegisterUserCommand
@@ -28,3 +28,4 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .WithMessage("Full name must be max 100 characters.");
     }
 }
+

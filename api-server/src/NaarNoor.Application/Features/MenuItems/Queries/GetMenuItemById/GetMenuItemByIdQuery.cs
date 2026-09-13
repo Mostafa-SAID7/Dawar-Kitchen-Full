@@ -1,6 +1,7 @@
 using MediatR;
 using NaarNoor.Application.DTOs;
 
-namespace NaarNoor.Application.MenuItems.Queries.GetMenuItemById;
+namespace NaarNoor.Application.Features.MenuItems.Queries.GetMenuItemById;
 
 public record GetMenuItemByIdQuery(Guid Id) : IRequest<MenuItemDto?>;
+

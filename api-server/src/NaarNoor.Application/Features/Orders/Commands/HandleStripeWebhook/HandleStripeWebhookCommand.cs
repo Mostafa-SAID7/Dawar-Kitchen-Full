@@ -1,8 +1,9 @@
 using MediatR;
 
-namespace NaarNoor.Application.Orders.Commands.HandleStripeWebhook;
+namespace NaarNoor.Application.Features.Orders.Commands.HandleStripeWebhook;
 
 public record HandleStripeWebhookCommand(
     string Payload,
     string StripeSignatureHeader
 ) : IRequest<Unit>;
+

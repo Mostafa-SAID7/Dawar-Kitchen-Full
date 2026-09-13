@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NaarNoor.Application.Contact.Commands.SubmitInquiry;
+using NaarNoor.Application.Features.Contact.Commands.SubmitInquiry;
 
 namespace NaarNoor.API.Controllers;
 
@@ -26,3 +26,4 @@ public class ContactController : ControllerBase
         return Created(string.Empty, new { id });
     }
 }
+

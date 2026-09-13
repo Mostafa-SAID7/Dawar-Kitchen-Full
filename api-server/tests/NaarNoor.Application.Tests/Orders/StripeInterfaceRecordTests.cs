@@ -1,6 +1,6 @@
 using FluentAssertions;
 using NaarNoor.Application.Common.Interfaces;
-using NaarNoor.Application.Orders.Commands.CreateStripeCheckoutSession;
+using NaarNoor.Application.Features.Orders.Commands.CreateStripeCheckoutSession;
 using Xunit;
 
 namespace NaarNoor.Application.Tests.Orders;
@@ -309,3 +309,4 @@ public class StripeInterfaceRecordTests
         r1.Should().Be(r2);
     }
 }
+

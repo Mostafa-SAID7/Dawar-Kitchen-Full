@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NaarNoor.Application.Orders.Commands.CreateStripeCheckoutSession;
+using NaarNoor.Application.Features.Orders.Commands.CreateStripeCheckoutSession;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using Xunit;
 
@@ -210,3 +210,4 @@ public class CreateStripeCheckoutSessionValidatorTests : ApplicationLayerTestBas
         AssertValidationSucceeded(result);
     }
 }
+

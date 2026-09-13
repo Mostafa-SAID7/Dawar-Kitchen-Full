@@ -3,7 +3,7 @@ using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 
-namespace NaarNoor.Application.MenuItems.Commands.CreateMenuItem;
+namespace NaarNoor.Application.Features.MenuItems.Commands.CreateMenuItem;
 
 public class CreateMenuItemCommandHandler : IRequestHandler<CreateMenuItemCommand, Guid>
 {
@@ -38,3 +38,4 @@ public class CreateMenuItemCommandHandler : IRequestHandler<CreateMenuItemComman
         return item.Id;
     }
 }
+

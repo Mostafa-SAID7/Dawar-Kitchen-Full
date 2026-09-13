@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NaarNoor.Application.Auth.Commands.RegisterUser;
-using NaarNoor.Application.Auth.Queries.LoginUser;
+using NaarNoor.Application.Features.Auth.Commands.RegisterUser;
+using NaarNoor.Application.Features.Auth.Queries.LoginUser;
 
 namespace NaarNoor.API.Controllers;
 
@@ -125,3 +125,4 @@ public class AuthLoginRequest
     /// </summary>
     public string Password { get; set; } = "";
 }
+

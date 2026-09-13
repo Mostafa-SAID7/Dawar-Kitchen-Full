@@ -1,6 +1,6 @@
 using FluentAssertions;
-using NaarNoor.Application.Reservations.Commands.CreateReservation;
-using NaarNoor.Application.Orders.Commands.CreateOrder;
+using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
+using NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 using System.Net;
 using NaarNoor.API.Tests.Integration.Fixtures;
 using Xunit;
@@ -285,4 +285,5 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
 
     #endregion
 }
+
 
