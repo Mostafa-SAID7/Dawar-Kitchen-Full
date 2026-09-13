@@ -4,26 +4,36 @@ import { environment } from '../../../environments/environment';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServiceWorker } from '@angular/service-worker';
-import { Observable, forkJoin, of, timer } from 'rxjs';
-import { map, catchError, mergeMap } from 'rxjs/operators';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { routes } from './app.routes';
 import { authInterceptor, errorInterceptor, languageInterceptor } from '../interceptors';
 import { NgZone, Injectable } from '@angular/core';
 
-// ── Merged i18n loader (1 request per language instead of 7)
-export class OptimizedTranslateLoader implements TranslateLoader {
+// ── Optimized multi-namespace i18n loader with HTTP caching
+// Loads from /assets/i18n/en/ and /assets/i18n/ar/ (original structure)
+// Browser HTTP cache + Service Worker datagroups handle request deduplication
+export class OptimizedMultiTranslateHttpLoader implements TranslateLoader {
+  private readonly files = ['common', 'home', 'menu', 'reservations', 'auth', 'contact', 'payment'];
+
   constructor(private readonly http: HttpClient, private readonly prefix = '/assets/i18n/') {}
 
   public getTranslation(lang: string): Observable<any> {
-    return this.http.get(`${this.prefix}${lang}.json`, {
-      params: { v: environment.i18nVersion }
-    }).pipe(catchError(() => of({})));
+    const requests = this.files.map(file =>
+      this.http.get(`${this.prefix}${lang}/${file}.json`, {
+        params: { v: environment.i18nVersion }
+      }).pipe(catchError(() => of({})))
+    );
+
+    return forkJoin(requests).pipe(
+      map(responses => Object.assign({}, ...responses))
+    );
   }
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new OptimizedTranslateLoader(http, '/assets/i18n/');
+  return new OptimizedMultiTranslateHttpLoader(http, '/assets/i18n/');
 }
 
 // ── Selective preloading strategy: only preload marked routes after idle time
@@ -32,7 +42,6 @@ export class SelectivePreloadingStrategy implements PreloadingStrategy {
   private preloading = false;
 
   constructor(private ngZone: NgZone) {
-    // Start preloading after 2s of idle (via requestIdleCallback if available)
     if (typeof requestIdleCallback !== 'undefined') {
       this.ngZone.runOutsideAngular(() => {
         requestIdleCallback(() => {
@@ -40,13 +49,11 @@ export class SelectivePreloadingStrategy implements PreloadingStrategy {
         }, { timeout: 2000 });
       });
     } else {
-      // Fallback: use timer
       setTimeout(() => { this.preloading = true; }, 2000);
     }
   }
 
   preload(route: Route, load: () => Observable<any>): Observable<any> {
-    // Only preload if route is marked and preloading window has started
     if (route.data && route.data['preload'] && this.preloading) {
       return load();
     }
