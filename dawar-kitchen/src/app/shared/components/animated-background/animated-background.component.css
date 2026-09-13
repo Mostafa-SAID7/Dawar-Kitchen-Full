@@ -98,3 +98,20 @@
   animation-delay: 5s;
   will-change: transform;
 }
+
+/* ── Respect prefers-reduced-motion ─────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient,
+  .animate-gradient-slow,
+  .animate-float,
+  .animate-float-delayed,
+  .animate-float-slow {
+    animation: none !important;
+    will-change: auto;
+  }
+
+  /* Optionally reduce opacity of background for users preferring reduced motion */
+  :host {
+    opacity: 0.5;
+  }
+}

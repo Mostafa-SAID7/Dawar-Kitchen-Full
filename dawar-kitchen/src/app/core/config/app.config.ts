@@ -1,35 +1,57 @@
 import { ApplicationConfig, isDevMode, importProvidersFrom } from '@angular/core';
-import { provideRouter, withInMemoryScrolling, withPreloading, PreloadAllModules } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, withPreloading, PreloadingStrategy, Route } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServiceWorker } from '@angular/service-worker';
-import { Observable, forkJoin, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, forkJoin, of, timer } from 'rxjs';
+import { map, catchError, mergeMap } from 'rxjs/operators';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { routes } from './app.routes';
 import { authInterceptor, errorInterceptor, languageInterceptor } from '../interceptors';
+import { NgZone, Injectable } from '@angular/core';
 
-export class MultiTranslateHttpLoader implements TranslateLoader {
-  private readonly files = ['common', 'home', 'menu', 'reservations', 'auth', 'contact', 'payment'];
-
+// ── Merged i18n loader (1 request per language instead of 7)
+export class OptimizedTranslateLoader implements TranslateLoader {
   constructor(private readonly http: HttpClient, private readonly prefix = '/assets/i18n/') {}
 
   public getTranslation(lang: string): Observable<any> {
-    const requests = this.files.map(file =>
-      this.http.get(`${this.prefix}${lang}/${file}.json`, {
-        params: { v: environment.i18nVersion }
-      }).pipe(catchError(() => of({})))
-    );
-
-    return forkJoin(requests).pipe(
-      map(responses => Object.assign({}, ...responses))
-    );
+    return this.http.get(`${this.prefix}${lang}.json`, {
+      params: { v: environment.i18nVersion }
+    }).pipe(catchError(() => of({})));
   }
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new MultiTranslateHttpLoader(http, '/assets/i18n/');
+  return new OptimizedTranslateLoader(http, '/assets/i18n/');
+}
+
+// ── Selective preloading strategy: only preload marked routes after idle time
+@Injectable({ providedIn: 'root' })
+export class SelectivePreloadingStrategy implements PreloadingStrategy {
+  private preloading = false;
+
+  constructor(private ngZone: NgZone) {
+    // Start preloading after 2s of idle (via requestIdleCallback if available)
+    if (typeof requestIdleCallback !== 'undefined') {
+      this.ngZone.runOutsideAngular(() => {
+        requestIdleCallback(() => {
+          this.preloading = true;
+        }, { timeout: 2000 });
+      });
+    } else {
+      // Fallback: use timer
+      setTimeout(() => { this.preloading = true; }, 2000);
+    }
+  }
+
+  preload(route: Route, load: () => Observable<any>): Observable<any> {
+    // Only preload if route is marked and preloading window has started
+    if (route.data && route.data['preload'] && this.preloading) {
+      return load();
+    }
+    return of(null);
+  }
 }
 
 export const appConfig: ApplicationConfig = {
@@ -41,19 +63,14 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'top',
         anchorScrolling: 'enabled'
       }),
-      withPreloading(PreloadAllModules)
+      withPreloading(SelectivePreloadingStrategy)
     ),
-    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, languageInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, errorInterceptor, languageInterceptor])),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    // ✅ TranslateModule for i18n (standalone configuration)
-    // NOTE: defaultLanguage is intentionally NOT set here. Setting it triggers an
-    // early setDefaultLang() → getTranslation() during TranslateService construction
-    // (the earliest bootstrap moment), which races the dev-server asset compilation
-    // and can cache an empty {} for 'en' that ngx-translate never retries. The
-    // LanguageService owns all language loading instead.
+    SelectivePreloadingStrategy,
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {

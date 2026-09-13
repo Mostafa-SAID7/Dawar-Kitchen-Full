@@ -3,9 +3,13 @@
   <!-- ── Background image (Ken Burns) ── -->
   <img
     [appImageOptimization]="'assets/hero/hero.webp'"
+    srcset="assets/hero/hero-640w.webp 640w, assets/hero/hero-1024w.webp 1024w, assets/hero/hero-1600w.webp 1600w"
+    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
     [alt]="'a11y.heroImageAlt' | translate"
     [priority]="true"
-    class="hero-bg absolute inset-0 w-full h-full object-cover opacity-30">
+    class="hero-bg absolute inset-0 w-full h-full object-cover opacity-30"
+    [attr.width]="1600"
+    [attr.height]="1200">
 
   <!-- ── Gradient overlays ── -->
   <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/30 via-[#0a0a0a]/50 to-[#0a0a0a]/96 pointer-events-none"></div>

@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,7 +15,8 @@ import { ClickOutsideDirective } from '@shared/directives';
   imports: [CommonModule, RouterModule, AuthModalComponent, TranslateModule, ClickOutsideDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
   mobileMenuOpen = false;
