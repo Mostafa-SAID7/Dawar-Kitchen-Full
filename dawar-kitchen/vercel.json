@@ -3,9 +3,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/dawar-kitchen/browser",
   "installCommand": "npm ci --include=dev",
-  "projectSettings": {
-    "rootDirectory": "dawar-kitchen"
-  },
   "env": {
     "ANGULAR_CLI_ANALYTICS": "false"
   },
