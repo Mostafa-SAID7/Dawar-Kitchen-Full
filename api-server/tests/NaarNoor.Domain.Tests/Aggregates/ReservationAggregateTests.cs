@@ -250,8 +250,8 @@ public class ReservationAggregateTests
             DateOnly.FromDateTime(DateTime.Now.AddDays(2)), new TimeOnly(20, 0), 2, null);
 
         // Act
+        reservation1.Confirm();
         reservation1.Complete();
-        reservation1.Confirm(); // Confirm first
         reservation2.Cancel();
 
         // Assert

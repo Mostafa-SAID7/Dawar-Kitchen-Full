@@ -2,6 +2,7 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NaarNoor.Application.Caching;
 using NaarNoor.Application.Features.MenuItems.Commands.CreateMenuItem;
 using NaarNoor.Application.Features.MenuItems.Commands.UpdateMenuItem;
 using NaarNoor.Application.Features.MenuItems.Commands.DeleteMenuItem;
@@ -36,6 +37,10 @@ public class MenuItemCommandHandlerIntegrationTests
 
         // Add Infrastructure services (repositories, UoW)
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        // Add distributed memory cache for cache service
+        services.AddDistributedMemoryCache();
+        services.AddScoped<ICacheService, DistributedCacheService>();
 
         return services.BuildServiceProvider();
     }

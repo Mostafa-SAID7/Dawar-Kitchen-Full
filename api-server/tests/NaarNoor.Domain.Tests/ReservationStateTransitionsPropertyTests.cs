@@ -3,6 +3,7 @@ using FsCheck.Xunit;
 using FluentAssertions;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
+using NaarNoor.Domain.Exceptions;
 
 namespace NaarNoor.Domain.Tests;
 
@@ -130,7 +131,7 @@ public class ReservationStateTransitionsPropertyTests
                 var action = () => reservation.TransitionTo(toStatus);
 
                 // Assert
-                action.Should().Throw<InvalidOperationException>();
+                action.Should().Throw<ReservationDomainException>();
                 reservation.Status.Should().Be(fromStatus); // Status should not change on failed transition
             }
         }
@@ -259,7 +260,7 @@ public class ReservationStateTransitionsPropertyTests
         var action = () => reservation.TransitionTo(ReservationStatus.Pending);
 
         // Assert
-        action.Should().Throw<InvalidOperationException>();
+        action.Should().Throw<ReservationDomainException>();
         reservation.Status.Should().Be(ReservationStatus.Cancelled); // Remains cancelled
     }
 
@@ -284,7 +285,7 @@ public class ReservationStateTransitionsPropertyTests
         var action = () => reservation.TransitionTo(ReservationStatus.Pending);
 
         // Assert
-        action.Should().Throw<InvalidOperationException>();
+        action.Should().Throw<ReservationDomainException>();
         reservation.Status.Should().Be(ReservationStatus.Completed); // Remains completed
     }
 

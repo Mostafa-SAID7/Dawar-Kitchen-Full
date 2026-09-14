@@ -66,8 +66,8 @@ public class DomainExceptionTests
         var exception = new OrderDomainException(message);
 
         // Assert
+        exception.Should().BeAssignableTo<DomainException>();
         exception.Should().BeOfType<OrderDomainException>();
-        exception.Should().BeOfType<DomainException>();
         exception.Message.Should().Be(message);
     }
 
@@ -123,8 +123,8 @@ public class DomainExceptionTests
         var exception = new ReservationDomainException(message);
 
         // Assert
+        exception.Should().BeAssignableTo<DomainException>();
         exception.Should().BeOfType<ReservationDomainException>();
-        exception.Should().BeOfType<DomainException>();
         exception.Message.Should().Be(message);
     }
 
@@ -185,7 +185,7 @@ public class DomainExceptionTests
         // Act & Assert
         foreach (var exception in exceptions)
         {
-            exception.Should().BeOfType<DomainException>();
+            exception.Should().BeAssignableTo<DomainException>();
         }
     }
 

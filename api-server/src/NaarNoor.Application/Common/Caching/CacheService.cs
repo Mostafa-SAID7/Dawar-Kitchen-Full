@@ -73,6 +73,7 @@ public static class CacheKeys
     // Menu Items (5-minute TTL)
     public const string MenuItems = "menu_items";
     public const string MenuItemsByCategory = "menu_items_category_{0}";
+    public const string MenuItemById = "menu_item_{0}";
     private const int MenuItemsCacheDuration = 300;
 
     // Reservations (1-minute TTL)
