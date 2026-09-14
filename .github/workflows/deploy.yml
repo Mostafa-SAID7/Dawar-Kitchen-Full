@@ -101,7 +101,7 @@ jobs:
 
       - name: Deploy to Azure App Service
         if: steps.check-azure.outputs.has_profile == 'true'
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: naar-noor-api
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE }}
