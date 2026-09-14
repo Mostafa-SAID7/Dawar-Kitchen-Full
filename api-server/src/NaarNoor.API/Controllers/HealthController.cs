@@ -1,21 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Common.Interfaces;
 
 namespace NaarNoor.API.Controllers;
 
 /// <summary>
 /// Health check endpoint for service availability monitoring
+/// ✅ FIXED: Now uses IUnitOfWork instead of direct ApplicationDbContext
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class HealthController : ControllerBase
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public HealthController(IApplicationDbContext dbContext)
+    public HealthController(IUnitOfWork unitOfWork)
     {
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     /// <summary>
@@ -29,9 +29,9 @@ public class HealthController : ControllerBase
     {
         try
         {
-            // Test database connection
-            var canConnect = await _dbContext.Users.AnyAsync();
-            var databaseStatus = canConnect ? "Connected" : "Unreachable";
+            // Test database connection by querying through repository
+            var canConnect = await _unitOfWork.Users.GetAllAsync();
+            var databaseStatus = canConnect.Any() ? "Connected" : "Reachable (no users)";
 
             return Ok(new
             {

@@ -1,27 +1,26 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NaarNoor.Application.Common.Interfaces;
 using NaarNoor.Application.Services;
 using NaarNoor.Domain.Entities;
-using NaarNoor.Infrastructure.Data;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace NaarNoor.Infrastructure.Services;
 
 /// <summary>
 /// User service implementation with local password hashing and database persistence
+/// ✅ FIXED: Uses IUnitOfWork instead of direct ApplicationDbContext (Clean Architecture)
+/// All User CRUD operations now go through the repository abstraction
 /// </summary>
 public class UserService : IUserService
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<UserService> _logger;
 
     public UserService(
-        ApplicationDbContext dbContext,
+        IUnitOfWork unitOfWork,
         ILogger<UserService> logger)
     {
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -35,16 +34,15 @@ public class UserService : IUserService
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
                 return new UserAuthResult { Success = false, Error = "Email and password are required" };
 
-            // Query user from local database
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            // Query user through repository (no direct DbContext)
+            var user = await _unitOfWork.Users.FindAsync(u => u.Email == email);
             if (user == null)
             {
                 _logger.LogWarning("Login attempt for non-existent user: {Email}", email);
                 return new UserAuthResult { Success = false, Error = "Invalid email or password" };
             }
 
-            // Verify password: PasswordHasher.VerifyHashedPassword only verifies the stored hash
-            // We need to verify the provided password against it using BCrypt-style verification
+            // Verify password using PasswordHasher
             var hasher = new PasswordHasher<User>();
             var result = hasher.VerifyHashedPassword(user, user.PasswordHash, password);
             if (result == PasswordVerificationResult.Failed)
@@ -89,8 +87,8 @@ public class UserService : IUserService
             if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
                 return new UserAuthResult { Success = false, Error = "Password must be at least 8 characters" };
 
-            // Check if user already exists
-            var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            // Check if user already exists (via repository)
+            var existingUser = await _unitOfWork.Users.FindAsync(u => u.Email == email);
             if (existingUser != null)
             {
                 _logger.LogWarning("Registration attempt for existing user: {Email}", email);
@@ -113,9 +111,9 @@ public class UserService : IUserService
             var hasher = new PasswordHasher<User>();
             newUser.PasswordHash = hasher.HashPassword(newUser, password);
 
-            // Add to database
-            _dbContext.Users.Add(newUser);
-            await _dbContext.SaveChangesAsync();
+            // Add to repository and save (via UnitOfWork)
+            _unitOfWork.Users.Add(newUser);
+            await _unitOfWork.SaveChangesAsync();
 
             _logger.LogInformation("User registered successfully: {Email}", email);
 
@@ -141,13 +139,13 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Get user by ID from local database
+    /// Get user by ID from database via repository
     /// </summary>
     public async Task<UserDto?> GetUserByIdAsync(string userId)
     {
         try
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _unitOfWork.Users.GetByIdAsync(Guid.Parse(userId));
             if (user == null)
                 return null;
 
@@ -169,13 +167,13 @@ public class UserService : IUserService
     }
 
     /// <summary>
-    /// Get user by email from local database
+    /// Get user by email from database via repository
     /// </summary>
     public async Task<UserDto?> GetUserByEmailAsync(string email)
     {
         try
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _unitOfWork.Users.FindAsync(u => u.Email == email);
             if (user == null)
                 return null;
 
@@ -209,7 +207,7 @@ public class UserService : IUserService
                 return false;
             }
 
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _unitOfWork.Users.GetByIdAsync(Guid.Parse(userId));
             if (user == null)
             {
                 _logger.LogWarning("Password change failed: user not found {UserId}", userId);
@@ -229,8 +227,9 @@ public class UserService : IUserService
             user.PasswordHash = hasher.HashPassword(user, newPassword);
             user.UpdatedAt = DateTime.UtcNow;
 
-            _dbContext.Users.Update(user);
-            await _dbContext.SaveChangesAsync();
+            // Update via repository and save (via UnitOfWork)
+            _unitOfWork.Users.Update(user);
+            await _unitOfWork.SaveChangesAsync();
 
             _logger.LogInformation("Password changed successfully for {UserId}", userId);
             return true;
