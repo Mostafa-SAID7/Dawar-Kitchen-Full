@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NaarNoor.Application.Features.Auth.Commands.RegisterUser;
 using NaarNoor.Application.Features.Auth.Queries.LoginUser;
+using NaarNoor.Application.DTOs.Auth;
 
 namespace NaarNoor.API.Controllers;
 
@@ -32,13 +33,13 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register(
-        [FromBody] AuthRegisterRequest request,
+        [FromBody] RegisterRequest request,
         CancellationToken cancellationToken)
     {
         var command = new RegisterUserCommand(
             request.Email,
             request.Password,
-            request.FullName ?? "");
+            request.FullName);
 
         var result = await _mediator.Send(command, cancellationToken);
 
@@ -57,7 +58,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login(
-        [FromBody] AuthLoginRequest request,
+        [FromBody] LoginRequest request,
         CancellationToken cancellationToken)
     {
         var query = new LoginUserQuery(request.Email, request.Password);
@@ -87,42 +88,5 @@ public class AuthController : ControllerBase
 
         return Ok(new { userId, email });
     }
-}
-
-/// <summary>
-/// Request DTO for user registration
-/// </summary>
-public class AuthRegisterRequest
-{
-    /// <summary>
-    /// User email address
-    /// </summary>
-    public string Email { get; set; } = "";
-
-    /// <summary>
-    /// User password (min 8 chars)
-    /// </summary>
-    public string Password { get; set; } = "";
-
-    /// <summary>
-    /// User full name
-    /// </summary>
-    public string? FullName { get; set; }
-}
-
-/// <summary>
-/// Request DTO for user login
-/// </summary>
-public class AuthLoginRequest
-{
-    /// <summary>
-    /// User email address
-    /// </summary>
-    public string Email { get; set; } = "";
-
-    /// <summary>
-    /// User password
-    /// </summary>
-    public string Password { get; set; } = "";
 }
 

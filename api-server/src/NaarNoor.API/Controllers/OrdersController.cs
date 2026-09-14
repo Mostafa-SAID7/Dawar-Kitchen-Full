@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NaarNoor.Application.DTOs.Orders;
 using NaarNoor.Application.Features.Orders.Commands.CreateOrder;
 
 namespace NaarNoor.API.Controllers;
@@ -61,91 +62,7 @@ public class OrdersController : ControllerBase
         var orderId = await _mediator.Send(command, cancellationToken);
 
         // Return 201 Created with order ID
-        return CreatedAtAction(nameof(CreateOrder), new CreateOrderResponse { Id = orderId.ToString() });
+        return CreatedAtAction(nameof(CreateOrder), new { Id = orderId.ToString() });
     }
-}
-
-/// <summary>
-/// Create order request from frontend checkout
-/// </summary>
-public class CreateOrderRequest
-{
-    /// <summary>
-    /// Customer's full name
-    /// </summary>
-    public string CustomerName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Customer's email address
-    /// </summary>
-    public string Email { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Customer's phone number
-    /// </summary>
-    public string PhoneNumber { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Order type: collection, delivery, or dine-in
-    /// </summary>
-    public string Type { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Delivery address (required when type=delivery)
-    /// </summary>
-    public string? DeliveryAddress { get; set; }
-
-    /// <summary>
-    /// Optional notes or special requests
-    /// </summary>
-    public string? Notes { get; set; }
-
-    /// <summary>
-    /// Optional table reservation name for dine-in orders
-    /// </summary>
-    public string? TableReservationName { get; set; }
-
-    /// <summary>
-    /// Items to order
-    /// </summary>
-    public List<CreateOrderItemRequest> Items { get; set; } = new();
-}
-
-/// <summary>
-/// Order item in create order request
-/// Note: UnitPrice is provided by frontend for display but will be recomputed server-side
-/// </summary>
-public class CreateOrderItemRequest
-{
-    /// <summary>
-    /// Menu item ID
-    /// </summary>
-    public Guid MenuItemId { get; set; }
-
-    /// <summary>
-    /// Menu item name
-    /// </summary>
-    public string MenuItemName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Unit price provided by frontend (will be ignored, server will recompute)
-    /// </summary>
-    public decimal UnitPrice { get; set; }
-
-    /// <summary>
-    /// Quantity to order
-    /// </summary>
-    public int Quantity { get; set; }
-}
-
-/// <summary>
-/// Create order response
-/// </summary>
-public class CreateOrderResponse
-{
-    /// <summary>
-    /// Order ID as string (GUID)
-    /// </summary>
-    public string Id { get; set; } = string.Empty;
 }
 

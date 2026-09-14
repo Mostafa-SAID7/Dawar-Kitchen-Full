@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NaarNoor.Application.DTOs;
+using NaarNoor.Application.DTOs.Reservations;
 using NaarNoor.Application.Features.Reservations.Commands.CreateReservation;
 using NaarNoor.Application.Features.Reservations.Commands.DeleteReservation;
 using NaarNoor.Application.Features.Reservations.Commands.UpdateReservation;
@@ -24,7 +25,7 @@ public class ReservationsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CreateReservationResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create([FromBody] CreateReservationBody body, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create([FromBody] CreateReservationBodyRequest body, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -73,7 +74,7 @@ public class ReservationsController : ControllerBase
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(ReservationDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateReservationBody body, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateReservationBodyRequest body, CancellationToken cancellationToken)
     {
         var command = new UpdateReservationCommand(
             Id:             id,
@@ -105,34 +106,5 @@ public class ReservationsController : ControllerBase
 public class CreateReservationResponse
 {
     public string Id { get; set; } = string.Empty;
-}
-
-public class CreateReservationBody
-{
-    public string  CustomerName    { get; set; } = "";
-    public int     PartySize       { get; set; }
-    public DateTime? BookingTime   { get; set; }
-    public DateOnly? ReservationDate { get; set; }
-    public string? ReservationTime { get; set; }
-    public string? TableNumber     { get; set; }
-    public string? CustomerEmail   { get; set; }
-    public string? CustomerPhone   { get; set; }
-    public string? Email           { get; set; }
-    public string? PhoneNumber     { get; set; }
-    public string? SpecialRequests { get; set; }
-}
-
-public class UpdateReservationBody
-{
-    public string?   CustomerName    { get; set; }
-    public int?      PartySize       { get; set; }
-    public DateTime? BookingTime     { get; set; }
-    public string?   TableNumber     { get; set; }
-    public string?   Status          { get; set; }
-    public string?   CustomerEmail   { get; set; }
-    public string?   CustomerPhone   { get; set; }
-    public string?   Email           { get; set; }
-    public string?   PhoneNumber     { get; set; }
-    public string?   SpecialRequests { get; set; }
 }
 

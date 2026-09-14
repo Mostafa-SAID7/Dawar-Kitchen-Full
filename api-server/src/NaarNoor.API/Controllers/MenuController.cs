@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NaarNoor.Application.DTOs;
+using NaarNoor.Application.DTOs.MenuItems;
 using NaarNoor.Application.Features.MenuItems.Commands.CreateMenuItem;
 using NaarNoor.Application.Features.MenuItems.Commands.DeleteMenuItem;
 using NaarNoor.Application.Features.MenuItems.Commands.UpdateMenuItem;
@@ -103,38 +104,4 @@ public class MenuController : ControllerBase
 
 }
 
-public class CreateMenuItemRequest
-{
-    public string? Name        { get; set; }
-    public string? NameEn      { get; set; }
-    public string? NameAr      { get; set; }
-    public string? Description { get; set; }
-    public string? DescriptionEn { get; set; }
-    public string? DescriptionAr { get; set; }
-    public string  Category    { get; set; } = "Mains";
-    public decimal Price       { get; set; }
-    public bool    IsVegetarian { get; set; }
-    public bool    IsVegan      { get; set; }
-    public bool    IsGlutenFree { get; set; }
-    public bool    IsAvailable  { get; set; } = true;
-    public string? ImageUrl     { get; set; }
-    public int     SortOrder    { get; set; }
-}
-
-public class UpdateMenuItemRequest
-{
-    public string?  Name         { get; set; }
-    public string?  NameEn       { get; set; }
-    public string?  NameAr       { get; set; }
-    public string?  Description  { get; set; }
-    public string?  DescriptionEn { get; set; }
-    public string?  DescriptionAr { get; set; }
-    public string?  Category     { get; set; }
-    public decimal? Price        { get; set; }
-    public bool?    IsVegetarian { get; set; }
-    public bool?    IsVegan      { get; set; }
-    public bool?    IsGlutenFree { get; set; }
-    public bool?    IsAvailable  { get; set; }
-    public string?  ImageUrl     { get; set; }
-}
 
