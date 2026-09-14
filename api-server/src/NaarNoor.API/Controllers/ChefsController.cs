@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NaarNoor.Application.Features.Chefs.Queries.GetChefs;
 using NaarNoor.Application.Features.Chefs.Queries.GetChefById;
-using NaarNoor.Application.DTOs;
+using NaarNoor.Application.DTOs.Chefs;
 
 namespace NaarNoor.API.Controllers;
 

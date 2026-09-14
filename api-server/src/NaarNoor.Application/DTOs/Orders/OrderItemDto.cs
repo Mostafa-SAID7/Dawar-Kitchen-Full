@@ -1,7 +1,8 @@
-namespace NaarNoor.Application.DTOs;
+namespace NaarNoor.Application.DTOs.Orders;
 
 /// <summary>
 /// Data Transfer Object for OrderItem - individual item in an order
+/// ✅ Moved from root DTOs folder to feature-organized structure
 /// </summary>
 public class OrderItemDto
 {

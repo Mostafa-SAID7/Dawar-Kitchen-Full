@@ -1,7 +1,7 @@
 using MediatR;
 using NaarNoor.Application.Caching;
 using NaarNoor.Application.Common.Interfaces;
-using NaarNoor.Application.DTOs;
+using NaarNoor.Application.DTOs.MenuItems;
 using NaarNoor.Domain.Entities;
 
 namespace NaarNoor.Application.Features.MenuItems.Queries.GetMenuItems;

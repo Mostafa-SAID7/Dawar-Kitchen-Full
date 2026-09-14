@@ -1,8 +1,9 @@
-namespace NaarNoor.Application.DTOs;
+namespace NaarNoor.Application.DTOs.Chefs;
 
 /// <summary>
 /// Data Transfer Object for Chef - matches exact Angular frontend contract
 /// Returned by chef queries and endpoints
+/// ✅ Moved from root DTOs folder to feature-organized structure
 /// </summary>
 public class ChefDto
 {

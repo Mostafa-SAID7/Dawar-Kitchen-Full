@@ -1,8 +1,9 @@
-namespace NaarNoor.Application.DTOs;
+namespace NaarNoor.Application.DTOs.Reservations;
 
 /// <summary>
 /// Data Transfer Object for Reservation - matches exact Angular frontend contract
 /// Returned by reservation queries and endpoints
+/// ✅ Moved from root DTOs folder to feature-organized structure
 /// </summary>
 public class ReservationDto
 {

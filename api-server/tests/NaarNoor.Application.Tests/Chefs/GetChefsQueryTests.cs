@@ -1,6 +1,9 @@
 using FluentAssertions;
 using NaarNoor.Application.Features.Chefs.Queries.GetChefs;
-using NaarNoor.Application.DTOs;
+using NaarNoor.Application.DTOs.Chefs;
+using NaarNoor.Application.DTOs.Reservations;
+using NaarNoor.Application.DTOs.MenuItems;
+using NaarNoor.Application.DTOs.Orders;
 using Xunit;
 
 namespace NaarNoor.Application.Tests.Chefs;
@@ -190,4 +193,5 @@ public class GetChefsQueryTests
         dto.GetHashCode().Should().Be(dto.GetHashCode());
     }
 }
+
 

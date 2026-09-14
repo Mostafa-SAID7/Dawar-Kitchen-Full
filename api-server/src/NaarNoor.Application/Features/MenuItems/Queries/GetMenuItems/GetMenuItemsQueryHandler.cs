@@ -1,6 +1,6 @@
 using MediatR;
 using NaarNoor.Application.Common.Interfaces;
-using NaarNoor.Application.DTOs;
+using NaarNoor.Application.DTOs.MenuItems;
 using NaarNoor.Domain.Entities;
 using NaarNoor.Domain.Enums;
 

@@ -3,7 +3,10 @@ using FsCheck;
 using FsCheck.Xunit;
 using Moq;
 using NaarNoor.Application.Common.Interfaces;
-using NaarNoor.Application.DTOs;
+using NaarNoor.Application.DTOs.Chefs;
+using NaarNoor.Application.DTOs.Reservations;
+using NaarNoor.Application.DTOs.MenuItems;
+using NaarNoor.Application.DTOs.Orders;
 using NaarNoor.Application.Features.Reservations.Queries.GetReservations;
 using NaarNoor.Application.Tests.Common.Fixtures;
 using NaarNoor.Domain.Entities;
@@ -267,4 +270,5 @@ public class GetReservationsQueryHandlerPropertyTests : ApplicationLayerTestBase
         return unitOfWorkMock;
     }
 }
+
 

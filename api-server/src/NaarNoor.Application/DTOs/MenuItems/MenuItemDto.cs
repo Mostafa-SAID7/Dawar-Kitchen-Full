@@ -1,8 +1,9 @@
-namespace NaarNoor.Application.DTOs;
+namespace NaarNoor.Application.DTOs.MenuItems;
 
 /// <summary>
 /// Data Transfer Object for MenuItem - matches exact Angular frontend contract
 /// Returned by menu queries and endpoints
+/// ✅ Moved from root DTOs folder to feature-organized structure
 /// </summary>
 public class MenuItemDto
 {
