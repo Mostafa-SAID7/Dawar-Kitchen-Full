@@ -57,6 +57,7 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -102,6 +103,7 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
             CustomerName: "Jane Doe",
             Email: "jane@example.com",
             PhoneNumber: "555-5678",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(2)),
             ReservationTime: "20:00",
             PartySize: 2,
@@ -137,6 +139,7 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -167,6 +170,7 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -203,7 +207,7 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
 
         // Act - Test multiple endpoints with different HTTP methods
         var postResponse = await PostAsync("/api/reservations", new CreateReservationCommand(
-            "John", "john@example.com", "555-1234",
+            "John", "john@example.com", "555-1234", null,
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)), "19:00", 4, null
         ));
 
@@ -240,7 +244,7 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
             HttpResponseMessage response = method.Method switch
             {
                 "Post" => await PostAsync(endpoint, new CreateReservationCommand(
-                    "Test", "test@example.com", "123", 
+                    "Test", "test@example.com", "123", null,
                     DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)), "19:00", 1, null)),
                 "Delete" => await DeleteAsync(endpoint),
                 "Patch" => await PatchAsync(endpoint, new { status = "completed" }),
@@ -265,7 +269,7 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
     {
         // Arrange
         var command = new CreateReservationCommand(
-            "John Doe", "john@example.com", "555-1234",
+            "John Doe", "john@example.com", "555-1234", null,
             DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)), "19:00", 4, null
         );
 
@@ -285,5 +289,3 @@ public class AuthorizationEnforcementPropertyTests : ApiTestBase
 
     #endregion
 }
-
-

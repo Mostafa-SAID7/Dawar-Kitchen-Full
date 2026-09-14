@@ -35,6 +35,7 @@ public class CreateReservationCommandHandlerTests : IAsyncLifetime
             CustomerName: customerName,
             Email: email,
             PhoneNumber: "07700000000",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(7)),
             ReservationTime: "19:00",
             PartySize: partySize,

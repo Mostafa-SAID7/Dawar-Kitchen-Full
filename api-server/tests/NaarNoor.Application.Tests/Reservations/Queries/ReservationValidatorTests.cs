@@ -13,6 +13,7 @@ public class ReservationValidatorTests : ApplicationLayerTestBase
         CustomerName: "John Smith",
         Email: "john@example.com",
         PhoneNumber: "07700900001",
+        BookingTime: null,
         ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
         ReservationTime: "19:00",
         PartySize: 4,

@@ -41,6 +41,7 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
             CustomerName: "",  // Invalid: empty
             Email: "test@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -72,6 +73,7 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: invalidEmail,
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -103,6 +105,7 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: invalidPartySize,
@@ -131,6 +134,7 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: pastDate,
             ReservationTime: "19:00",
             PartySize: 4,
@@ -159,6 +163,7 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
             CustomerName: longName,
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -187,6 +192,7 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
             CustomerName: "",           // Missing
             Email: "invalid-email",     // Invalid format
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),  // Past date
             ReservationTime: "19:00",
             PartySize: 0,               // Invalid range
@@ -284,6 +290,7 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
             CustomerName: "",
             Email: "invalid",
             PhoneNumber: "",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
             ReservationTime: "",
             PartySize: 0,
@@ -341,5 +348,6 @@ public class InputValidationConsistencyPropertyTests : ApiTestBase
 
     #endregion
 }
+
 
 

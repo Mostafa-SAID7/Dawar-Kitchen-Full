@@ -35,6 +35,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "not-an-email",  // Invalid format triggers ValidationException
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -64,6 +65,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "",  // Empty name
             Email: "invalid",  // Invalid email
             PhoneNumber: "",   // Empty phone
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),  // Past date
             ReservationTime: "",
             PartySize: -1,  // Invalid party size
@@ -104,6 +106,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: invalidPartySize,
@@ -131,6 +134,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "John Doe",
             Email: "john@example.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: pastDate,
             ReservationTime: "19:00",
             PartySize: 4,
@@ -191,6 +195,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "",
             Email: "not-valid",
             PhoneNumber: "",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
             ReservationTime: "",
             PartySize: 0,
@@ -225,6 +230,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "John",
             Email: "invalid-email",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 0,  // Invalid: below minimum
@@ -260,6 +266,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "",         // Missing
             Email: "",                // Missing/Invalid
             PhoneNumber: "",          // Missing
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),  // Past
             ReservationTime: "",      // Missing
             PartySize: -5,            // Invalid
@@ -296,6 +303,7 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
             CustomerName: "John",
             Email: "invalid",      // Validation error (client side)
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 0,          // Validation error (client side)
@@ -328,14 +336,14 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
 
         // Scenario 1: Validation errors (handled)
         var validationError = new CreateReservationCommand(
-            "", "", "", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)), "", 0, null
+            "", "", "", null,  DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)), "", 0, null
         );
         var response1 = await PostAsync("/api/reservations", validationError);
         response1.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         // Scenario 2: Missing required fields (handled)
         var missingFields = new CreateReservationCommand(
-            "", "", "", DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)), "", -1, null
+            "", "", "", null,  DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)), "", -1, null
         );
         var response2 = await PostAsync("/api/reservations", missingFields);
         response2.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -347,5 +355,6 @@ public class HttpExceptionMappingPropertyTests : ApiTestBase
 
     #endregion
 }
+
 
 

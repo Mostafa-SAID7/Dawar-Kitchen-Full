@@ -28,28 +28,13 @@ public class ReservationsController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        DateOnly date;
-        TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
-
-        if (body.BookingTime.HasValue)
-        {
-            date = DateOnly.FromDateTime(body.BookingTime.Value);
-            time = TimeOnly.FromDateTime(body.BookingTime.Value);
-        }
-        else
-        {
-            date = body.ReservationDate ?? DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1));
-            if (!string.IsNullOrWhiteSpace(body.ReservationTime) &&
-                TimeOnly.TryParse(body.ReservationTime, out var parsedTime))
-                time = parsedTime;
-        }
-
         var command = new CreateReservationCommand(
             CustomerName:    body.CustomerName,
             Email:           body.CustomerEmail ?? body.Email ?? "guest@naarnoor.com",
             PhoneNumber:     body.CustomerPhone ?? body.PhoneNumber ?? "",
-            ReservationDate: date,
-            ReservationTime: body.ReservationTime ?? time.ToString("HH:mm"),
+            BookingTime:     body.BookingTime,
+            ReservationDate: body.ReservationDate,
+            ReservationTime: body.ReservationTime,
             PartySize:       body.PartySize,
             SpecialRequests: body.SpecialRequests
         );

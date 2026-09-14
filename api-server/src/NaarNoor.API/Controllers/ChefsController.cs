@@ -1,8 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NaarNoor.Application.Features.Chefs.Queries.GetChefs;
-using NaarNoor.Application.Common.Interfaces;
+using NaarNoor.Application.Features.Chefs.Queries.GetChefById;
 using NaarNoor.Application.DTOs;
 
 namespace NaarNoor.API.Controllers;
@@ -12,12 +11,10 @@ namespace NaarNoor.API.Controllers;
 public class ChefsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public ChefsController(IMediator mediator, IUnitOfWork unitOfWork)
+    public ChefsController(IMediator mediator)
     {
         _mediator = mediator;
-        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
@@ -33,22 +30,8 @@ public class ChefsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var chef = await _unitOfWork.Chefs.Query()
-            .Where(c => c.Id == id && c.IsActive)
-            .Select(c => new ChefDto
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Title = c.Title,
-                Bio = c.Bio,
-                ImageUrl = c.ImageUrl,
-                Specialty = c.Specialty,
-                SortOrder = c.SortOrder
-            })
-            .FirstOrDefaultAsync(cancellationToken);
-
-        if (chef is null) return NotFound();
-        return Ok(chef);
+        var chef = await _mediator.Send(new GetChefByIdQuery(id), cancellationToken);
+        return chef is null ? NotFound() : Ok(chef);
     }
 }
 

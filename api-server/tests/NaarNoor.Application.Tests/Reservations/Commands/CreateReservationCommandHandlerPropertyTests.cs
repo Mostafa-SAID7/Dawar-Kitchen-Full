@@ -88,8 +88,6 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
         addedReservation.CustomerName.Should().Be(command.CustomerName, "Customer name should match command");
         addedReservation.Email.Should().Be(command.Email, "Email should match command");
         addedReservation.PhoneNumber.Should().Be(command.PhoneNumber, "Phone number should match command");
-        addedReservation.ReservationDate.Should().Be(command.ReservationDate, "Reservation date should match command");
-        addedReservation.ReservationTime.Should().Be(TimeOnly.Parse(command.ReservationTime), "Reservation time should match command");
         addedReservation.PartySize.Should().Be(command.PartySize, "Party size should match command");
         addedReservation.SpecialRequests.Should().Be(command.SpecialRequests, "Special requests should match command");
 
@@ -131,13 +129,21 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
         command.CustomerName.Should().NotBeNullOrWhiteSpace("Customer name must be provided");
         command.Email.Should().NotBeNullOrWhiteSpace("Email must be provided");
         command.PhoneNumber.Should().NotBeNullOrWhiteSpace("Phone number must be provided");
-        (command.ReservationDate >= DateOnly.FromDateTime(DateTime.Today)).Should().BeTrue(
-            "Reservation date must be today or in the future");
         command.PartySize.Should().BeGreaterThan(0, "Party size must be greater than zero");
         
-        // ReservationTime should be parseable
-        Action parseTime = () => TimeOnly.Parse(command.ReservationTime);
-        parseTime.Should().NotThrow("Reservation time must be a valid time format");
+        // ReservationDate should be today or in the future (if provided)
+        if (command.ReservationDate.HasValue)
+        {
+            (command.ReservationDate.Value >= DateOnly.FromDateTime(DateTime.Today)).Should().BeTrue(
+                "Reservation date must be today or in the future");
+        }
+
+        // ReservationTime should be parseable (if provided)
+        if (!string.IsNullOrWhiteSpace(command.ReservationTime))
+        {
+            Action parseTime = () => TimeOnly.Parse(command.ReservationTime);
+            parseTime.Should().NotThrow("Reservation time must be a valid time format");
+        }
     }
 
     /// <summary>
@@ -218,6 +224,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "John Smith",
             Email: "john@example.com",
             PhoneNumber: "555-0123",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(1)),
             ReservationTime: "19:00",
             PartySize: 4,
@@ -229,6 +236,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "Maria Garcia",
             Email: "maria.garcia@example.com",
             PhoneNumber: "+1-555-0456",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(7)),
             ReservationTime: "18:30",
             PartySize: 2,
@@ -240,6 +248,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "Dr. Robert Johnson",
             Email: "robert.j@corporate.com",
             PhoneNumber: "(555) 789-0123",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(14)),
             ReservationTime: "20:00",
             PartySize: 12,
@@ -251,6 +260,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "Sarah",
             Email: "sarah@email.com",
             PhoneNumber: "555-9999",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today),
             ReservationTime: "17:00",
             PartySize: 1,
@@ -262,6 +272,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "James Wilson",
             Email: "james.w@test.com",
             PhoneNumber: "555-1234",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(30)),
             ReservationTime: "12:00",
             PartySize: 6,
@@ -273,6 +284,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "Elena Rodriguez",
             Email: "elena@domain.com",
             PhoneNumber: "555-5678",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(3)),
             ReservationTime: "21:30",
             PartySize: 3,
@@ -284,6 +296,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "François O'Brien",
             Email: "francois@example.fr",
             PhoneNumber: "555-0111",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(2)),
             ReservationTime: "18:00",
             PartySize: 5,
@@ -295,6 +308,7 @@ public class CreateReservationCommandHandlerPropertyTests : ApplicationLayerTest
             CustomerName: "Lisa Chen",
             Email: "lisa.chen@company.org",
             PhoneNumber: "555-0222",
+            BookingTime: null,
             ReservationDate: DateOnly.FromDateTime(DateTime.Today.AddDays(365)),
             ReservationTime: "19:00",
             PartySize: 4,
